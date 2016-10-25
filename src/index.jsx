@@ -5,6 +5,8 @@ import { createStore, compose } from 'redux';
 import reducers from './reducers';
 import App from './containers/App';
 
+import './styles/styles.scss';
+
 const store = createStore(reducers, compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
