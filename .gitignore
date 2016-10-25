@@ -1,5 +1,5 @@
 # Compiled output
-dist/bundle.js
+public/bundle.js
 
 # Dependencies
 /node_modules
