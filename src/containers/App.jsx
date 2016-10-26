@@ -5,6 +5,7 @@ import {
   MenuItem,
 } from 'material-ui';
 import LoggedMenu from '../components/LoggedMenu';
+import TimeSlider from '../components/TimeSlider';
 // import LeftSlideMenu from '../components/LeftSlideMenu';
 
 class Main extends Component {
@@ -14,6 +15,7 @@ class Main extends Component {
 
     this.state = {
       leftSlideMenuOpen: false,
+      timeSliderValue: 5,
     };
 
     this.handleOpenLeftSlideMenu = this.handleOpenLeftSlideMenu.bind(this);
@@ -35,24 +37,27 @@ class Main extends Component {
   render() {
     return (
       <div>
-        <AppBar
-          title="timeout"
-          onLeftIconButtonTouchTap={this.handleOpenLeftSlideMenu}
-          iconElementRight={<LoggedMenu />}
-        />
-        <Drawer
-          docked={false}
-          width={300}
-          open={this.state.leftSlideMenuOpen}
-          onRequestChange={this.handleCloseLeftSlideMenu}
-        >
+        <div>
           <AppBar
             title="timeout"
-            onLeftIconButtonTouchTap={this.handleCloseLeftSlideMenu}
+            onLeftIconButtonTouchTap={this.handleOpenLeftSlideMenu}
+            iconElementRight={<LoggedMenu />}
           />
-          <MenuItem>Menu item 1</MenuItem>
-          <MenuItem>Menu item 2</MenuItem>
-        </Drawer>
+          <Drawer
+            docked={false}
+            width={300}
+            open={this.state.leftSlideMenuOpen}
+            onRequestChange={this.handleCloseLeftSlideMenu}
+          >
+            <AppBar
+              title="timeout"
+              onLeftIconButtonTouchTap={this.handleCloseLeftSlideMenu}
+            />
+            <MenuItem>Menu item 1</MenuItem>
+            <MenuItem>Menu item 2</MenuItem>
+          </Drawer>
+        </div>
+        <TimeSlider />
       </div>
     );
   }
