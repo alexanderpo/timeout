@@ -15,6 +15,6 @@
     }
   },
   "rules": {
-    "new-cap": [2, {"capIsNewExceptions": ["DropTarget", "DragSource", "DragDropContext", "Filter"]}]
+    "react/jsx-boolean-value": 0,
   }
 }

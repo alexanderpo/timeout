@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-import { Slider, Badge } from 'material-ui';
+import { Slider, Badge, RaisedButton } from 'material-ui';
+import SearchIcon from 'material-ui/svg-icons/action/search';
 
 const styles = {
   slider: {
     display: 'flex',
-    height: 124,
-    margin: 40,
-    flexDirection: 'row',
+    margin: 20,
+    flexDirection: 'column',
     justifyContent: 'space-around',
+    alignItems: 'flex-start',
   },
   badge: {
     height: 32,
     width: 32,
+  },
+  searchBtn: {
+    margin: 12,
   },
 };
 
@@ -50,6 +54,12 @@ class TimeSlider extends Component {
             onChange={this.handleTimeSliderValue}
           />
         </Badge>
+        <RaisedButton
+          label="Search"
+          primary={true}
+          icon={<SearchIcon />}
+          style={styles.searchBtn}
+        />
       </div>
     );
   }

@@ -6,6 +6,7 @@ import {
 } from 'material-ui';
 import LoggedMenu from '../components/LoggedMenu';
 import TimeSlider from '../components/TimeSlider';
+import TaskCard from '../components/TaskCard';
 // import LeftSlideMenu from '../components/LeftSlideMenu';
 
 class Main extends Component {
@@ -57,7 +58,10 @@ class Main extends Component {
             <MenuItem>Menu item 2</MenuItem>
           </Drawer>
         </div>
-        <TimeSlider />
+        <div>
+          <TimeSlider />
+          <TaskCard />
+        </div>
       </div>
     );
   }
