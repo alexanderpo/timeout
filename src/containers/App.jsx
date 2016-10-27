@@ -16,6 +16,8 @@ const styles = {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
+    overflowY: 'auto',
+    height: 490,
   },
 };
 
@@ -68,8 +70,14 @@ class Main extends Component {
             <MenuItem>Menu item 2</MenuItem>
           </Drawer>
         </div>
+        <TimeSlider />
         <div style={styles.wrapper}>
-          <TimeSlider />
+          <SearchSingleTask />
+          <SearchSingleTask />
+          <SearchSingleTask />
+          <SearchSingleTask />
+          <SearchSingleTask />
+          <SearchSingleTask />
           <SearchSingleTask />
           <SearchSingleTask />
         </div>

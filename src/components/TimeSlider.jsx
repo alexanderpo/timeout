@@ -5,6 +5,7 @@ import SearchIcon from 'material-ui/svg-icons/action/search';
 const styles = {
   slider: {
     margin: 20,
+    float: 'left',
   },
   badge: {
     height: 32,
