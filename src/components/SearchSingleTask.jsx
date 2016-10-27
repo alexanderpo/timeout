@@ -16,9 +16,9 @@ const styles = {
     display: 'inline-flex',
   },
   badge: {
-    width: 48,
-    height: 48,
-    fontSize: 18,
+    width: 52,
+    height: 52,
+    fontSize: 14,
     zIndex: 1,
   },
   text: {
@@ -27,11 +27,11 @@ const styles = {
   },
 };
 
-class TaskCard extends Component {
+class SearchSingleTask extends Component {
   render() {
     return (
       <Badge
-        badgeContent="120"
+        badgeContent="120min"
         style={styles.badgeBox}
         badgeStyle={styles.badge}
         primary={true}
@@ -69,4 +69,4 @@ class TaskCard extends Component {
   }
 }
 
-export default TaskCard;
+export default SearchSingleTask;
