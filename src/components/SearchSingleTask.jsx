@@ -14,6 +14,7 @@ const styles = {
   badgeBox: {
     padding: 0,
     display: 'inline-flex',
+    margin: 20,
   },
   badge: {
     width: 52,

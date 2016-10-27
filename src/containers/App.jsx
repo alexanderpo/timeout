@@ -9,6 +9,16 @@ import TimeSlider from '../components/TimeSlider';
 import SearchSingleTask from '../components/SearchSingleTask';
 // import LeftSlideMenu from '../components/LeftSlideMenu';
 
+const styles = {
+  wrapper: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+  },
+};
+
 class Main extends Component {
 
   constructor(props) {
@@ -58,8 +68,9 @@ class Main extends Component {
             <MenuItem>Menu item 2</MenuItem>
           </Drawer>
         </div>
-        <div>
+        <div style={styles.wrapper}>
           <TimeSlider />
+          <SearchSingleTask />
           <SearchSingleTask />
         </div>
       </div>

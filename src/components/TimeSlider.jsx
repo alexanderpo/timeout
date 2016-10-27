@@ -4,11 +4,7 @@ import SearchIcon from 'material-ui/svg-icons/action/search';
 
 const styles = {
   slider: {
-    display: 'flex',
     margin: 20,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'flex-start',
   },
   badge: {
     height: 32,
