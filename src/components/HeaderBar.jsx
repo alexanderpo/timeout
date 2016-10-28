@@ -54,10 +54,10 @@ class HeaderBar extends Component {
             onLeftIconButtonTouchTap={this.handleCloseLeftSlideMenu}
           />
           <Link to="/">
-            <MenuItem>Main page</MenuItem>
+            <MenuItem onClick={this.handleCloseLeftSlideMenu}>Main page</MenuItem>
           </Link>
           <Link to="search">
-            <MenuItem>Search</MenuItem>
+            <MenuItem onClick={this.handleCloseLeftSlideMenu}>Search</MenuItem>
           </Link>
         </Drawer>
       </div>
