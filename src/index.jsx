@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 /* Material UI */
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-/* REDUX */
+/* REDUX & REACT-ROUTER */
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore, compose } from 'redux';
 import { Router, browserHistory } from 'react-router';
