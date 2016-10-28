@@ -5,21 +5,28 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 /* REDUX */
 import { Provider } from 'react-redux';
-import { createStore, compose } from 'redux';
-import reducers from './reducers';
+import { applyMiddleware, createStore, compose } from 'redux';
+import { Router, browserHistory } from 'react-router';
+import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 
-import App from './containers/App';
+import reducers from './reducers';
+import routes from './routes';
 import './styles/styles.scss';
 
 injectTapEventPlugin();
 
 const store = createStore(reducers, compose(
+  applyMiddleware(
+    routerMiddleware(browserHistory),
+  ),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 
+const history = syncHistoryWithStore(browserHistory, store);
+
 const Entry = () => (
   <Provider store={store}>
-    <App />
+    <Router history={history} routes={routes()} />
   </Provider>
 );
 

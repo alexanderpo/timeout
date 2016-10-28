@@ -7,7 +7,6 @@ import {
 import LoggedMenu from '../components/LoggedMenu';
 import TimeSlider from '../components/TimeSlider';
 import SearchSingleTask from '../components/SearchSingleTask';
-// import LeftSlideMenu from '../components/LeftSlideMenu';
 
 const styles = {
   wrapper: {
