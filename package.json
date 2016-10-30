@@ -42,6 +42,8 @@
     "redux-actions": "^0.12.0",
     "redux-effects": "^0.4.3",
     "redux-effects-fetch": "^0.5.5",
+    "redux-form": "^6.1.1",
+    "redux-form-material-ui": "^4.1.0",
     "redux-thunk": "^2.1.0"
   }
 }
