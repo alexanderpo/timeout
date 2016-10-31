@@ -21,6 +21,7 @@ class CreatePost extends Component {
       loading: false,
       finished: false,
       stepIndex: 0,
+      date: new Date(),
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -70,6 +71,14 @@ class CreatePost extends Component {
   renderContent() {
     const { finished, stepIndex } = this.state;
     const contentStyle = { margin: '0 16px', overflow: 'hidden' };
+    const buttonBlockStyle = {
+      marginTop: 24,
+      marginBottom: 12,
+      display: 'flex',
+      justifyContent: 'center',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    };
 
     if (finished) {
       return (
@@ -90,7 +99,7 @@ class CreatePost extends Component {
     return (
       <div style={contentStyle}>
         <div>{this.getStepContent(stepIndex)}</div>
-        <div style={{ marginTop: 24, marginBottom: 12 }}>
+        <div style={buttonBlockStyle}>
           <FlatButton
             label="Back"
             disabled={stepIndex === 0}
