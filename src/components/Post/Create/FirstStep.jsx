@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { Chip, Avatar, Slider, TextField, SelectField, MenuItem } from 'material-ui';
 import ProfileImage from '../../../styles/images/user.png';
@@ -27,12 +27,16 @@ const styles = {
   },
 };
 
+const propTypes = {
+  createPost: PropTypes.func,
+};
+
 class FirstStep extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      timeSliderValue: 5,
+      time: 5,
       title: '',
       description: '',
       category: '',
@@ -65,7 +69,7 @@ class FirstStep extends Component {
 
   handleTimeSlider(event, value) {
     this.setState({
-      timeSliderValue: value,
+      time: value,
     });
   }
 
@@ -111,7 +115,7 @@ class FirstStep extends Component {
               <MenuItem value={'Drawing'} primaryText="Drawing" />
             </SelectField>
             <div>
-              <h4>Time for task {this.state.timeSliderValue}  minutes.</h4>
+              <h4>Time for task {this.state.time}  minutes.</h4>
               <Slider
                 name="time"
                 defaultValue={5}
@@ -127,5 +131,7 @@ class FirstStep extends Component {
     );
   }
 }
+
+FirstStep.propTypes = propTypes;
 
 export default FirstStep;
