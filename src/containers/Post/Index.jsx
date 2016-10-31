@@ -7,6 +7,7 @@ import {
 import {
   RaisedButton,
   FlatButton,
+  Divider,
 } from 'material-ui';
 import ExpandTransition from 'material-ui/internal/ExpandTransition';
 import FirstStep from '../../components/Post/Create/FirstStep';

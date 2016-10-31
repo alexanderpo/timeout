@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Chip, Avatar, Slider, TextField } from 'material-ui';
+import { Chip, Avatar, Slider, TextField, SelectField, MenuItem } from 'material-ui';
 import ProfileImage from '../../../styles/images/user.png';
 
 const styles = {
@@ -35,12 +35,14 @@ class FirstStep extends Component {
       timeSliderValue: 5,
       title: '',
       description: '',
+      category: '',
       date: moment().format('ll'),
     };
 
     this.handleTimeSlider = this.handleTimeSlider.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleDescription = this.handleDescription.bind(this);
+    this.handleCategory = this.handleCategory.bind(this);
   }
 
   handleTitle(event) {
@@ -52,6 +54,12 @@ class FirstStep extends Component {
   handleDescription(event) {
     this.setState({
       description: event.target.value,
+    });
+  }
+
+  handleCategory(event, index, value) {
+    this.setState({
+      category: value,
     });
   }
 
@@ -90,8 +98,20 @@ class FirstStep extends Component {
               rowsMax={10}
               onChange={this.handleDescription}
             />
+            <SelectField
+              floatingLabelText="Category"
+              fullWidth={true}
+              value={this.state.category}
+              onChange={this.handleCategory}
+            >
+              <MenuItem value={'Tehnology'} primaryText="Tehnology" />
+              <MenuItem value={'Food'} primaryText="Food" />
+              <MenuItem value={'Sport'} primaryText="Sport" />
+              <MenuItem value={'Rest'} primaryText="Rest" />
+              <MenuItem value={'Drawing'} primaryText="Drawing" />
+            </SelectField>
             <div>
-              <h4>You choose {this.state.timeSliderValue}  minutes.</h4>
+              <h4>Time for task {this.state.timeSliderValue}  minutes.</h4>
               <Slider
                 name="time"
                 defaultValue={5}
