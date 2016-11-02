@@ -23,7 +23,14 @@ module.exports = {
     colors: true,
     historyApiFallback: true,
     inline: true,
-    hot: true
+    hot: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000/',
+        secure: false
+        // changeOrigin: true
+      }
+    }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()

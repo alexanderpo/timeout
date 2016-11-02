@@ -9,6 +9,9 @@ import { applyMiddleware, createStore, compose } from 'redux';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 
+import thunk from 'redux-thunk';
+import api from './middlewares/api';
+
 import reducers from './reducers';
 import routes from './routes';
 import './styles/styles.scss';
@@ -17,6 +20,8 @@ injectTapEventPlugin();
 
 const store = createStore(reducers, compose(
   applyMiddleware(
+    thunk,
+    api(),
     routerMiddleware(browserHistory),
   ),
   window.devToolsExtension ? window.devToolsExtension() : f => f

@@ -1,14 +1,19 @@
-export const CREATE_POST_SUCCESS = 'CREATE_POST_SUCCESS';
-// export const createPostSuccess = createAction(CREATE_POST_SUCCESS);
+export const CREATE_POST_INFORMATION = 'CREATE_POST_INFORMATION';
 
-export function createPost(title) {
-  console.log(title);
-  /* return {
-    type: CREATE_POST_SUCCESS,
+export function createPostInformation(author, date, title, description, category, time) {
+  return {
+    type: CREATE_POST_INFORMATION,
     payload: {
-      url: '',
+      url: '/test',
       method: 'post',
-      body: { title },
+      body: {
+        author,
+        date,
+        title,
+        description,
+        category,
+        time,
+      },
     },
-  }; */
+  };
 }

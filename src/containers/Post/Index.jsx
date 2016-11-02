@@ -14,11 +14,11 @@ import ExpandTransition from 'material-ui/internal/ExpandTransition';
 import FirstStep from '../../components/Post/Create/FirstStep';
 import SecondStep from '../../components/Post/Create/SecondStep';
 import ThirdStep from '../../components/Post/Create/ThirdStep';
-import { createPost } from '../../actions/Post/create';
+import { createPostInformation } from '../../actions/Post/create';
 
 const propTypes = {
   actions: PropTypes.shape({
-    createPost: PropTypes.func,
+    createPostInformation: PropTypes.func,
   }),
 };
 
@@ -42,7 +42,7 @@ class CreatePost extends Component {
 
   getStepContent(stepIndex) {       // eslint-disable-line
     switch (stepIndex) {
-      case 0: return (<FirstStep createPost={this.props.actions.createPost} />);
+      case 0: return (<FirstStep createPost={this.props.actions.createPostInformation} />);
       case 1: return (<SecondStep />);
       case 2: return (<ThirdStep />);
       default:
@@ -59,8 +59,7 @@ class CreatePost extends Component {
   handleNext() {
     const { stepIndex } = this.state;
     if (!this.state.loading) {
-      const title = 'hello pidr';
-      this.props.actions.createPost(title);
+      // TODO: action for send first part of data
       this.dummyAsync(() => this.setState({
         loading: false,
         stepIndex: stepIndex + 1,
@@ -155,6 +154,6 @@ CreatePost.propTypes = propTypes;
 
 export default connect(null, dispatch => ({
   actions: bindActionCreators({
-    createPost,
+    createPostInformation,
   }, dispatch),
 }))(CreatePost);
