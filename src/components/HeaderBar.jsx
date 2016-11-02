@@ -56,6 +56,9 @@ class HeaderBar extends Component {
           <Link to="/">
             <MenuItem onClick={this.handleCloseLeftSlideMenu}>Main page</MenuItem>
           </Link>
+          <Link to="/signin">
+            <MenuItem onClick={this.handleCloseLeftSlideMenu}>Sign In</MenuItem>
+          </Link>
           <Link to="search">
             <MenuItem onClick={this.handleCloseLeftSlideMenu}>Search</MenuItem>
           </Link>

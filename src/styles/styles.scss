@@ -19,6 +19,29 @@ body::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
 }
+
+@mixin center-form {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.signin-wrapper {
+  @include center-form;
+  display: flex;
+  justify-content: space-around;
+  flex-flow: column wrap;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid rgba(219, 219, 219, 1);
+  font-weight: 300;
+}
+
+.signin-button {
+  margin: 5px;
+}
+
 /* HSL */
 $color1: hsla(0%, 0%, 82%, 1);
 $color2: hsla(0%, 0%, 86%, 1);
