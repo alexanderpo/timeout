@@ -27,7 +27,7 @@ body::-webkit-scrollbar-thumb {
   transform: translate(-50%, -50%);
 }
 
-.signin-wrapper {
+.pre-enter-wrapper {
   @include center-form;
   display: flex;
   justify-content: space-around;
@@ -38,7 +38,7 @@ body::-webkit-scrollbar-thumb {
   font-weight: 300;
 }
 
-.signin-button {
+.pre-enter-button {
   margin: 5px;
 }
 
