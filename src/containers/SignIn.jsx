@@ -32,7 +32,7 @@ class SignIn extends Component {
           className="pre-enter-button"
           label="Register"
           primary={true}
-          onClick={() => { this.props.actions.push('/register'); }}
+          onClick={() => { this.props.actions.push('/signup'); }}
         />
       </div>
     );
