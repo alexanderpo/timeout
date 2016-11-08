@@ -12,6 +12,8 @@ const propTypes = {
   }),
 };
 
+// TODO: Create validation for sign up
+
 class Register extends Component {
 
   constructor(props) {
@@ -95,7 +97,7 @@ class Register extends Component {
         </div>
         <Snackbar
           open={messageBoxIsOpen}
-          message={'Now you can sign in to your account!'}
+          message={'Successful! Sign in to your account!'}
           autoHideDuration={autoHideMessageBoxTime}
           action="Sign In"
           onActionTouchTap={() => { actions.push('/signin'); }}

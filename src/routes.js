@@ -7,12 +7,12 @@ import CreatePost from './containers/Post/Index';
 import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 
-export default function () {
+export default function (ensureAuthenticated) {
   return (
     <Route>
       <Route path="signin" component={SignIn} />
       <Route path="signup" component={SignUp} />
-      <Route path="/" component={App}>
+      <Route path="/" component={App} onEnter={ensureAuthenticated}>
         <Route path="search" component={Search} />
         <Route path="create" component={CreatePost} />
       </Route>

@@ -12,13 +12,17 @@ import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import api from './middlewares/api';
 
+import { setNextPathname } from './actions/user';
+
 import reducers from './reducers';
 import routes from './routes';
 import './styles/styles.scss';
 
 injectTapEventPlugin();
 
-const store = createStore(reducers, compose(
+const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
+
+const store = createStore(reducers, { user }, compose(
   applyMiddleware(
     thunk,
     api(),
@@ -26,12 +30,23 @@ const store = createStore(reducers, compose(
   ),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
-
 const history = syncHistoryWithStore(browserHistory, store);
+
+store.subscribe(() => {
+  localStorage.setItem('user', JSON.stringify(store.getState().user));
+});
+
+function ensureAuthenticated(nextState, replace) {
+  const user = store.getState().user;
+  if (!user.loggedIn) {
+    store.dispatch(setNextPathname(nextState.location.pathname));
+    replace('/signin');
+  }
+}
 
 const Entry = () => (
   <Provider store={store}>
-    <Router history={history} routes={routes()} />
+    <Router history={history} routes={routes(ensureAuthenticated)} />
   </Provider>
 );
 
