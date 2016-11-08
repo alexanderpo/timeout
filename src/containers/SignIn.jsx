@@ -62,11 +62,12 @@ class SignIn extends Component {
             onClick={() => {
               actions.signIn(name, password)
               .then(() => {
-                this.setState({
-                  name: '',
-                  password: '',
-                  messageBoxIsOpen: true,
-                });
+                this.props.success ? // eslint-disable-line
+                  this.setState({
+                    name: '',
+                    password: '',
+                    messageBoxIsOpen: true,
+                  }) : this.setState({ messageBoxIsOpen: true });
                 actions.push('/');
               });
             }}
