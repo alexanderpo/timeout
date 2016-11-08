@@ -8,6 +8,7 @@ import { logout } from '../actions/user';
 
 const propTypes = {
   children: PropTypes.object,
+  username: PropTypes.string,
   actions: PropTypes.shape({
     logout: PropTypes.func, // eslint-disable-line
     push: PropTypes.func, // eslint-disable-line
@@ -25,6 +26,7 @@ class Main extends Component {
             <LoggedMenu
               push={actions.push}
               logout={actions.logout}
+              username={this.props.username}
             />
           }
         />
@@ -38,7 +40,14 @@ class Main extends Component {
 
 Main.propTypes = propTypes;
 
-export default connect(null, dispatch => ({
+export default connect((state) => {
+  const username = state.user.name ?
+    state.user.name : '';
+
+  return {
+    username,
+  };
+}, dispatch => ({
   actions: bindActionCreators({
     logout,
     push,

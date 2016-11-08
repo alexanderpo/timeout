@@ -9,6 +9,7 @@ export default function (state = initialState, action) {
         ...action.payload.user,
         message: action.payload.message,
         success: action.payload.success,
+        name: action.payload.name,
       };
     case LOGOUT:
       return {};

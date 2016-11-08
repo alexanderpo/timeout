@@ -6,27 +6,42 @@ import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 const propTypes = {
+  username: PropTypes.string,
   logout: PropTypes.func,
+};
+
+const styles = {
+  wrapper: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    color: '#fff',
+  },
 };
 
 class LoggedMenu extends Component {
   render() {
     return (
-      <IconMenu
-        iconButtonElement={
-          <IconButton iconStyle={{ color: 'white' }}>
-            <MoreVertIcon />
-          </IconButton>
-        }
-        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-      >
-        <MenuItem
-          primaryText="Sign out"
-          containerElement={<Link to="/signin" />}  // eslint-disable-line
-          onTouchTap={() => { this.props.logout(); }}
-        />
-      </IconMenu>
+      <div style={styles.wrapper}>
+        <span >{this.props.username}</span>
+        <IconMenu
+          iconButtonElement={
+            <IconButton iconStyle={{ color: 'white' }}>
+              <MoreVertIcon />
+            </IconButton>
+          }
+          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+        >
+          <MenuItem
+            primaryText="Sign out"
+            containerElement={<Link to="/signin" />}  // eslint-disable-line
+            onTouchTap={() => { this.props.logout(); }}
+          />
+        </IconMenu>
+      </div>
     );
   }
 }
