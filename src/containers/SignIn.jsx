@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { TextField, RaisedButton } from 'material-ui';
+import { TextField, RaisedButton, Snackbar } from 'material-ui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { signIn } from '../actions/user';
 
 const propTypes = {
+  message: PropTypes.string,
+  success: PropTypes.bool,
   actions: PropTypes.shape({
     signIn: PropTypes.func,
     push: PropTypes.func,
@@ -19,6 +21,8 @@ class SignIn extends Component {
     this.state = {
       name: '',
       password: '',
+      autoHideMessageBoxTime: 4000,
+      messageBoxIsOpen: false,
     };
   }
 
@@ -33,43 +37,52 @@ class SignIn extends Component {
 
   render() {
     const { actions } = this.props;
-    const { name, password } = this.state;
+    const { name, password, messageBoxIsOpen, autoHideMessageBoxTime } = this.state;
 
     return (
-      <div className="pre-enter-wrapper">
-        <TextField
-          hintText="Username"
-          floatingLabelText="Username"
-          value={name}
-          onChange={this.changeValue('name')}
-        />
-        <TextField
-          hintText="Password"
-          floatingLabelText="Password"
-          value={password}
-          type="password"
-          onChange={this.changeValue('password')}
-        />
-        <RaisedButton
-          className="pre-enter-button"
-          label="Sign In"
-          primary={true}
-          onClick={() => {
-            actions.signIn(name, password)
-            .then(() => {
-              this.setState({
-                name: '',
-                password: '',
+      <div>
+        <div className="pre-enter-wrapper">
+          <TextField
+            hintText="Username"
+            floatingLabelText="Username"
+            value={name}
+            onChange={this.changeValue('name')}
+          />
+          <TextField
+            hintText="Password"
+            floatingLabelText="Password"
+            value={password}
+            type="password"
+            onChange={this.changeValue('password')}
+          />
+          <RaisedButton
+            className="pre-enter-button"
+            label="Sign In"
+            primary={true}
+            onClick={() => {
+              actions.signIn(name, password)
+              .then(() => {
+                this.setState({
+                  name: '',
+                  password: '',
+                  messageBoxIsOpen: true,
+                });
+                actions.push('/');
               });
-              actions.push('/');
-            });
-          }}
-        />
-        <RaisedButton
-          className="pre-enter-button"
-          label="Register"
-          primary={true}
-          onClick={() => { actions.push('/signup'); }}
+            }}
+          />
+          <RaisedButton
+            className="pre-enter-button"
+            label="Register"
+            primary={true}
+            onClick={() => { actions.push('/signup'); }}
+          />
+        </div>
+        <Snackbar
+          open={messageBoxIsOpen}
+          message={this.props.message}
+          autoHideDuration={autoHideMessageBoxTime}
+          onRequestClose={() => { this.setState({ messageBoxIsOpen: false }); }}
         />
       </div>
     );
@@ -78,7 +91,16 @@ class SignIn extends Component {
 
 SignIn.propTypes = propTypes;
 
-export default connect(null, dispatch => ({
+export default connect((state) => {
+  const success = state.user.success;
+  const message = state.user.message ?
+    state.user.message : '';
+
+  return {
+    success,
+    message,
+  };
+}, dispatch => ({
   actions: bindActionCreators({
     signIn,
     push,
