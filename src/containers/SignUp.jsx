@@ -3,7 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { TextField, RaisedButton, Snackbar } from 'material-ui';
+import _ from 'lodash';
 import { createUser } from '../actions/user';
+import { signUpValidator } from '../utils/validators';
 
 const propTypes = {
   actions: PropTypes.shape({
@@ -22,10 +24,14 @@ class Register extends Component {
       name: '',
       email: '',
       password: '',
-      errorText: '',
+      errorNameText: '',
+      errorEmailText: '',
+      errorPasswordText: '',
       autoHideMessageBoxTime: 4000,
       messageBoxIsOpen: false,
     };
+
+    this.handleSignUp = this.handleSignUp.bind(this);
   }
 
   changeValue(key) {
@@ -37,13 +43,41 @@ class Register extends Component {
     };
   }
 
+  handleSignUp() {
+    const { name, email, password } = this.state;
+    const values = { name, email, password };
+    const errors = signUpValidator(values);
+    if (!_.isEmpty(errors)) {
+      this.setState({
+        errorNameText: errors.name,
+        errorEmailText: errors.email,
+        errorPasswordText: errors.password,
+      });
+    } else {
+      this.props.actions.createUser(name, email, password)
+      .then(() => {
+        this.setState({
+          name: '',
+          email: '',
+          password: '',
+          errorNameText: '',
+          errorEmailText: '',
+          errorPasswordText: '',
+          messageBoxIsOpen: true,
+        });
+      });
+    }
+  }
+
   render() {
     const { actions } = this.props;
     const {
       name,
       email,
       password,
-      errorText,
+      errorNameText,
+      errorEmailText,
+      errorPasswordText,
       messageBoxIsOpen,
       autoHideMessageBoxTime,
     } = this.state;
@@ -54,43 +88,33 @@ class Register extends Component {
           <TextField
             hintText="Pick a username"
             floatingLabelText="Username"
-            errorText={errorText}
+            errorText={errorNameText}
             value={name}
             onChange={this.changeValue('name')}
           />
           <TextField
             hintText="Your email address"
             floatingLabelText="Email"
-            errorText={errorText}
+            errorText={errorEmailText}
             value={email}
             onChange={this.changeValue('email')}
           />
           <TextField
             hintText="Password"
             floatingLabelText="Password"
-            errorText={errorText}
+            errorText={errorPasswordText}
             type="password"
             value={password}
             onChange={this.changeValue('password')}
           />
           <RaisedButton
-            className="pre-enter-button"
+            className="sign-up-button"
             label="Register"
             primary={true}
-            onClick={() => {
-              actions.createUser(name, email, password)
-              .then(() => {
-                this.setState({
-                  name: '',
-                  email: '',
-                  password: '',
-                  messageBoxIsOpen: true,
-                });
-              });
-            }}
+            onTouchTap={this.handleSignUp}
           />
           <RaisedButton
-            className="pre-enter-button"
+            className="back-sign-up-button"
             label="Back"
             onClick={() => { actions.push('/signin'); }}
           />
