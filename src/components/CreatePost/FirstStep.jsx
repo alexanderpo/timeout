@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { Chip, Avatar, Slider, TextField, SelectField, MenuItem } from 'material-ui';
-import ProfileImage from '../../../styles/images/user.png';
+import ProfileImage from '../../styles/images/user.png';
 
 const styles = {
   container: {

@@ -2,8 +2,8 @@ import React from 'react';
 import { Route } from 'react-router';
 /* Containers */
 import App from './containers/App';
-import Search from './containers/Search';
-import CreatePost from './containers/Post/Index';
+import Search from './containers/Search/Index';
+import CreatePost from './containers/CreatePost/Index';
 import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 

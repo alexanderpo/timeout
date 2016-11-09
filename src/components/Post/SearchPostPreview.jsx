@@ -4,7 +4,7 @@ import { Badge, Divider, IconButton } from 'material-ui';
 import Comment from 'material-ui/svg-icons/communication/chat-bubble-outline';
 import Favorite from 'material-ui/svg-icons/action/favorite-border';
 
-import ProfileImage from '../styles/images/user.png';
+import ProfileImage from '../../styles/images/user.png';
 
 const styles = {
   box: {
@@ -28,7 +28,7 @@ const styles = {
   },
 };
 
-class SearchSingleTask extends Component {
+class SearchPostPreview extends Component {
   render() {
     return (
       <Badge
@@ -70,4 +70,4 @@ class SearchSingleTask extends Component {
   }
 }
 
-export default SearchSingleTask;
+export default SearchPostPreview;

@@ -1,6 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   Step,
   Stepper,
@@ -11,16 +9,9 @@ import {
   FlatButton,
 } from 'material-ui';
 import ExpandTransition from 'material-ui/internal/ExpandTransition';
-import FirstStep from '../../components/Post/Create/FirstStep';
-import SecondStep from '../../components/Post/Create/SecondStep';
-import ThirdStep from '../../components/Post/Create/ThirdStep';
-import { createPostInformation } from '../../actions/Post/create';
-
-const propTypes = {
-  actions: PropTypes.shape({
-    createPostInformation: PropTypes.func,
-  }),
-};
+import FirstStep from '../../components/CreatePost/FirstStep';
+import SecondStep from '../../components/CreatePost/SecondStep';
+import ThirdStep from '../../components/CreatePost/ThirdStep';
 
 class CreatePost extends Component {
   constructor(props) {
@@ -42,7 +33,7 @@ class CreatePost extends Component {
 
   getStepContent(stepIndex) {       // eslint-disable-line
     switch (stepIndex) {
-      case 0: return (<FirstStep createPost={this.props.actions.createPostInformation} />);
+      case 0: return (<FirstStep />);
       case 1: return (<SecondStep />);
       case 2: return (<ThirdStep />);
       default:
@@ -150,10 +141,4 @@ class CreatePost extends Component {
   }
 }
 
-CreatePost.propTypes = propTypes;
-
-export default connect(null, dispatch => ({
-  actions: bindActionCreators({
-    createPostInformation,
-  }, dispatch),
-}))(CreatePost);
+export default CreatePost;

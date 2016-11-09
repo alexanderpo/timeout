@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import HeaderBar from '../components/HeaderBar';
-import LoggedMenu from '../components/LoggedMenu';
+import TopBar from '../components/AppBar/TopBar';
+import UserMenu from '../components/User/UserMenu';
 import { logout } from '../actions/user';
 
 const propTypes = {
@@ -21,9 +21,9 @@ class Main extends Component {
 
     return (
       <div>
-        <HeaderBar
+        <TopBar
           rightElement={
-            <LoggedMenu
+            <UserMenu
               push={actions.push}
               logout={actions.logout}
               username={this.props.username}

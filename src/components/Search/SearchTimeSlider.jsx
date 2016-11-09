@@ -16,7 +16,7 @@ const styles = {
   },
 };
 
-class TimeSlider extends Component {
+class SearchTimeSlider extends Component {
   constructor(props) {
     super(props);
 
@@ -62,4 +62,4 @@ class TimeSlider extends Component {
   }
 }
 
-export default TimeSlider;
+export default SearchTimeSlider;

@@ -9,12 +9,10 @@ import { signUpValidator } from '../utils/validators';
 
 const propTypes = {
   actions: PropTypes.shape({
-    createUser: PropTypes.func, // eslint-disable-line
+    createUser: PropTypes.func,
     push: PropTypes.func, // eslint-disable-line
   }),
 };
-
-// TODO: Create validation for sign up
 
 class Register extends Component {
 
@@ -47,6 +45,7 @@ class Register extends Component {
     const { name, email, password } = this.state;
     const values = { name, email, password };
     const errors = signUpValidator(values);
+
     if (!_.isEmpty(errors)) {
       this.setState({
         errorNameText: errors.name,
@@ -121,9 +120,9 @@ class Register extends Component {
         </div>
         <Snackbar
           open={messageBoxIsOpen}
-          message={'Successful! Sign in to your account!'}
+          message={'Now you can sign in to your account!'}
           autoHideDuration={autoHideMessageBoxTime}
-          action="Sign In"
+          action="SignIn"
           onActionTouchTap={() => { actions.push('/signin'); }}
           onRequestClose={() => { this.setState({ messageBoxIsOpen: false }); }}
         />

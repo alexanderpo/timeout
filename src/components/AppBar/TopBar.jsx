@@ -10,7 +10,7 @@ const propTypes = {
   rightElement: PropTypes.object,
 };
 
-class HeaderBar extends Component {
+class TopBar extends Component {
 
   constructor(props) {
     super(props);
@@ -39,7 +39,7 @@ class HeaderBar extends Component {
     return (
       <div>
         <AppBar
-          title="timeout"
+          title="Timeout app"
           onLeftIconButtonTouchTap={this.handleOpenLeftSlideMenu}
           iconElementRight={this.props.rightElement}
         />
@@ -50,20 +50,14 @@ class HeaderBar extends Component {
           onRequestChange={this.handleCloseLeftSlideMenu}
         >
           <AppBar
-            title="timeout"
+            title="Timeout app"
             onLeftIconButtonTouchTap={this.handleCloseLeftSlideMenu}
           />
-          <Link to="/">
-            <MenuItem onClick={this.handleCloseLeftSlideMenu}>Main page</MenuItem>
-          </Link>
-          <Link to="/signin">
-            <MenuItem onClick={this.handleCloseLeftSlideMenu}>Sign In</MenuItem>
+          <Link to="create">
+            <MenuItem onClick={this.handleCloseLeftSlideMenu}>Create</MenuItem>
           </Link>
           <Link to="search">
             <MenuItem onClick={this.handleCloseLeftSlideMenu}>Search</MenuItem>
-          </Link>
-          <Link to="create">
-            <MenuItem onClick={this.handleCloseLeftSlideMenu}>Create</MenuItem>
           </Link>
         </Drawer>
       </div>
@@ -71,6 +65,6 @@ class HeaderBar extends Component {
   }
 }
 
-HeaderBar.propTypes = propTypes;
+TopBar.propTypes = propTypes;
 
-export default HeaderBar;
+export default TopBar;

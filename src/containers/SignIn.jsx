@@ -9,8 +9,8 @@ const propTypes = {
   message: PropTypes.string,
   success: PropTypes.bool,
   actions: PropTypes.shape({
-    signIn: PropTypes.func,
-    push: PropTypes.func,
+    signIn: PropTypes.func, // eslint-disable-line
+    push: PropTypes.func, // eslint-disable-line
   }),
 };
 

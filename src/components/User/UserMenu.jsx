@@ -21,7 +21,7 @@ const styles = {
   },
 };
 
-class LoggedMenu extends Component {
+class UserMenu extends Component {
   render() {
     return (
       <div style={styles.wrapper}>
@@ -46,6 +46,6 @@ class LoggedMenu extends Component {
   }
 }
 
-LoggedMenu.propTypes = propTypes;
+UserMenu.propTypes = propTypes;
 
-export default LoggedMenu;
+export default UserMenu;
