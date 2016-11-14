@@ -7,13 +7,6 @@ import _ from 'lodash';
 import { createUser } from '../actions/user';
 import { signUpValidator } from '../utils/validators';
 
-const propTypes = {
-  actions: PropTypes.shape({
-    createUser: PropTypes.func,
-    push: PropTypes.func, // eslint-disable-line
-  }),
-};
-
 const styles = {
   logoText: {
     display: 'flex',
@@ -35,6 +28,13 @@ const styles = {
   },
 };
 
+const propTypes = {
+  actions: PropTypes.shape({
+    createUser: PropTypes.func,
+    push: PropTypes.func, // eslint-disable-line
+  }),
+};
+
 class Register extends Component {
 
   constructor(props) {
@@ -48,6 +48,8 @@ class Register extends Component {
       errorPasswordText: '',
       autoHideMessageBoxTime: 4000,
       messageBoxIsOpen: false,
+      success: false,
+      messageBoxText: '',
     };
 
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -82,16 +84,23 @@ class Register extends Component {
       });
     } else {
       this.props.actions.createUser(name, email, password)
-      .then(() => {
-        this.setState({
-          name: '',
-          email: '',
-          password: '',
-          errorNameText: '',
-          errorEmailText: '',
-          errorPasswordText: '',
-          messageBoxIsOpen: true,
-        });
+      .then((action) => {
+        action.payload.success ? // eslint-disable-line
+          this.setState({
+            name: '',
+            email: '',
+            password: '',
+            errorNameText: '',
+            errorEmailText: '',
+            errorPasswordText: '',
+            messageBoxText: 'Now you can sign in to your account!',
+            messageBoxIsOpen: true,
+            success: action.payload.success,
+          }) : this.setState({
+            messageBoxText: action.payload.message,
+            messageBoxIsOpen: true,
+            success: action.payload.success,
+          });
       });
     }
   }
@@ -106,6 +115,8 @@ class Register extends Component {
       errorEmailText,
       errorPasswordText,
       messageBoxIsOpen,
+      messageBoxText,
+      success,
       autoHideMessageBoxTime,
     } = this.state;
 
@@ -155,9 +166,9 @@ class Register extends Component {
         </div>
         <Snackbar
           open={messageBoxIsOpen}
-          message={'Now you can sign in to your account!'}
+          message={messageBoxText}
           autoHideDuration={autoHideMessageBoxTime}
-          action="SignIn"
+          action={(success) ? 'Sign in' : ''}
           onActionTouchTap={() => { actions.push('/signin'); }}
           onRequestClose={() => { this.setState({ messageBoxIsOpen: false }); }}
         />
