@@ -12,7 +12,7 @@ export function createUser(name, email, password) {
   return {
     type: CREATE_USER,
     payload: {
-      url: 'user/register',
+      url: 'registration',
       method: 'post',
       body: {
         name,

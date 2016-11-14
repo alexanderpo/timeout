@@ -14,6 +14,27 @@ const propTypes = {
   }),
 };
 
+const styles = {
+  logoText: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    fontWeight: 200,
+    fontSize: 20,
+    textTransform: 'uppercase',
+  },
+  sloganText: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    fontWeight: 200,
+    fontSize: 14,
+    textTransform: 'lowercase',
+  },
+};
+
 class SignIn extends Component {
 
   constructor(props) {
@@ -42,6 +63,10 @@ class SignIn extends Component {
     return (
       <div>
         <div className="pre-enter-wrapper">
+          <div>
+            <div style={styles.logoText}>timeout application</div>
+            <div style={styles.sloganText}>Spend time with interest</div>
+          </div>
           <TextField
             hintText="Username"
             floatingLabelText="Username"
