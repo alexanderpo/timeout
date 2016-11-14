@@ -51,6 +51,7 @@ class Register extends Component {
     };
 
     this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   changeValue(key) {
@@ -60,6 +61,12 @@ class Register extends Component {
         [key]: value,
       });
     };
+  }
+
+  handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.handleSignUp();
+    }
   }
 
   handleSignUp() {
@@ -115,6 +122,7 @@ class Register extends Component {
             errorText={errorNameText}
             value={name}
             onChange={this.changeValue('name')}
+            onKeyPress={this.handleKeyPress}
           />
           <TextField
             hintText="Your email address"
@@ -122,6 +130,7 @@ class Register extends Component {
             errorText={errorEmailText}
             value={email}
             onChange={this.changeValue('email')}
+            onKeyPress={this.handleKeyPress}
           />
           <TextField
             hintText="Password"
@@ -130,6 +139,7 @@ class Register extends Component {
             type="password"
             value={password}
             onChange={this.changeValue('password')}
+            onKeyPress={this.handleKeyPress}
           />
           <RaisedButton
             className="sign-up-button"
