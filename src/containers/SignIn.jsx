@@ -45,6 +45,9 @@ class SignIn extends Component {
       autoHideMessageBoxTime: 4000,
       messageBoxIsOpen: false,
     };
+
+    this.handleSignIn = this.handleSignIn.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   changeValue(key) {
@@ -54,6 +57,26 @@ class SignIn extends Component {
         [key]: value,
       });
     };
+  }
+
+  handleSignIn() {
+    const { name, password } = this.state;
+    this.props.actions.signIn(name, password)
+    .then(() => {
+      this.props.success ? // eslint-disable-line
+        this.setState({
+          name: '',
+          password: '',
+          messageBoxIsOpen: true,
+        }) : this.setState({ messageBoxIsOpen: true });
+      this.props.actions.push('/');
+    });
+  }
+
+  handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.handleSignIn();
+    }
   }
 
   render() {
@@ -72,6 +95,7 @@ class SignIn extends Component {
             floatingLabelText="Username"
             value={name}
             onChange={this.changeValue('name')}
+            onKeyPress={this.handleKeyPress}
           />
           <TextField
             hintText="Password"
@@ -79,23 +103,13 @@ class SignIn extends Component {
             value={password}
             type="password"
             onChange={this.changeValue('password')}
+            onKeyPress={this.handleKeyPress}
           />
           <RaisedButton
             className="pre-enter-button"
             label="Sign In"
             primary={true}
-            onClick={() => {
-              actions.signIn(name, password)
-              .then(() => {
-                this.props.success ? // eslint-disable-line
-                  this.setState({
-                    name: '',
-                    password: '',
-                    messageBoxIsOpen: true,
-                  }) : this.setState({ messageBoxIsOpen: true });
-                actions.push('/');
-              });
-            }}
+            onTouchTap={this.handleSignIn}
           />
           <RaisedButton
             className="pre-enter-button"
