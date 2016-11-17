@@ -6,8 +6,6 @@ import { push } from 'react-router-redux';
 import { signIn } from '../actions/user';
 
 const propTypes = {
-  message: PropTypes.string,
-  success: PropTypes.bool,
   actions: PropTypes.shape({
     signIn: PropTypes.func, // eslint-disable-line
     push: PropTypes.func, // eslint-disable-line
@@ -42,6 +40,7 @@ class SignIn extends Component {
     this.state = {
       name: '',
       password: '',
+      messageBoxText: '',
       autoHideMessageBoxTime: 4000,
       messageBoxIsOpen: false,
     };
@@ -62,13 +61,16 @@ class SignIn extends Component {
   handleSignIn() {
     const { name, password } = this.state;
     this.props.actions.signIn(name, password)
-    .then(() => {
-      this.props.success ? // eslint-disable-line
+    .then((action) => {
+      action.payload.success ? // eslint-disable-line
         this.setState({
           name: '',
           password: '',
           messageBoxIsOpen: true,
-        }) : this.setState({ messageBoxIsOpen: true });
+        }) : this.setState({
+          messageBoxIsOpen: true,
+          messageBoxText: action.payload.message,
+        });
       this.props.actions.push('/');
     });
   }
@@ -81,7 +83,7 @@ class SignIn extends Component {
 
   render() {
     const { actions } = this.props;
-    const { name, password, messageBoxIsOpen, autoHideMessageBoxTime } = this.state;
+    const { name, messageBoxText, password, messageBoxIsOpen, autoHideMessageBoxTime } = this.state;
 
     return (
       <div>
@@ -120,7 +122,7 @@ class SignIn extends Component {
         </div>
         <Snackbar
           open={messageBoxIsOpen}
-          message={this.props.message}
+          message={messageBoxText}
           autoHideDuration={autoHideMessageBoxTime}
           onRequestClose={() => { this.setState({ messageBoxIsOpen: false }); }}
         />
@@ -131,16 +133,7 @@ class SignIn extends Component {
 
 SignIn.propTypes = propTypes;
 
-export default connect((state) => {
-  const success = state.user.success;
-  const message = state.user.message ?
-    state.user.message : '';
-
-  return {
-    success,
-    message,
-  };
-}, dispatch => ({
+export default connect(null, dispatch => ({
   actions: bindActionCreators({
     signIn,
     push,

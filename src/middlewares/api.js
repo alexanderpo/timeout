@@ -5,7 +5,7 @@ const SUCCESS = 'SUCCESS';
 const FAILURE = 'FAILURE';
 
 export default function () {
-  return ({ dispatch }) => next => (action) => {
+  return ({ dispatch, getState }) => next => (action) => {
     if (!action || !action.payload || !action.payload.url) {
       return next(action);
     }
@@ -20,7 +20,7 @@ export default function () {
       },
     } = action;
 
-    // const authToken = getState().user.token;
+    const authToken = getState().user.token;
 
     setTimeout(() => next({
       type: `${type}_${LOADING}`,
@@ -32,6 +32,7 @@ export default function () {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'x-access-token': authToken ? `${authToken}` : '',
       },
       body: JSON.stringify(body),
     })

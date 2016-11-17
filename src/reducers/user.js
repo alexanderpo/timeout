@@ -7,9 +7,11 @@ export default function (state = initialState, action) {
     case `${SIGN_IN}_SUCCESS`:
       return {
         ...action.payload.user,
-        message: action.payload.message,
         success: action.payload.success,
+        id: action.payload.id,
         name: action.payload.name,
+        message: action.payload.message,
+        token: action.payload.token,
       };
     case LOGOUT:
       return {};

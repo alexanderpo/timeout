@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
 import { Chip, Avatar, Slider, TextField, SelectField, MenuItem } from 'material-ui';
 import ProfileImage from '../../styles/images/user.png';
 
@@ -28,7 +27,13 @@ const styles = {
 };
 
 const propTypes = {
-  createPost: PropTypes.func,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  category: PropTypes.string,
+  time: PropTypes.number,
+  date: PropTypes.string,
+  username: PropTypes.string,
+  callbackParent: PropTypes.func,
 };
 
 class FirstStep extends Component {
@@ -36,11 +41,11 @@ class FirstStep extends Component {
     super(props);
 
     this.state = {
-      time: 5,
-      title: '',
-      description: '',
-      category: '',
-      date: moment().format('ll'),
+      time: this.props.time,
+      title: this.props.title,
+      description: this.props.description,
+      category: this.props.category,
+      date: this.props.date,
     };
 
     this.handleTimeSlider = this.handleTimeSlider.bind(this);
@@ -53,24 +58,28 @@ class FirstStep extends Component {
     this.setState({
       title: event.target.value,
     });
+    this.props.callbackParent(this.state);
   }
 
   handleDescription(event) {
     this.setState({
       description: event.target.value,
     });
+    this.props.callbackParent(this.state);
   }
 
   handleCategory(event, index, value) {
     this.setState({
       category: value,
     });
+    this.props.callbackParent(this.state);
   }
 
   handleTimeSlider(event, value) {
     this.setState({
       time: value,
     });
+    this.props.callbackParent(this.state);
   }
 
   render() {
@@ -79,7 +88,7 @@ class FirstStep extends Component {
         <div style={styles.chipBlock}>
           <Chip style={styles.chip}>
             <Avatar src={ProfileImage} />
-            Username
+            {this.props.username}
           </Chip>
           <Chip style={styles.chip}>{ this.state.date }</Chip>
         </div>

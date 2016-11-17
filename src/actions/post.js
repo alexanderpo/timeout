@@ -1,6 +1,6 @@
 export const CREATE_POST_FIRST_STEP = 'CREATE_POST_FIRST_STEP';
 
-export function createPostFirstStep(title, description, category, time, user) {
+export function createPostFirstStep(title, description, category, time, userId) {
   return {
     type: CREATE_POST_FIRST_STEP,
     payload: {
@@ -11,7 +11,7 @@ export function createPostFirstStep(title, description, category, time, user) {
         description,
         category,
         time,
-        user,
+        userId,
       },
     },
   };

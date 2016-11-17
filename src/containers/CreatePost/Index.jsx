@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import moment from 'moment';
 import {
   Step,
   Stepper,
@@ -12,16 +15,29 @@ import ExpandTransition from 'material-ui/internal/ExpandTransition';
 import FirstStep from '../../components/CreatePost/FirstStep';
 import SecondStep from '../../components/CreatePost/SecondStep';
 import ThirdStep from '../../components/CreatePost/ThirdStep';
+import { createPostFirstStep } from '../../actions/post';
+
+const propTypes = {
+  userId: PropTypes.string,
+  username: PropTypes.string,
+  actions: PropTypes.shape({
+    createPostFirstStep: PropTypes.func,
+  }),
+};
 
 class CreatePost extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      title: '',
+      description: '',
+      category: '',
+      time: 5,
       loading: false,
       finished: false,
       stepIndex: 0,
-      date: new Date(),
+      date: moment().format('ll'),
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -29,11 +45,31 @@ class CreatePost extends Component {
     this.dummyAsync = this.dummyAsync.bind(this);
     this.getStepContent = this.getStepContent.bind(this);
     this.renderContent = this.renderContent.bind(this);
+    this.onChildChanged = this.onChildChanged.bind(this);
+  }
+
+  onChildChanged(newState) {
+    this.setState({
+      title: newState.title,
+      description: newState.description,
+      category: newState.category,
+      time: newState.time,
+    });
   }
 
   getStepContent(stepIndex) {       // eslint-disable-line
     switch (stepIndex) {
-      case 0: return (<FirstStep />);
+      case 0: return (
+        <FirstStep
+          username={this.props.username}
+          title={this.state.title}
+          description={this.state.description}
+          category={this.state.category}
+          time={this.state.time}
+          date={this.state.date}
+          callbackParent={this.onChildChanged}
+        />
+      );
       case 1: return (<SecondStep />);
       case 2: return (<ThirdStep />);
       default:
@@ -47,10 +83,27 @@ class CreatePost extends Component {
     });
   }
 
-  handleNext() {
-    const { stepIndex } = this.state;
+  handleNext() { // eslint-disable-line
+    const {
+      stepIndex,
+      title,
+      description,
+      category,
+      time,
+    } = this.state;
+
+    const { userId } = this.props;
+
     if (!this.state.loading) {
-      // TODO: action for send first part of data
+      switch (stepIndex) {
+        case 0:
+          this.props.actions.createPostFirstStep(title, description, category, time, userId);
+          break;
+        case 1:
+          return 'update body post';
+        default:
+          return 'Create post';
+      }
       this.dummyAsync(() => this.setState({
         loading: false,
         stepIndex: stepIndex + 1,
@@ -141,4 +194,18 @@ class CreatePost extends Component {
   }
 }
 
-export default CreatePost;
+CreatePost.propTypes = propTypes;
+
+export default connect((state) => {
+  const username = state.user.name;
+  const userId = state.user.id;
+
+  return {
+    userId,
+    username,
+  };
+}, dispatch => ({
+  actions: bindActionCreators({
+    createPostFirstStep,
+  }, dispatch),
+}))(CreatePost);
