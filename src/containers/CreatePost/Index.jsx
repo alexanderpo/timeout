@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import _ from 'lodash';
 import {
   Step,
   Stepper,
@@ -10,12 +11,14 @@ import {
 import {
   RaisedButton,
   FlatButton,
+  Snackbar,
 } from 'material-ui';
 import ExpandTransition from 'material-ui/internal/ExpandTransition';
 import FirstStep from '../../components/CreatePost/FirstStep';
 import SecondStep from '../../components/CreatePost/SecondStep';
 import ThirdStep from '../../components/CreatePost/ThirdStep';
 import { createPostFirstStep } from '../../actions/post';
+import { createPostValidator } from '../../utils/validators';
 
 const propTypes = {
   userId: PropTypes.string,
@@ -31,13 +34,18 @@ class CreatePost extends Component {
 
     this.state = {
       title: '',
+      titleErrorText: '',
       description: '',
-      category: '',
+      descriptionErrorText: '',
+      category: 'Tehnology',
       time: 5,
       loading: false,
       finished: false,
       stepIndex: 0,
       date: moment().format('ll'),
+      messageBoxText: '',
+      autoHideMessageBoxTime: 4000,
+      messageBoxIsOpen: false,
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -63,7 +71,9 @@ class CreatePost extends Component {
         <FirstStep
           username={this.props.username}
           title={this.state.title}
+          titleErrorText={this.state.titleErrorText}
           description={this.state.description}
+          descriptionErrorText={this.state.descriptionErrorText}
           category={this.state.category}
           time={this.state.time}
           date={this.state.date}
@@ -92,23 +102,46 @@ class CreatePost extends Component {
       time,
     } = this.state;
 
+    const values = { title, description };
+    const errors = createPostValidator(values);
+
     const { userId } = this.props;
 
     if (!this.state.loading) {
       switch (stepIndex) {
         case 0:
-          this.props.actions.createPostFirstStep(title, description, category, time, userId);
+          if (!_.isEmpty(errors)) {
+            this.setState({
+              titleErrorText: errors.title,
+              descriptionErrorText: errors.description,
+            });
+          } else {
+            this.setState({ titleErrorText: '', descriptionErrorText: '' });
+            this.props.actions.createPostFirstStep(title, description, category, time, userId)
+            .then((action) => {
+              action.payload.success ? // eslint-disable-line
+                this.dummyAsync(() => this.setState({
+                  loading: false,
+                  stepIndex: stepIndex + 1,
+                  finished: stepIndex >= 2,
+                  title: '',
+                  description: '',
+                  category: 'Tehnology',
+                  time: 5,
+                  messageBoxIsOpen: true,
+                  messageBoxText: action.payload.message,
+                })) : this.setState({
+                  messageBoxIsOpen: true,
+                  messageBoxText: action.payload.message,
+                });
+            });
+          }
           break;
         case 1:
           return 'update body post';
         default:
           return 'Create post';
       }
-      this.dummyAsync(() => this.setState({
-        loading: false,
-        stepIndex: stepIndex + 1,
-        finished: stepIndex >= 2,
-      }));
     }
   }
 
@@ -171,24 +204,38 @@ class CreatePost extends Component {
   }
 
   render() {
-    const { loading, stepIndex } = this.state;
+    const {
+      loading,
+      stepIndex,
+      messageBoxText,
+      messageBoxIsOpen,
+      autoHideMessageBoxTime,
+    } = this.state;
 
     return (
-      <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
-        <Stepper activeStep={stepIndex}>
-          <Step>
-            <StepLabel>Information</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>Create post</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>Preview</StepLabel>
-          </Step>
-        </Stepper>
-        <ExpandTransition loading={loading} open={true}>
-          {this.renderContent()}
-        </ExpandTransition>
+      <div>
+        <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
+          <Stepper activeStep={stepIndex}>
+            <Step>
+              <StepLabel>Information</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Create post</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Preview</StepLabel>
+            </Step>
+          </Stepper>
+          <ExpandTransition loading={loading} open={true}>
+            {this.renderContent()}
+          </ExpandTransition>
+        </div>
+        <Snackbar
+          open={messageBoxIsOpen}
+          message={messageBoxText}
+          autoHideDuration={autoHideMessageBoxTime}
+          onRequestClose={() => { this.setState({ messageBoxIsOpen: false }); }}
+        />
       </div>
     );
   }

@@ -28,7 +28,9 @@ const styles = {
 
 const propTypes = {
   title: PropTypes.string,
+  titleErrorText: PropTypes.string,
   description: PropTypes.string,
+  descriptionErrorText: PropTypes.string,
   category: PropTypes.string,
   time: PropTypes.number,
   date: PropTypes.string,
@@ -100,6 +102,7 @@ class FirstStep extends Component {
               floatingLabelText="Title"
               fullWidth={true}
               onChange={this.handleTitle}
+              errorText={this.props.titleErrorText}
             />
             <TextField
               name="description"
@@ -110,6 +113,7 @@ class FirstStep extends Component {
               rows={1}
               rowsMax={10}
               onChange={this.handleDescription}
+              errorText={this.props.descriptionErrorText}
             />
             <SelectField
               floatingLabelText="Category"
