@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Slider, Badge, RaisedButton } from 'material-ui';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 
@@ -16,6 +16,10 @@ const styles = {
   },
 };
 
+const propTypes = {
+  getTimeSearchResult: PropTypes.func,
+};
+
 class SearchTimeSlider extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +28,12 @@ class SearchTimeSlider extends Component {
       timeSliderValue: 5,
     };
     this.handleTimeSliderValue = this.handleTimeSliderValue.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+  }
+
+  handleSearch() {
+    const time = this.state.timeSliderValue;
+    this.props.getTimeSearchResult(time);
   }
 
   handleTimeSliderValue(event, value) {
@@ -56,10 +66,12 @@ class SearchTimeSlider extends Component {
           primary={true}
           icon={<SearchIcon />}
           style={styles.searchBtn}
+          onTouchTap={this.handleSearch}
         />
       </div>
     );
   }
 }
 
+SearchTimeSlider.propTypes = propTypes;
 export default SearchTimeSlider;

@@ -95,7 +95,7 @@ class FirstStep extends Component {
           <Chip style={styles.chip}>{ this.state.date }</Chip>
         </div>
         <div style={styles.container}>
-          <form>
+          <div>
             <TextField
               name="title"
               hintText="Title"
@@ -138,7 +138,7 @@ class FirstStep extends Component {
                 onChange={this.handleTimeSlider}
               />
             </div>
-          </form>
+          </div>
         </div>
       </div>
     );

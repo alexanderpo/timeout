@@ -1,6 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import _ from 'lodash';
 import SearchTimeSlider from '../../components/Search/SearchTimeSlider';
 import SearchPostPreview from '../../components/Post/SearchPostPreview';
+import { getTimeSearchResult } from '../../actions/post';
 
 const styles = {
   wrapper: {
@@ -14,24 +19,57 @@ const styles = {
   },
 };
 
+const propTypes = {
+  posts: PropTypes.array,
+  actions: PropTypes.shape({
+    getTimeSearchResult: PropTypes.func,
+  }),
+};
+
 class SearchPost extends Component {
   render() {
+    const { posts } = this.props;
     return (
       <div>
-        <SearchTimeSlider />
+        <SearchTimeSlider getTimeSearchResult={this.props.actions.getTimeSearchResult} />
         <div style={styles.wrapper}>
-          <SearchPostPreview />
-          <SearchPostPreview />
-          <SearchPostPreview />
-          <SearchPostPreview />
-          <SearchPostPreview />
-          <SearchPostPreview />
-          <SearchPostPreview />
-          <SearchPostPreview />
+          {
+            !_.isEmpty(posts) ? posts.map(post => (
+              <SearchPostPreview
+                key={post.id}
+                title={post.title}
+                description={post.description}
+                time={post.time}
+                likes={post.likes}
+                comments={post.comments}
+                createdDate={post.created_date}
+              />
+            )) : <h2>Dont have posts</h2>
+          }
         </div>
       </div>
     );
   }
 }
 
-export default SearchPost;
+SearchPost.propTypes = propTypes;
+
+export default connect((state) => {
+  const posts = state.search.success ? state.search.posts.map(post => ({
+    id: post._id, // eslint-disable-line
+    title: post.title,
+    description: post.description,
+    time: post.time,
+    likes: post.likes.length,
+    comments: post.comments.length,
+    created_date: moment(post.created_date).format('ll'),
+  })) : [];
+
+  return {
+    posts,
+  };
+}, dispatch => ({
+  actions: bindActionCreators({
+    getTimeSearchResult,
+  }, dispatch),
+}))(SearchPost);
