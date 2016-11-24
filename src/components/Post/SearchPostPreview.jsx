@@ -30,10 +30,11 @@ const styles = {
 
 const propTypes = {
   title: PropTypes.string,
+  user: PropTypes.string,
   description: PropTypes.string,
-  time: PropTypes.time,
-  likes: PropTypes.Number,
-  comments: PropTypes.Number,
+  time: PropTypes.number,
+  likes: PropTypes.number,
+  comments: PropTypes.number,
   createdDate: PropTypes.string,
 };
 
@@ -41,6 +42,7 @@ class SearchPostPreview extends Component {
   render() {
     const {
       title,
+      user,
       description,
       time,
       likes,
@@ -66,7 +68,7 @@ class SearchPostPreview extends Component {
           <CardText expandable={true}>{description}</CardText>
           <Divider />
           <CardActions>
-            <span style={styles.text}>Username</span>
+            <span style={styles.text}>{user}</span>
             <IconButton tooltip="Comment" tooltipPosition="top-center">
               <Comment />
             </IconButton>

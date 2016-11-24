@@ -21,7 +21,6 @@ import { createPostFirstStep } from '../../actions/post';
 import { createPostValidator } from '../../utils/validators';
 
 const propTypes = {
-  userId: PropTypes.string,
   username: PropTypes.string,
   actions: PropTypes.shape({
     createPostFirstStep: PropTypes.func,
@@ -105,7 +104,7 @@ class CreatePost extends Component {
     const values = { title, description };
     const errors = createPostValidator(values);
 
-    const { userId } = this.props;
+    const { username } = this.props;
 
     if (!this.state.loading) {
       switch (stepIndex) {
@@ -117,7 +116,7 @@ class CreatePost extends Component {
             });
           } else {
             this.setState({ titleErrorText: '', descriptionErrorText: '' });
-            this.props.actions.createPostFirstStep(title, description, category, time, userId)
+            this.props.actions.createPostFirstStep(title, description, category, time, username)
             .then((action) => {
               action.payload.success ? // eslint-disable-line
                 this.dummyAsync(() => this.setState({
@@ -245,7 +244,6 @@ CreatePost.propTypes = propTypes;
 
 export default connect((state) => {
   const username = state.user.name;
-  const userId = state.user.id;
 
   return {
     userId,

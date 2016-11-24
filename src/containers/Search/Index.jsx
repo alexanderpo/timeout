@@ -37,6 +37,7 @@ class SearchPost extends Component {
             !_.isEmpty(posts) ? posts.map(post => (
               <SearchPostPreview
                 key={post.id}
+                user={post.username}
                 title={post.title}
                 description={post.description}
                 time={post.time}
@@ -60,6 +61,7 @@ export default connect((state) => {
     title: post.title,
     description: post.description,
     time: post.time,
+    username: post.author,
     likes: post.likes.length,
     comments: post.comments.length,
     created_date: moment(post.created_date).format('ll'),

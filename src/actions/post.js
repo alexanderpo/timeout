@@ -12,7 +12,7 @@ export function getTimeSearchResult(time) {
   };
 }
 
-export function createPostFirstStep(title, description, category, time, userId) {
+export function createPostFirstStep(title, description, category, time, user) {
   return {
     type: CREATE_POST_FIRST_STEP,
     payload: {
@@ -23,7 +23,7 @@ export function createPostFirstStep(title, description, category, time, userId) 
         description,
         category,
         time,
-        userId,
+        user,
       },
     },
   };
