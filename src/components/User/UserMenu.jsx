@@ -23,9 +23,10 @@ const styles = {
 
 class UserMenu extends Component {
   render() {
+    const { username } = this.props;
     return (
       <div style={styles.wrapper}>
-        <span >{this.props.username}</span>
+        <span >{username}</span>
         <IconMenu
           iconButtonElement={
             <IconButton iconStyle={{ color: 'white' }}>
@@ -35,6 +36,10 @@ class UserMenu extends Component {
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
         >
+          <MenuItem
+            primaryText="Profile"
+            containerElement={<Link to="/profile" />}  // eslint-disable-line
+          />
           <MenuItem
             primaryText="Sign out"
             containerElement={<Link to="/signin" />}  // eslint-disable-line

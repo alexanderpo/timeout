@@ -246,7 +246,6 @@ export default connect((state) => {
   const username = state.user.name;
 
   return {
-    userId,
     username,
   };
 }, dispatch => ({

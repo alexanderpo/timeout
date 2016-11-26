@@ -8,8 +8,8 @@ export default function (state = initialState, action) {
       return {
         ...action.payload.user,
         success: action.payload.success,
-        id: action.payload.id,
         name: action.payload.name,
+        email: action.payload.email,
         message: action.payload.message,
         token: action.payload.token,
       };

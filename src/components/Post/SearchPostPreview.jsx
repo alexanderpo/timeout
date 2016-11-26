@@ -62,10 +62,9 @@ class SearchPostPreview extends Component {
             avatar={ProfileImage}
             subtitle={createdDate}
             actAsExpander={true}
-            showExpandableButton={true}
           />
           <Divider />
-          <CardText expandable={true}>{description}</CardText>
+          <CardText>{description}</CardText>
           <Divider />
           <CardActions>
             <span style={styles.text}>{user}</span>

@@ -8,12 +8,18 @@ import SearchPostPreview from '../../components/Post/SearchPostPreview';
 import { getTimeSearchResult } from '../../actions/post';
 
 const styles = {
+  noneText: {
+    margin: 'auto',
+    fontWeight: 100,
+    fontSize: 50,
+    color: '#cccccc',
+  },
   wrapper: {
     display: 'flex',
     justifyContent: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'flex-start',
+    alignItems: 'stretch',
     overflowY: 'auto',
     height: 490,
   },
@@ -45,7 +51,7 @@ class SearchPost extends Component {
                 comments={post.comments}
                 createdDate={post.created_date}
               />
-            )) : <h2>Dont have posts</h2>
+          )) : <div style={styles.noneText}>Dont have posts</div>
           }
         </div>
       </div>

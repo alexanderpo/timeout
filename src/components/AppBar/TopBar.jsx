@@ -53,10 +53,10 @@ class TopBar extends Component {
             title="Timeout app"
             onLeftIconButtonTouchTap={this.handleCloseLeftSlideMenu}
           />
-          <Link to="create">
+          <Link to="/create">
             <MenuItem onClick={this.handleCloseLeftSlideMenu}>Create</MenuItem>
           </Link>
-          <Link to="search">
+          <Link to="/search">
             <MenuItem onClick={this.handleCloseLeftSlideMenu}>Search</MenuItem>
           </Link>
         </Drawer>
