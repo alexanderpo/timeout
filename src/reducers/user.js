@@ -1,4 +1,4 @@
-import { SIGN_IN, LOGOUT } from '../actions/user';
+import { SIGN_IN } from '../actions/user';
 
 const initialState = {};
 
@@ -13,8 +13,6 @@ export default function (state = initialState, action) {
         message: action.payload.message,
         token: action.payload.token,
       };
-    case LOGOUT:
-      return {};
     default:
       return state;
   }
