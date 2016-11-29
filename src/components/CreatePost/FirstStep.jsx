@@ -49,22 +49,16 @@ class FirstStep extends Component {
     };
 
     this.handleTimeSlider = this.handleTimeSlider.bind(this);
-    this.handleTitle = this.handleTitle.bind(this);
-    this.handleDescription = this.handleDescription.bind(this);
   }
 
-  handleTitle(event) {
-    this.setState({
-      title: event.target.value,
-    });
-    this.props.callbackParent(this.state);
-  }
-
-  handleDescription(event) {
-    this.setState({
-      description: event.target.value,
-    });
-    this.props.callbackParent(this.state);
+  handleTextValue(key) {
+    return (event) => {
+      const value = event.target.value;
+      this.setState({
+        [key]: value,
+      });
+      this.props.callbackParent(this.state);
+    };
   }
 
   handleTimeSlider(event, value) {
@@ -91,7 +85,8 @@ class FirstStep extends Component {
               hintText="Title"
               floatingLabelText="Title"
               fullWidth={true}
-              onChange={this.handleTitle}
+              onChange={this.handleTextValue('title')}
+              defaultValue={this.state.title}
               errorText={this.props.titleErrorText}
             />
             <TextField
@@ -102,14 +97,15 @@ class FirstStep extends Component {
               multiLine={true}
               rows={1}
               rowsMax={10}
-              onChange={this.handleDescription}
+              defaultValue={this.state.description}
+              onChange={this.handleTextValue('description')}
               errorText={this.props.descriptionErrorText}
             />
             <div>
-              <h4>Time for task {this.state.time}  minutes.</h4>
+              <h4>Time of post {this.state.time}  minutes.</h4>
               <Slider
                 name="time"
-                defaultValue={5}
+                defaultValue={this.state.time}
                 min={5}
                 max={120}
                 step={5}
