@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
 import {
@@ -16,14 +17,13 @@ import {
 import ExpandTransition from 'material-ui/internal/ExpandTransition';
 import FirstStep from '../../components/CreatePost/FirstStep';
 import SecondStep from '../../components/CreatePost/SecondStep';
-import ThirdStep from '../../components/CreatePost/ThirdStep';
-import { createPostFirstStep } from '../../actions/post';
+import { createPost } from '../../actions/post';
 import { createPostValidator } from '../../utils/validators';
 
 const propTypes = {
   username: PropTypes.string,
   actions: PropTypes.shape({
-    createPostFirstStep: PropTypes.func,
+    createPost: PropTypes.func,
   }),
 };
 
@@ -36,7 +36,6 @@ class CreatePost extends Component {
       titleErrorText: '',
       description: '',
       descriptionErrorText: '',
-      category: 'Tehnology',
       time: 5,
       loading: false,
       finished: false,
@@ -59,12 +58,13 @@ class CreatePost extends Component {
     this.setState({
       title: newState.title,
       description: newState.description,
-      category: newState.category,
       time: newState.time,
     });
   }
 
   getStepContent(stepIndex) {       // eslint-disable-line
+    const { username } = this.props;
+    const { title, description, time, date } = this.state;
     switch (stepIndex) {
       case 0: return (
         <FirstStep
@@ -73,14 +73,20 @@ class CreatePost extends Component {
           titleErrorText={this.state.titleErrorText}
           description={this.state.description}
           descriptionErrorText={this.state.descriptionErrorText}
-          category={this.state.category}
           time={this.state.time}
           date={this.state.date}
           callbackParent={this.onChildChanged}
         />
       );
-      case 1: return (<SecondStep />);
-      case 2: return (<ThirdStep />);
+      case 1: return (
+        <SecondStep
+          user={username}
+          title={title}
+          description={description}
+          time={time}
+          createdDate={date}
+        />
+      );
       default:
         return 'Create post step by step';
     }
@@ -97,7 +103,6 @@ class CreatePost extends Component {
       stepIndex,
       title,
       description,
-      category,
       time,
     } = this.state;
 
@@ -115,29 +120,32 @@ class CreatePost extends Component {
               descriptionErrorText: errors.description,
             });
           } else {
-            this.setState({ titleErrorText: '', descriptionErrorText: '' });
-            this.props.actions.createPostFirstStep(title, description, category, time, username)
-            .then((action) => {
-              action.payload.success ? // eslint-disable-line
-                this.dummyAsync(() => this.setState({
-                  loading: false,
-                  stepIndex: stepIndex + 1,
-                  finished: stepIndex >= 2,
-                  title: '',
-                  description: '',
-                  category: 'Tehnology',
-                  time: 5,
-                  messageBoxIsOpen: true,
-                  messageBoxText: action.payload.message,
-                })) : this.setState({
-                  messageBoxIsOpen: true,
-                  messageBoxText: action.payload.message,
-                });
-            });
+            this.dummyAsync(() => this.setState({
+              loading: false,
+              stepIndex: stepIndex + 1,
+              finished: stepIndex >= 1,
+            }));
           }
           break;
         case 1:
-          return 'update body post';
+          this.setState({ titleErrorText: '', descriptionErrorText: '' });
+          this.props.actions.createPost(title, description, time, username)
+          .then((action) => {
+            action.payload.success ? // eslint-disable-line
+              this.dummyAsync(() => this.setState({
+                loading: false,
+                finished: stepIndex >= 1,
+                title: '',
+                description: '',
+                time: 5,
+                messageBoxIsOpen: true,
+                messageBoxText: action.payload.message,
+              })) : this.setState({
+                messageBoxIsOpen: true,
+                messageBoxText: action.payload.message,
+              });
+          });
+          break;
         default:
           return 'Create post';
       }
@@ -169,15 +177,21 @@ class CreatePost extends Component {
     if (finished) {
       return (
         <div style={contentStyle}>
-          <p>
-            <button
-              onClick={(event) => {
+          <div style={buttonBlockStyle}>
+            <FlatButton
+              label="Main"
+              containerElement={<Link to="/" />} // eslint-disable-line
+              style={{ marginRight: 12 }}
+            />
+            <RaisedButton
+              label="One more post"
+              primary={true}
+              onTouchTap={(event) => {
                 event.preventDefault();
                 this.setState({ stepIndex: 0, finished: false });
               }}
-            > Clear </button>
-          Complete!
-          </p>
+            />
+          </div>
         </div>
       );
     }
@@ -193,7 +207,7 @@ class CreatePost extends Component {
             style={{ marginRight: 12 }}
           />
           <RaisedButton
-            label={stepIndex === 2 ? 'Finish' : 'Next'}
+            label={stepIndex === 1 ? 'Finish' : 'Next'}
             primary={true}
             onTouchTap={this.handleNext}
           />
@@ -215,9 +229,6 @@ class CreatePost extends Component {
       <div>
         <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
           <Stepper activeStep={stepIndex}>
-            <Step>
-              <StepLabel>Information</StepLabel>
-            </Step>
             <Step>
               <StepLabel>Create post</StepLabel>
             </Step>
@@ -250,6 +261,6 @@ export default connect((state) => {
   };
 }, dispatch => ({
   actions: bindActionCreators({
-    createPostFirstStep,
+    createPost,
   }, dispatch),
 }))(CreatePost);

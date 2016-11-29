@@ -12,16 +12,15 @@ export function getTimeSearchResult(time) {
   };
 }
 
-export function createPostFirstStep(title, description, category, time, user) {
+export function createPost(title, description, time, user) {
   return {
     type: CREATE_POST_FIRST_STEP,
     payload: {
-      url: 'post/create/first-step',
+      url: 'post/create',
       method: 'post',
       body: {
         title,
         description,
-        category,
         time,
         user,
       },

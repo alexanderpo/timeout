@@ -38,7 +38,7 @@ const propTypes = {
   createdDate: PropTypes.string,
 };
 
-class SearchPostPreview extends Component {
+class SearchPostPreview extends Component { // eslint-disable-line
   render() {
     const {
       title,

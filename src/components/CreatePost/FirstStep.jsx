@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Chip, Avatar, Slider, TextField, SelectField, MenuItem } from 'material-ui';
+import { Chip, Avatar, Slider, TextField } from 'material-ui';
 import ProfileImage from '../../styles/images/user.png';
 
 const styles = {
@@ -31,7 +31,6 @@ const propTypes = {
   titleErrorText: PropTypes.string,
   description: PropTypes.string,
   descriptionErrorText: PropTypes.string,
-  category: PropTypes.string,
   time: PropTypes.number,
   date: PropTypes.string,
   username: PropTypes.string,
@@ -46,14 +45,12 @@ class FirstStep extends Component {
       time: this.props.time,
       title: this.props.title,
       description: this.props.description,
-      category: this.props.category,
       date: this.props.date,
     };
 
     this.handleTimeSlider = this.handleTimeSlider.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleDescription = this.handleDescription.bind(this);
-    this.handleCategory = this.handleCategory.bind(this);
   }
 
   handleTitle(event) {
@@ -66,13 +63,6 @@ class FirstStep extends Component {
   handleDescription(event) {
     this.setState({
       description: event.target.value,
-    });
-    this.props.callbackParent(this.state);
-  }
-
-  handleCategory(event, index, value) {
-    this.setState({
-      category: value,
     });
     this.props.callbackParent(this.state);
   }
@@ -115,18 +105,6 @@ class FirstStep extends Component {
               onChange={this.handleDescription}
               errorText={this.props.descriptionErrorText}
             />
-            <SelectField
-              floatingLabelText="Category"
-              fullWidth={true}
-              value={this.state.category}
-              onChange={this.handleCategory}
-            >
-              <MenuItem value={'Tehnology'} primaryText="Tehnology" />
-              <MenuItem value={'Food'} primaryText="Food" />
-              <MenuItem value={'Sport'} primaryText="Sport" />
-              <MenuItem value={'Rest'} primaryText="Rest" />
-              <MenuItem value={'Drawing'} primaryText="Drawing" />
-            </SelectField>
             <div>
               <h4>Time for task {this.state.time}  minutes.</h4>
               <Slider
