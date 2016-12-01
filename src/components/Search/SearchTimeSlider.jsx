@@ -1,19 +1,28 @@
 import React, { Component, PropTypes } from 'react';
-import { Slider, Badge, RaisedButton } from 'material-ui';
+import { Slider, RaisedButton } from 'material-ui';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 
 const styles = {
-  slider: {
+  wrapper: {
     margin: 20,
-    float: 'left',
+    marginBottom: 0,
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  slider: {
+    width: '80%',
   },
   badge: {
     height: 32,
     width: 32,
   },
   searchBtn: {
-    margin: 12,
+    boxShadow: 'none',
+    width: '10%',
   },
+  buttonStyle: {},
 };
 
 const propTypes = {
@@ -44,28 +53,22 @@ class SearchTimeSlider extends Component {
 
   render() {
     return (
-      <div style={styles.slider}>
-        <Badge
-          badgeContent={this.state.timeSliderValue}
-          primary={true}
-          badgeStyle={styles.badge}
-        >
-          <Slider
-            style={{ height: 400 }}
-            axis="y"
-            min={5}
-            max={120}
-            step={5}
-            defaultValue={5}
-            value={this.state.timeSliderValue}
-            onChange={this.handleTimeSliderValue}
-          />
-        </Badge>
+      <div style={styles.wrapper}>
+        <Slider
+          style={styles.slider}
+          min={5}
+          step={5}
+          max={120}
+          defaultValue={this.state.timeSliderValue}
+          value={this.state.timeSliderValue}
+          onChange={this.handleTimeSliderValue}
+        />
         <RaisedButton
-          label="Search"
+          label={this.state.timeSliderValue}
           primary={true}
           icon={<SearchIcon />}
           style={styles.searchBtn}
+          buttonStyle={styles.buttonStyle}
           onTouchTap={this.handleSearch}
         />
       </div>

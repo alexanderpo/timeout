@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import _ from 'lodash';
-import SearchTimeSlider from '../../components/Search/SearchTimeSlider';
+import moment from 'moment';
+import { getAllPosts } from '../../actions/post';
 import SearchPostPreview from '../../components/Post/SearchPostPreview';
-import { getTimeSearchResult } from '../../actions/post';
 
 const styles = {
   noneText: {
@@ -25,18 +24,20 @@ const styles = {
 const propTypes = {
   posts: PropTypes.array,
   actions: PropTypes.shape({
-    getTimeSearchResult: PropTypes.func,
+    getAllPosts: PropTypes.func,
   }),
 };
 
-class SearchPost extends Component {
+class AllPosts extends Component {
+
+  componentWillMount() {
+    this.props.actions.getAllPosts();
+  }
+
   render() {
     const { posts } = this.props;
     return (
       <div>
-        <SearchTimeSlider
-          getTimeSearchResult={this.props.actions.getTimeSearchResult}
-        />
         <div style={styles.postsContainer}>
           {
             !_.isEmpty(posts) ? posts.map(post => (
@@ -58,10 +59,10 @@ class SearchPost extends Component {
   }
 }
 
-SearchPost.propTypes = propTypes;
+AllPosts.propTypes = propTypes;
 
 export default connect((state) => {
-  const posts = state.search.success ? state.search.posts.map(post => ({
+  const posts = !_.isEmpty(state.posts.posts) ? state.posts.posts.map(post => ({
     id: post._id, // eslint-disable-line
     title: post.title,
     description: post.description,
@@ -77,6 +78,6 @@ export default connect((state) => {
   };
 }, dispatch => ({
   actions: bindActionCreators({
-    getTimeSearchResult,
+    getAllPosts,
   }, dispatch),
-}))(SearchPost);
+}))(AllPosts);

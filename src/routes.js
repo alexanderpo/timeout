@@ -7,6 +7,7 @@ import CreatePost from './containers/CreatePost/Index';
 import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 import Profile from './containers/User/Index';
+import AllPosts from './containers/Posts/Index';
 
 export default function (ensureAuthenticated) {
   return (
@@ -14,8 +15,9 @@ export default function (ensureAuthenticated) {
       <Route path="signin" component={SignIn} />
       <Route path="signup" component={SignUp} />
       <Route path="/" component={App} onEnter={ensureAuthenticated}>
-        <IndexRedirect to="search" />
+        <IndexRedirect to="posts" />
 
+        <Route path="posts" component={AllPosts} />
         <Route path="profile" component={Profile} />
         <Route path="search" component={Search} />
         <Route path="create" component={CreatePost} />
