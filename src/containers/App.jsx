@@ -41,8 +41,8 @@ class Main extends Component {
 Main.propTypes = propTypes;
 
 export default connect((state) => {
-  const username = state.user.name ?
-    state.user.name : '';
+  const username = state.user.data.name ?
+    state.user.data.name : '';
 
   return {
     username,

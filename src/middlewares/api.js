@@ -20,7 +20,7 @@ export default function () {
       },
     } = action;
 
-    const authToken = getState().user.token;
+    const authToken = getState().user.data.token;
 
     setTimeout(() => next({
       type: `${type}_${LOADING}`,

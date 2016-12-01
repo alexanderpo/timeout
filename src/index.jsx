@@ -38,7 +38,7 @@ store.subscribe(() => {
 
 function ensureAuthenticated(nextState, replace) {
   const user = store.getState().user;
-  if (!user.success) {
+  if (!user.data.success) {
     store.dispatch(setNextPathname(nextState.location.pathname));
     replace('/signin');
   }

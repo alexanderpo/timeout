@@ -1,6 +1,7 @@
 export const CREATE_POST_FIRST_STEP = 'CREATE_POST_FIRST_STEP';
 export const GET_TIME_SEARCH_RESULT = 'GET_TIME_SEARCH_RESULT';
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
+export const GET_POSTS_BY_AUTHOR = 'GET_POSTS_BY_AUTHOR';
 
 export function getAllPosts() {
   return {
@@ -8,6 +9,17 @@ export function getAllPosts() {
     payload: {
       url: 'posts',
       method: 'get',
+    },
+  };
+}
+
+export function getPostsByAuthor(username) {
+  return {
+    type: GET_POSTS_BY_AUTHOR,
+    payload: {
+      url: 'posts-by-author',
+      method: 'post',
+      body: { username },
     },
   };
 }

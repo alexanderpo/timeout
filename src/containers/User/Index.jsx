@@ -85,7 +85,7 @@ class UserProfile extends Component {
 UserProfile.propTypes = propTypes;
 
 export default connect((state) => {
-  const user = state.user;
+  const user = state.user.data;
 
   return {
     user,

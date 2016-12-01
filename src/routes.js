@@ -8,6 +8,7 @@ import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 import Profile from './containers/User/Index';
 import AllPosts from './containers/Posts/Index';
+import MyPosts from './containers/Posts/UserPosts';
 
 export default function (ensureAuthenticated) {
   return (
@@ -17,6 +18,7 @@ export default function (ensureAuthenticated) {
       <Route path="/" component={App} onEnter={ensureAuthenticated}>
         <IndexRedirect to="posts" />
 
+        <Route path="my-posts" component={MyPosts} />
         <Route path="posts" component={AllPosts} />
         <Route path="profile" component={Profile} />
         <Route path="search" component={Search} />

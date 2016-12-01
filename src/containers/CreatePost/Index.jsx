@@ -254,7 +254,7 @@ class CreatePost extends Component {
 CreatePost.propTypes = propTypes;
 
 export default connect((state) => {
-  const username = state.user.name;
+  const username = state.user.data.name;
 
   return {
     username,
