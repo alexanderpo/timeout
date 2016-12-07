@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Paper, TextField, RaisedButton } from 'material-ui';
+import { updateUserProfile } from '../../actions/user';
 
 const styles = {
   formContainer: {
@@ -40,31 +41,81 @@ const styles = {
 const propTypes = {
   user: PropTypes.object,
   actions: PropTypes.shape({
+    updateUserProfile: PropTypes.func,
     push: PropTypes.func,
   }),
 };
 
 class UserProfile extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dataImage: this.props.user.image,
+      name: this.props.user.name,
+      email: this.props.user.email,
+    };
+
+    this.handleImage = this.handleImage.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleTextFields = this.handleTextFields.bind(this);
+  }
+
+  handleTextFields(key) {
+    return (event) => {
+      const value = event.target.value;
+      this.setState({
+        [key]: value,
+      });
+    };
+  }
+
+  handleImage(event) {
+    const reader = new FileReader();
+    const file = event.target.files[0];
+
+    reader.onload = (upload) => {
+      this.setState({
+        dataImage: upload.target.result,
+        imageType: file.type,
+      });
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  handleUpdate() {
+    const { id } = this.props.user;
+    const { name, email, dataImage, imageType } = this.state;
+    console.log(imageType);
+    // this.props.actions.updateUserProfile(id, name, email, dataImage);
+  }
+
   render() {
     return (
       <div>
         <Paper style={styles.formContainer} zDepth={2}>
-          <Paper style={styles.avatar} circle={true} zDepth={1} />
+          <Paper style={styles.avatar} zDepth={1}>
+            <img style={{ width: 250, height: 250 }} src={this.state.dataImage} alt="img" />
+          </Paper>
           <RaisedButton
             label="Choose image"
             containerElement="label"
           >
-            <input type="file" style={styles.imageInput} />
+            <input type="file" style={styles.imageInput} onChange={this.handleImage} />
           </RaisedButton>
           <TextField
             hintText="Enter new username"
             floatingLabelText="Username"
             defaultValue={this.props.user.name}
+            onChange={this.handleTextFields('name')}
           />
           <TextField
             hintText="Your email address"
             floatingLabelText="Email"
             defaultValue={this.props.user.email}
+            onChange={this.handleTextFields('email')}
           />
           <TextField
             hintText="New password"
@@ -75,6 +126,7 @@ class UserProfile extends Component {
             style={{ margin: 5 }}
             label="Save"
             primary={true}
+            onTouchTap={this.handleUpdate}
           />
         </Paper>
       </div>
@@ -92,6 +144,7 @@ export default connect((state) => {
   };
 }, dispatch => ({
   actions: bindActionCreators({
+    updateUserProfile,
     push,
   }, dispatch),
 }))(UserProfile);
