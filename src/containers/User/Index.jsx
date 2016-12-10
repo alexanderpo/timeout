@@ -52,9 +52,10 @@ class UserProfile extends Component {
     super(props);
 
     this.state = {
-      dataImage: this.props.user.image,
+      dataImage: this.props.user.image.data,
       name: this.props.user.name,
       email: this.props.user.email,
+      imageType: this.props.user.image.type,
     };
 
     this.handleImage = this.handleImage.bind(this);
@@ -88,11 +89,12 @@ class UserProfile extends Component {
   handleUpdate() {
     const { id } = this.props.user;
     const { name, email, dataImage, imageType } = this.state;
-    console.log(imageType);
-    // this.props.actions.updateUserProfile(id, name, email, dataImage);
+    this.props.actions.updateUserProfile(id, name, email, dataImage, imageType);
+    // TODO: update user state in store
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <Paper style={styles.formContainer} zDepth={2}>

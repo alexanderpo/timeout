@@ -11,7 +11,10 @@ export default function (state = initialState, action) {
         id: action.payload.id,
         name: action.payload.name,
         email: action.payload.email,
-        image: action.payload.image,
+        image: {
+          data: action.payload.image,
+          type: action.payload.img_type,
+        },
         message: action.payload.message,
         token: action.payload.token,
       };

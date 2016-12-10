@@ -38,7 +38,7 @@ export function signIn(name, password) {
   };
 }
 
-export function updateUserProfile(id, name, email, dataImage) { // eslint-disable-line
+export function updateUserProfile(id, name, email, dataImage, imageType) {
   return {
     type: UPDATE_USER_PROFILE,
     payload: {
@@ -48,6 +48,7 @@ export function updateUserProfile(id, name, email, dataImage) { // eslint-disabl
         name,
         email,
         dataImage,
+        imageType,
       },
     },
   };

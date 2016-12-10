@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
+// import { connect } from 'react-redux';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { Badge, Divider, IconButton } from 'material-ui';
 import Comment from 'material-ui/svg-icons/communication/chat-bubble-outline';
 import Favorite from 'material-ui/svg-icons/action/favorite-border';
 
-import ProfileImage from '../../styles/images/user.png';
+// import ProfileImage from '../../styles/images/user.png';
 
 const styles = {
   box: {
@@ -35,6 +36,7 @@ const propTypes = {
   time: PropTypes.number,
   likes: PropTypes.number,
   comments: PropTypes.number,
+  avatar: PropTypes.string,
   createdDate: PropTypes.string,
 };
 
@@ -48,6 +50,7 @@ class SearchPostPreview extends Component { // eslint-disable-line
       likes,
       comments,
       createdDate,
+      avatar,
     } = this.props;
     return (
       <Badge
@@ -59,7 +62,7 @@ class SearchPostPreview extends Component { // eslint-disable-line
         <Card style={styles.box}>
           <CardHeader
             title={title}
-            avatar={ProfileImage}
+            avatar={avatar}
             subtitle={createdDate}
             actAsExpander={true}
           />
@@ -85,3 +88,10 @@ class SearchPostPreview extends Component { // eslint-disable-line
 
 SearchPostPreview.propTypes = propTypes;
 export default SearchPostPreview;
+/* export default connect((state) => {
+  const avatar = state.user.data.image;
+
+  return {
+    avatar,
+  };
+})(SearchPostPreview); */
