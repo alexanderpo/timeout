@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Paper, TextField, RaisedButton } from 'material-ui';
-import { updateUserProfile } from '../../actions/user';
+import { updateUserProfile, updateUser } from '../../actions/user';
 
 const styles = {
   formContainer: {
@@ -42,6 +42,7 @@ const propTypes = {
   user: PropTypes.object,
   actions: PropTypes.shape({
     updateUserProfile: PropTypes.func,
+    updateUser: PropTypes.func,
     push: PropTypes.func,
   }),
 };
@@ -89,12 +90,15 @@ class UserProfile extends Component {
   handleUpdate() {
     const { id } = this.props.user;
     const { name, email, dataImage, imageType } = this.state;
-    this.props.actions.updateUserProfile(id, name, email, dataImage, imageType);
-    // TODO: update user state in store
+    this.props.actions.updateUserProfile(id, name, email, dataImage, imageType)
+    .then((action) => {
+      if (action.payload.success) {
+        this.props.actions.updateUser(action.payload);
+      }
+    });
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <Paper style={styles.formContainer} zDepth={2}>
@@ -119,11 +123,6 @@ class UserProfile extends Component {
             defaultValue={this.props.user.email}
             onChange={this.handleTextFields('email')}
           />
-          <TextField
-            hintText="New password"
-            floatingLabelText="Password"
-            type="password"
-          />
           <RaisedButton
             style={{ margin: 5 }}
             label="Save"
@@ -136,6 +135,9 @@ class UserProfile extends Component {
   }
 }
 
+        // TODO: added bottom message box
+        // TODO: implement validator for text fields
+
 UserProfile.propTypes = propTypes;
 
 export default connect((state) => {
@@ -147,6 +149,7 @@ export default connect((state) => {
 }, dispatch => ({
   actions: bindActionCreators({
     updateUserProfile,
+    updateUser,
     push,
   }, dispatch),
 }))(UserProfile);

@@ -4,9 +4,11 @@ export const CREATE_USER = 'CREATE_USER';
 export const SIGN_IN = 'SIGN_IN';
 export const SET_NEXT_PATHNAME = 'SET_NEXT_PATHNAME';
 export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
+export const UPDATE_USER = 'UPDATE_USER';
 export const LOGOUT = 'LOGOUT';
 
 export const logout = createAction(LOGOUT);
+export const updateUser = createAction(UPDATE_USER);
 export const setNextPathname = createAction(SET_NEXT_PATHNAME);
 
 export function createUser(name, email, password) {
