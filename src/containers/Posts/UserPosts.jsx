@@ -22,6 +22,7 @@ const styles = {
 };
 
 const propTypes = {
+  id: PropTypes.string,
   username: PropTypes.string,
   posts: PropTypes.array,
   actions: PropTypes.shape({
@@ -32,7 +33,7 @@ const propTypes = {
 class UserPosts extends Component {
 
   componentWillMount() {
-    this.props.actions.getPostsByAuthor(this.props.username);
+    this.props.actions.getPostsByAuthor(this.props.id);
   }
 
   render() {
@@ -64,19 +65,22 @@ UserPosts.propTypes = propTypes;
 
 export default connect((state) => {
   const username = state.user.data.name;
+  const id = state.user.data.id;
 
   const posts = !_.isEmpty(state.user.posts.posts) ? state.user.posts.posts.map(post => ({
     id: post._id, // eslint-disable-line
     title: post.title,
     description: post.description,
     time: post.time,
-    username: post.author,
+    username: post.author.name,
+    userId: post.author.link,
     likes: post.likes.length,
-    comments: post.comments.length,
+    comments: 0,
     created_date: moment(post.created_date).format('ll'),
   })) : [];
 
   return {
+    id,
     username,
     posts,
   };

@@ -13,13 +13,12 @@ export function getAllPosts() {
   };
 }
 
-export function getPostsByAuthor(username) {
+export function getPostsByAuthor(id) {
   return {
     type: GET_POSTS_BY_AUTHOR,
     payload: {
-      url: 'posts-by-author',
-      method: 'post',
-      body: { username },
+      url: `posts-by-author/${id}`,
+      method: 'get',
     },
   };
 }
@@ -35,7 +34,7 @@ export function getTimeSearchResult(time) {
   };
 }
 
-export function createPost(title, description, time, user) {
+export function createPost(title, description, time, userId, username) {
   return {
     type: CREATE_POST_FIRST_STEP,
     payload: {
@@ -45,7 +44,8 @@ export function createPost(title, description, time, user) {
         title,
         description,
         time,
-        user,
+        userId,
+        username,
       },
     },
   };

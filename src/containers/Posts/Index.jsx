@@ -67,9 +67,10 @@ export default connect((state) => {
     title: post.title,
     description: post.description,
     time: post.time,
-    username: post.author,
+    username: post.author.name,
+    userId: post.author.link,
     likes: post.likes.length,
-    comments: post.comments.length,
+    comments: 0,
     created_date: moment(post.created_date).format('ll'),
   })) : [];
 

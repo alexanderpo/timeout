@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import { Paper, TextField, RaisedButton } from 'material-ui';
+import _ from 'lodash';
+import { Paper, TextField, RaisedButton, Snackbar } from 'material-ui';
 import { updateUserProfile, updateUser } from '../../actions/user';
+import { updateUserValidator } from '../../utils/validators';
 
 const styles = {
   formContainer: {
@@ -43,7 +44,6 @@ const propTypes = {
   actions: PropTypes.shape({
     updateUserProfile: PropTypes.func,
     updateUser: PropTypes.func,
-    push: PropTypes.func,
   }),
 };
 
@@ -53,6 +53,11 @@ class UserProfile extends Component {
     super(props);
 
     this.state = {
+      messageBoxIsOpen: false,
+      messageBoxText: '',
+      autoHideMessageBoxTime: 4000,
+      nameErrorText: '',
+      emailErrorText: '',
       dataImage: this.props.user.image.data,
       name: this.props.user.name,
       email: this.props.user.email,
@@ -90,18 +95,41 @@ class UserProfile extends Component {
   handleUpdate() {
     const { id } = this.props.user;
     const { name, email, dataImage, imageType } = this.state;
-    this.props.actions.updateUserProfile(id, name, email, dataImage, imageType)
-    .then((action) => {
-      if (action.payload.success) {
-        this.props.actions.updateUser(action.payload);
-      }
-    });
+    const values = { name, email };
+    const errors = updateUserValidator(values);
+
+    if (!_.isEmpty(errors)) {
+      this.setState({
+        nameErrorText: errors.name,
+        emailErrorText: errors.email,
+      });
+    } else {
+      this.props.actions.updateUserProfile(id, name, email, dataImage, imageType)
+      .then((action) => {
+        if (action.payload.success) {
+          this.setState({
+            nameErrorText: '',
+            emailErrorText: '',
+            messageBoxIsOpen: true,
+            messageBoxText: action.payload.message,
+          });
+          this.props.actions.updateUser(action.payload);
+        }
+      });
+    }
   }
 
   render() {
+    const {
+      messageBoxIsOpen,
+      messageBoxText,
+      autoHideMessageBoxTime,
+      nameErrorText,
+      emailErrorText,
+    } = this.state;
     return (
       <div>
-        <Paper style={styles.formContainer} zDepth={2}>
+        <div style={styles.formContainer}>
           <Paper style={styles.avatar} zDepth={1}>
             <img style={{ width: 250, height: 250 }} src={this.state.dataImage} alt="img" />
           </Paper>
@@ -115,28 +143,33 @@ class UserProfile extends Component {
             hintText="Enter new username"
             floatingLabelText="Username"
             defaultValue={this.props.user.name}
+            errorText={nameErrorText}
             onChange={this.handleTextFields('name')}
           />
           <TextField
             hintText="Your email address"
             floatingLabelText="Email"
             defaultValue={this.props.user.email}
+            errorText={emailErrorText}
             onChange={this.handleTextFields('email')}
           />
           <RaisedButton
-            style={{ margin: 5 }}
+            style={{ margin: 20 }}
             label="Save"
             primary={true}
             onTouchTap={this.handleUpdate}
           />
-        </Paper>
+        </div>
+        <Snackbar
+          open={messageBoxIsOpen}
+          message={messageBoxText}
+          autoHideDuration={autoHideMessageBoxTime}
+          onRequestClose={() => { this.setState({ messageBoxIsOpen: false }); }}
+        />
       </div>
     );
   }
 }
-
-        // TODO: added bottom message box
-        // TODO: implement validator for text fields
 
 UserProfile.propTypes = propTypes;
 
@@ -150,6 +183,5 @@ export default connect((state) => {
   actions: bindActionCreators({
     updateUserProfile,
     updateUser,
-    push,
   }, dispatch),
 }))(UserProfile);
