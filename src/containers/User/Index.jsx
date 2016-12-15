@@ -94,6 +94,8 @@ class UserProfile extends Component {
 
   handleUpdate() {
     const { id } = this.props.user;
+    const oldName = this.props.user.name;
+    const oldImageType = this.props.user.image.type;
     const { name, email, dataImage, imageType } = this.state;
     const values = { name, email };
     const errors = updateUserValidator(values);
@@ -104,7 +106,7 @@ class UserProfile extends Component {
         emailErrorText: errors.email,
       });
     } else {
-      this.props.actions.updateUserProfile(id, name, email, dataImage, imageType)
+      this.props.actions.updateUserProfile(id, oldName, name, email, dataImage, oldImageType, imageType)
       .then((action) => {
         if (action.payload.success) {
           this.setState({

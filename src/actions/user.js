@@ -40,16 +40,18 @@ export function signIn(name, password) {
   };
 }
 
-export function updateUserProfile(id, name, email, dataImage, imageType) {
+export function updateUserProfile(id, oldName, name, email, dataImage, oldImageType, imageType) {
   return {
     type: UPDATE_USER_PROFILE,
     payload: {
       url: `profile/${id}`,
       method: 'put',
       body: {
+        oldName,
         name,
         email,
         dataImage,
+        oldImageType,
         imageType,
       },
     },
