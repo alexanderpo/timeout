@@ -130,7 +130,7 @@ class CreatePost extends Component {
           break;
         case 1:
           this.setState({ titleErrorText: '', descriptionErrorText: '' });
-          this.props.actions.createPost(title, description, time, userId, username)
+          this.props.actions.createPost(title, description, time, userId)
           .then((action) => {
             action.payload.success ? // eslint-disable-line
               this.dummyAsync(() => this.setState({

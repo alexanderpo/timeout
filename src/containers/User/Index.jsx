@@ -106,7 +106,7 @@ class UserProfile extends Component {
         emailErrorText: errors.email,
       });
     } else {
-      this.props.actions.updateUserProfile(id, oldName, name, email, dataImage, oldImageType, imageType)
+      this.props.actions.updateUserProfile(id, oldName, name, email, dataImage, oldImageType, imageType)// eslint-disable-line
       .then((action) => {
         if (action.payload.success) {
           this.setState({
@@ -116,6 +116,11 @@ class UserProfile extends Component {
             messageBoxText: action.payload.message,
           });
           this.props.actions.updateUser(action.payload);
+        } else {
+          this.setState({
+            messageBoxIsOpen: true,
+            messageBoxText: action.payload.message,
+          });
         }
       });
     }

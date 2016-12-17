@@ -34,7 +34,7 @@ export function getTimeSearchResult(time) {
   };
 }
 
-export function createPost(title, description, time, userId, username) {
+export function createPost(title, description, time, userId) {
   return {
     type: CREATE_POST_FIRST_STEP,
     payload: {
@@ -45,7 +45,6 @@ export function createPost(title, description, time, userId, username) {
         description,
         time,
         userId,
-        username,
       },
     },
   };
