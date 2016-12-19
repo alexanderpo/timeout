@@ -43,9 +43,10 @@ class AllPosts extends Component {
             !_.isEmpty(posts) ? posts.map(post => (
               <SearchPostPreview
                 key={post.id}
-                user={post.username}
+                user={post.author.name}
                 title={post.title}
                 description={post.description}
+                avatar={post.author.image.data}
                 time={post.time}
                 likes={post.likes}
                 comments={post.comments}
@@ -63,12 +64,18 @@ AllPosts.propTypes = propTypes;
 
 export default connect((state) => {
   const posts = !_.isEmpty(state.posts.posts) ? state.posts.posts.map(post => ({
-    id: post._id, // eslint-disable-line
+    id: post.id,
     title: post.title,
     description: post.description,
+    author: {
+      id: post.author.id,
+      name: post.author.name,
+      image: {
+        data: post.author.image.data,
+        type: post.author.image.type,
+      },
+    },
     time: post.time,
-    username: post.author.name,
-    userId: post.author.link,
     likes: post.likes.length,
     comments: 0,
     created_date: moment(post.created_date).format('ll'),

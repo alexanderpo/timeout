@@ -22,8 +22,7 @@ const styles = {
 };
 
 const propTypes = {
-  id: PropTypes.string,
-  username: PropTypes.string,
+  userId: PropTypes.string,
   posts: PropTypes.array,
   actions: PropTypes.shape({
     getPostsByAuthor: PropTypes.func,
@@ -33,7 +32,7 @@ const propTypes = {
 class UserPosts extends Component {
 
   componentWillMount() {
-    this.props.actions.getPostsByAuthor(this.props.id);
+    this.props.actions.getPostsByAuthor(this.props.userId);
   }
 
   render() {
@@ -45,9 +44,10 @@ class UserPosts extends Component {
             !_.isEmpty(posts) ? posts.map(post => (
               <SearchPostPreview
                 key={post.id}
-                user={post.username}
+                user={post.author.name}
                 title={post.title}
                 description={post.description}
+                avatar={post.author.image.data}
                 time={post.time}
                 likes={post.likes}
                 comments={post.comments}
@@ -64,24 +64,28 @@ class UserPosts extends Component {
 UserPosts.propTypes = propTypes;
 
 export default connect((state) => {
-  const username = state.user.data.name;
-  const id = state.user.data.id;
+  const userId = state.user.data.id;
 
   const posts = !_.isEmpty(state.user.posts.posts) ? state.user.posts.posts.map(post => ({
-    id: post._id, // eslint-disable-line
+    id: post.id,
     title: post.title,
     description: post.description,
+    author: {
+      id: post.author.id,
+      name: post.author.name,
+      image: {
+        data: post.author.image.data,
+        type: post.author.image.type,
+      },
+    },
     time: post.time,
-    username: post.author.name,
-    userId: post.author.link,
     likes: post.likes.length,
     comments: 0,
     created_date: moment(post.created_date).format('ll'),
   })) : [];
 
   return {
-    id,
-    username,
+    userId,
     posts,
   };
 }, dispatch => ({
