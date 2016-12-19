@@ -1,8 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Chip, Avatar, Slider, TextField } from 'material-ui';
-// import ProfileImage from '../../styles/images/user.png';
-
-// TODO: implement curent user avatar on first step
 
 const styles = {
   container: {
@@ -35,6 +32,7 @@ const propTypes = {
   descriptionErrorText: PropTypes.string,
   time: PropTypes.number,
   date: PropTypes.string,
+  avatar: PropTypes.string,
   username: PropTypes.string,
   callbackParent: PropTypes.func,
 };
@@ -75,7 +73,7 @@ class FirstStep extends Component {
       <div style={styles.wrapper}>
         <div style={styles.chipBlock}>
           <Chip style={styles.chip}>
-            { /* <Avatar src={ProfileImage} /> */ }
+            <Avatar src={this.props.avatar} />
             {this.props.username}
           </Chip>
           <Chip style={styles.chip}>{ this.state.date }</Chip>

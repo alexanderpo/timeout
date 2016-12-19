@@ -88,10 +88,3 @@ class SearchPostPreview extends Component { // eslint-disable-line
 
 SearchPostPreview.propTypes = propTypes;
 export default SearchPostPreview;
-/* export default connect((state) => {
-  const avatar = state.user.data.image;
-
-  return {
-    avatar,
-  };
-})(SearchPostPreview); */

@@ -23,6 +23,7 @@ import { createPostValidator } from '../../utils/validators';
 const propTypes = {
   userId: PropTypes.string,
   username: PropTypes.string,
+  avatar: PropTypes.string,
   actions: PropTypes.shape({
     createPost: PropTypes.func,
   }),
@@ -64,7 +65,7 @@ class CreatePost extends Component {
   }
 
   getStepContent(stepIndex) {       // eslint-disable-line
-    const { username } = this.props;
+    const { username, avatar } = this.props;
     const { title, description, time, date } = this.state;
     switch (stepIndex) {
       case 0: return (
@@ -73,6 +74,7 @@ class CreatePost extends Component {
           title={this.state.title}
           titleErrorText={this.state.titleErrorText}
           description={this.state.description}
+          avatar={avatar}
           descriptionErrorText={this.state.descriptionErrorText}
           time={this.state.time}
           date={this.state.date}
@@ -82,6 +84,7 @@ class CreatePost extends Component {
       case 1: return (
         <SecondStep
           user={username}
+          avatar={avatar}
           title={title}
           description={description}
           time={time}
@@ -257,10 +260,12 @@ CreatePost.propTypes = propTypes;
 export default connect((state) => {
   const username = state.user.data.name;
   const userId = state.user.data.id;
+  const avatar = state.user.data.image.data;
 
   return {
     userId,
     username,
+    avatar,
   };
 }, dispatch => ({
   actions: bindActionCreators({
