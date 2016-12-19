@@ -5,6 +5,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { getAllPosts } from '../../actions/post';
 import SearchPostPreview from '../../components/Post/SearchPostPreview';
+import CreatePostButton from '../../components/CreatePostButton';
 
 const styles = {
   noneText: {
@@ -54,6 +55,9 @@ class AllPosts extends Component {
               />
           )) : <div style={styles.noneText}>Dont have posts</div>
           }
+        </div>
+        <div>
+          <CreatePostButton />
         </div>
       </div>
     );

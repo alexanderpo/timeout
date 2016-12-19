@@ -42,9 +42,10 @@ class SearchPost extends Component {
             !_.isEmpty(posts) ? posts.map(post => (
               <SearchPostPreview
                 key={post.id}
-                user={post.username}
+                user={post.author.name}
                 title={post.title}
                 description={post.description}
+                avatar={post.author.image.data}
                 time={post.time}
                 likes={post.likes}
                 comments={post.comments}
@@ -62,13 +63,20 @@ SearchPost.propTypes = propTypes;
 
 export default connect((state) => {
   const posts = state.search.success ? state.search.posts.map(post => ({
-    id: post._id, // eslint-disable-line
+    id: post.id,
     title: post.title,
     description: post.description,
+    author: {
+      id: post.author.id,
+      name: post.author.name,
+      image: {
+        data: post.author.image.data,
+        type: post.author.image.type,
+      },
+    },
     time: post.time,
-    username: post.author,
     likes: post.likes.length,
-    comments: post.comments.length,
+    comments: 0,
     created_date: moment(post.created_date).format('ll'),
   })) : [];
 
