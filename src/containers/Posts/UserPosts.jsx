@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
+import CircularProgress from 'material-ui/CircularProgress';
 import { getPostsByAuthor } from '../../actions/post';
 import SearchPostPreview from '../../components/Post/SearchPostPreview';
 import CreatePostButton from '../../components/CreatePostButton';
@@ -23,6 +24,7 @@ const styles = {
 };
 
 const propTypes = {
+  isLoading: PropTypes.bool,
   userId: PropTypes.string,
   posts: PropTypes.array,
   actions: PropTypes.shape({
@@ -37,26 +39,41 @@ class UserPosts extends Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const { posts, isLoading } = this.props;
     return (
       <div>
-        <div style={styles.postsContainer}>
-          {
-            !_.isEmpty(posts) ? posts.map(post => (
-              <SearchPostPreview
-                key={post.id}
-                user={post.author.name}
-                title={post.title}
-                description={post.description}
-                avatar={post.author.image.data}
-                time={post.time}
-                likes={post.likes}
-                comments={post.comments}
-                createdDate={post.created_date}
-              />
-          )) : <div style={styles.noneText}>Dont have posts</div>
-          }
-        </div>
+        {
+          isLoading ? (
+            <div className="spinner">
+              <CircularProgress size={60} thickness={6} />
+            </div>
+          ) : ''
+        }
+        {
+          (!isLoading && _.isEmpty(posts)) ?
+          (<div className="no-posts-text">Dont have posts</div>) : ' '
+        }
+        {
+          (!isLoading && !_.isEmpty(posts)) ? (
+            <div style={styles.postsContainer}>
+              {
+                posts.map(post => (
+                  <SearchPostPreview
+                    key={post.id}
+                    user={post.author.name}
+                    title={post.title}
+                    description={post.description}
+                    avatar={post.author.image.data}
+                    time={post.time}
+                    likes={post.likes}
+                    comments={post.comments}
+                    createdDate={post.created_date}
+                  />
+                ))
+              }
+            </div>
+          ) : ' '
+        }
         <div>
           <CreatePostButton />
         </div>
@@ -69,6 +86,7 @@ UserPosts.propTypes = propTypes;
 
 export default connect((state) => {
   const userId = state.user.data.id;
+  const isLoading = state.user.posts.isLoading;
 
   const posts = !_.isEmpty(state.user.posts.posts) ? state.user.posts.posts.map(post => ({
     id: post.id,
@@ -89,6 +107,7 @@ export default connect((state) => {
   })) : [];
 
   return {
+    isLoading,
     userId,
     posts,
   };

@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import _ from 'lodash';
+import CircularProgress from 'material-ui/CircularProgress';
 import SearchTimeSlider from '../../components/Search/SearchTimeSlider';
 import SearchPostPreview from '../../components/Post/SearchPostPreview';
 import { getTimeSearchResult } from '../../actions/post';
@@ -23,6 +24,7 @@ const styles = {
 };
 
 const propTypes = {
+  isLoading: PropTypes.bool,
   posts: PropTypes.array,
   actions: PropTypes.shape({
     getTimeSearchResult: PropTypes.func,
@@ -31,29 +33,44 @@ const propTypes = {
 
 class SearchPost extends Component {
   render() {
-    const { posts } = this.props;
+    const { posts, isLoading } = this.props;
     return (
       <div>
         <SearchTimeSlider
           getTimeSearchResult={this.props.actions.getTimeSearchResult}
         />
-        <div style={styles.postsContainer}>
-          {
-            !_.isEmpty(posts) ? posts.map(post => (
-              <SearchPostPreview
-                key={post.id}
-                user={post.author.name}
-                title={post.title}
-                description={post.description}
-                avatar={post.author.image.data}
-                time={post.time}
-                likes={post.likes}
-                comments={post.comments}
-                createdDate={post.created_date}
-              />
-          )) : <div style={styles.noneText}>Dont have posts</div>
-          }
-        </div>
+        {
+          isLoading ? (
+            <div className="spinner">
+              <CircularProgress size={60} thickness={6} />
+            </div>
+          ) : ''
+        }
+        {
+          (!isLoading && _.isEmpty(posts)) ?
+          (<div className="no-posts-text">Dont have posts</div>) : ' '
+        }
+        {
+          (!isLoading && !_.isEmpty(posts)) ? (
+            <div style={styles.postsContainer}>
+              {
+                posts.map(post => (
+                  <SearchPostPreview
+                    key={post.id}
+                    user={post.author.name}
+                    title={post.title}
+                    description={post.description}
+                    avatar={post.author.image.data}
+                    time={post.time}
+                    likes={post.likes}
+                    comments={post.comments}
+                    createdDate={post.created_date}
+                  />
+                ))
+              }
+            </div>
+          ) : ' '
+        }
       </div>
     );
   }
@@ -80,7 +97,10 @@ export default connect((state) => {
     created_date: moment(post.created_date).format('ll'),
   })) : [];
 
+  const isLoading = state.search.isLoading;
+
   return {
+    isLoading,
     posts,
   };
 }, dispatch => ({

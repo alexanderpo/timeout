@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 /* Material UI */
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 /* REDUX & REACT-ROUTER */
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore, compose } from 'redux';
@@ -19,6 +20,12 @@ import routes from './routes';
 import './styles/styles.scss';
 
 injectTapEventPlugin();
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: '#507299',
+    accent1Color: '#DBE4EE',
+  },
+});
 
 const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
 
@@ -51,7 +58,7 @@ const Entry = () => (
 );
 
 ReactDOM.render(
-  <MuiThemeProvider>
+  <MuiThemeProvider muiTheme={muiTheme}>
     <Entry />
   </MuiThemeProvider>,
   document.getElementById('app')

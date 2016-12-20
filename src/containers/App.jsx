@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { push } from 'react-router-redux';
+import IconButton from 'material-ui/IconButton';
+import TimeIcon from 'material-ui/svg-icons/device/access-time';
 import TopBar from '../components/AppBar/TopBar';
 import UserMenu from '../components/User/UserMenu';
 import { logout } from '../actions/user';
@@ -22,6 +25,12 @@ class Main extends Component {
     return (
       <div>
         <TopBar
+          title="simple app"
+          leftElement={
+            <IconButton containerElement={<Link to="/posts" />}>
+              <TimeIcon />
+            </IconButton>
+          }
           rightElement={
             <UserMenu
               push={actions.push}

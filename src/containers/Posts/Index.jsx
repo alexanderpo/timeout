@@ -3,17 +3,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
+import CircularProgress from 'material-ui/CircularProgress';
 import { getAllPosts } from '../../actions/post';
 import SearchPostPreview from '../../components/Post/SearchPostPreview';
 import CreatePostButton from '../../components/CreatePostButton';
 
 const styles = {
-  noneText: {
-    margin: 'auto',
-    fontWeight: 100,
-    fontSize: 50,
-    color: '#cccccc',
-  },
   postsContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -23,6 +18,7 @@ const styles = {
 };
 
 const propTypes = {
+  isLoading: PropTypes.bool,
   posts: PropTypes.array,
   actions: PropTypes.shape({
     getAllPosts: PropTypes.func,
@@ -36,26 +32,41 @@ class AllPosts extends Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const { posts, isLoading } = this.props;
     return (
       <div>
-        <div style={styles.postsContainer}>
-          {
-            !_.isEmpty(posts) ? posts.map(post => (
-              <SearchPostPreview
-                key={post.id}
-                user={post.author.name}
-                title={post.title}
-                description={post.description}
-                avatar={post.author.image.data}
-                time={post.time}
-                likes={post.likes}
-                comments={post.comments}
-                createdDate={post.created_date}
-              />
-          )) : <div style={styles.noneText}>Dont have posts</div>
-          }
-        </div>
+        {
+          isLoading ? (
+            <div className="spinner">
+              <CircularProgress size={60} thickness={6} />
+            </div>
+          ) : ''
+        }
+        {
+          (!isLoading && _.isEmpty(posts)) ?
+          (<div className="no-posts-text">Dont have posts</div>) : ' '
+        }
+        {
+          (!isLoading && !_.isEmpty(posts)) ? (
+            <div style={styles.postsContainer}>
+              {
+                posts.map(post => (
+                  <SearchPostPreview
+                    key={post.id}
+                    user={post.author.name}
+                    title={post.title}
+                    description={post.description}
+                    avatar={post.author.image.data}
+                    time={post.time}
+                    likes={post.likes}
+                    comments={post.comments}
+                    createdDate={post.created_date}
+                  />
+                ))
+              }
+            </div>
+          ) : ' '
+        }
         <div>
           <CreatePostButton />
         </div>
@@ -85,8 +96,11 @@ export default connect((state) => {
     created_date: moment(post.created_date).format('ll'),
   })) : [];
 
+  const isLoading = state.posts.isLoading;
+
   return {
     posts,
+    isLoading,
   };
 }, dispatch => ({
   actions: bindActionCreators({
