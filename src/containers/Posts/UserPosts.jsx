@@ -20,6 +20,12 @@ const styles = {
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    width: '50%',
+  },
+  postsWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
 };
 
@@ -41,7 +47,7 @@ class UserPosts extends Component {
   render() {
     const { posts, isLoading } = this.props;
     return (
-      <div>
+      <div style={styles.postsWrapper}>
         {
           isLoading ? (
             <div className="spinner">

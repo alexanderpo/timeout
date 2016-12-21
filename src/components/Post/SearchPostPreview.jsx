@@ -6,7 +6,10 @@ import Favorite from 'material-ui/svg-icons/action/favorite-border';
 
 const styles = {
   box: {
-    width: 400,
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    width: 500,
     margin: 20,
   },
   badgeBox: {
@@ -23,6 +26,17 @@ const styles = {
   text: {
     fontSize: 14,
     fontWeight: 300,
+    margin: 2,
+  },
+  textBlock: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+  },
+  descriptionBlock: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 };
 
@@ -45,7 +59,6 @@ class SearchPostPreview extends Component { // eslint-disable-line
       description,
       time,
       likes,
-      comments,
       createdDate,
       avatar,
     } = this.props;
@@ -66,16 +79,14 @@ class SearchPostPreview extends Component { // eslint-disable-line
           <Divider />
           <CardText>{description}</CardText>
           <Divider />
-          <CardActions>
-            <span style={styles.text}>{user}</span>
-            <IconButton tooltip="Comment" tooltipPosition="top-center">
-              <Comment />
-            </IconButton>
-            <span style={styles.text}>Comments: {comments}</span>
-            <IconButton tooltip="Like" tooltipPosition="top-center">
+          <CardActions style={styles.descriptionBlock}>
+            <div style={styles.textBlock}>
+              <span style={styles.text}>Users liked: <strong>{likes}</strong></span>
+              <span style={styles.text}>Author: <strong>{user}</strong></span>
+            </div>
+            <IconButton tooltip={`${likes}`} tooltipPosition="top-center">
               <Favorite />
             </IconButton>
-            <span style={styles.text}>Likes: {likes}</span>
           </CardActions>
         </Card>
       </Badge>

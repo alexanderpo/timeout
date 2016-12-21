@@ -20,6 +20,12 @@ const styles = {
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    width: '50%',
+  },
+  postsWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
 };
 
@@ -36,41 +42,45 @@ class SearchPost extends Component {
     const { posts, isLoading } = this.props;
     return (
       <div>
-        <SearchTimeSlider
-          getTimeSearchResult={this.props.actions.getTimeSearchResult}
-        />
-        {
-          isLoading ? (
-            <div className="spinner">
-              <CircularProgress size={60} thickness={6} />
-            </div>
-          ) : ''
-        }
-        {
-          (!isLoading && _.isEmpty(posts)) ?
-          (<div className="no-posts-text">Dont have posts</div>) : ' '
-        }
-        {
-          (!isLoading && !_.isEmpty(posts)) ? (
-            <div style={styles.postsContainer}>
-              {
-                posts.map(post => (
-                  <SearchPostPreview
-                    key={post.id}
-                    user={post.author.name}
-                    title={post.title}
-                    description={post.description}
-                    avatar={post.author.image.data}
-                    time={post.time}
-                    likes={post.likes}
-                    comments={post.comments}
-                    createdDate={post.created_date}
-                  />
-                ))
-              }
-            </div>
-          ) : ' '
-        }
+        <div>
+          <SearchTimeSlider
+            getTimeSearchResult={this.props.actions.getTimeSearchResult}
+          />
+        </div>
+        <div style={styles.postsWrapper}>
+          {
+            isLoading ? (
+              <div className="spinner">
+                <CircularProgress size={60} thickness={6} />
+              </div>
+            ) : ''
+          }
+          {
+            (!isLoading && _.isEmpty(posts)) ?
+            (<div className="no-posts-text">Dont have posts</div>) : ' '
+          }
+          {
+            (!isLoading && !_.isEmpty(posts)) ? (
+              <div style={styles.postsContainer}>
+                {
+                  posts.map(post => (
+                    <SearchPostPreview
+                      key={post.id}
+                      user={post.author.name}
+                      title={post.title}
+                      description={post.description}
+                      avatar={post.author.image.data}
+                      time={post.time}
+                      likes={post.likes}
+                      comments={post.comments}
+                      createdDate={post.created_date}
+                    />
+                  ))
+                }
+              </div>
+            ) : ' '
+          }
+        </div>
       </div>
     );
   }
