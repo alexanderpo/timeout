@@ -3,43 +3,23 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import _ from 'lodash';
-import CircularProgress from 'material-ui/CircularProgress';
+import { getTimeSearchResult, likePost } from '../../actions/post';
+import DisplayPosts from '../../components/Post/DisplayPosts';
 import SearchTimeSlider from '../../components/Search/SearchTimeSlider';
-import SearchPostPreview from '../../components/Post/SearchPostPreview';
-import { getTimeSearchResult } from '../../actions/post';
-
-const styles = {
-  noneText: {
-    margin: 'auto',
-    fontWeight: 100,
-    fontSize: 50,
-    color: '#cccccc',
-  },
-  postsContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: '50%',
-  },
-  postsWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-};
 
 const propTypes = {
   isLoading: PropTypes.bool,
+  userId: PropTypes.string,
   posts: PropTypes.array,
   actions: PropTypes.shape({
     getTimeSearchResult: PropTypes.func,
+    likePost: PropTypes.func,
   }),
 };
 
-class SearchPost extends Component {
+class SearchPost extends Component { // eslint-disable-line
   render() {
-    const { posts, isLoading } = this.props;
+    const { posts, isLoading, userId, actions } = this.props;
     return (
       <div>
         <div>
@@ -47,40 +27,12 @@ class SearchPost extends Component {
             getTimeSearchResult={this.props.actions.getTimeSearchResult}
           />
         </div>
-        <div style={styles.postsWrapper}>
-          {
-            isLoading ? (
-              <div className="spinner">
-                <CircularProgress size={60} thickness={6} />
-              </div>
-            ) : ''
-          }
-          {
-            (!isLoading && _.isEmpty(posts)) ?
-            (<div className="no-posts-text">Dont have posts</div>) : ' '
-          }
-          {
-            (!isLoading && !_.isEmpty(posts)) ? (
-              <div style={styles.postsContainer}>
-                {
-                  posts.map(post => (
-                    <SearchPostPreview
-                      key={post.id}
-                      user={post.author.name}
-                      title={post.title}
-                      description={post.description}
-                      avatar={post.author.image.data}
-                      time={post.time}
-                      likes={post.likes}
-                      comments={post.comments}
-                      createdDate={post.created_date}
-                    />
-                  ))
-                }
-              </div>
-            ) : ' '
-          }
-        </div>
+        <DisplayPosts
+          isLoading={isLoading}
+          userId={userId}
+          posts={posts}
+          likePost={actions.likePost}
+        />
       </div>
     );
   }
@@ -89,6 +41,8 @@ class SearchPost extends Component {
 SearchPost.propTypes = propTypes;
 
 export default connect((state) => {
+  const userId = state.user.data.id;
+
   const posts = state.search.success ? state.search.posts.map(post => ({
     id: post.id,
     title: post.title,
@@ -103,6 +57,7 @@ export default connect((state) => {
     },
     time: post.time,
     likes: post.likes.length,
+    isLiked: _.includes(post.likes, userId) ? true : false, // eslint-disable-line
     comments: 0,
     created_date: moment(post.created_date).format('ll'),
   })) : [];
@@ -111,10 +66,12 @@ export default connect((state) => {
 
   return {
     isLoading,
+    userId,
     posts,
   };
 }, dispatch => ({
   actions: bindActionCreators({
     getTimeSearchResult,
+    likePost,
   }, dispatch),
 }))(SearchPost);
