@@ -2,6 +2,7 @@ export const CREATE_POST_FIRST_STEP = 'CREATE_POST_FIRST_STEP';
 export const GET_TIME_SEARCH_RESULT = 'GET_TIME_SEARCH_RESULT';
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const GET_POSTS_BY_AUTHOR = 'GET_POSTS_BY_AUTHOR';
+export const LIKE_POST = 'LIKE_POST';
 
 export function getAllPosts() {
   return {
@@ -44,6 +45,20 @@ export function createPost(title, description, time, userId) {
         title,
         description,
         time,
+        userId,
+      },
+    },
+  };
+}
+
+export function likePost(postId, userId) {
+  return {
+    type: LIKE_POST,
+    payload: {
+      url: `posts/${postId}/like`,
+      method: 'post',
+      body: {
+        postId,
         userId,
       },
     },

@@ -168,7 +168,7 @@ class CreatePost extends Component {
 
   renderContent() {
     const { finished, stepIndex } = this.state;
-    const contentStyle = { margin: '0 16px', overflow: 'hidden' };
+    const contentStyle = { margin: '0 50px', overflow: 'hidden' };
     const buttonBlockStyle = {
       marginTop: 24,
       marginBottom: 12,

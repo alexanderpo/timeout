@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { Badge, Divider, IconButton } from 'material-ui';
-import Comment from 'material-ui/svg-icons/communication/chat-bubble-outline';
 import Favorite from 'material-ui/svg-icons/action/favorite-border';
 
 const styles = {
@@ -38,6 +37,9 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  liked: {
+    color: 'red',
+  },
 };
 
 const propTypes = {
@@ -46,12 +48,37 @@ const propTypes = {
   description: PropTypes.string,
   time: PropTypes.number,
   likes: PropTypes.number,
-  comments: PropTypes.number,
+  likePost: PropTypes.func,
   avatar: PropTypes.string,
   createdDate: PropTypes.string,
+  userId: PropTypes.string,
+  postId: PropTypes.string,
+  isLiked: PropTypes.bool,
 };
 
-class SearchPostPreview extends Component { // eslint-disable-line
+class SearchPostPreview extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLiked: this.props.isLiked,
+      likes: this.props.likes,
+    };
+
+    this.handleLike = this.handleLike.bind(this);
+  }
+
+  handleLike() {
+    const { likes, isLiked } = this.state;
+    this.props.likePost(this.props.postId, this.props.userId)
+    .then(() => {
+      this.setState({
+        isLiked: !isLiked,
+        likes: isLiked ? (likes - 1) : (likes + 1),
+      });
+    });
+  }
+
   render() {
     const {
       title,
@@ -81,10 +108,15 @@ class SearchPostPreview extends Component { // eslint-disable-line
           <Divider />
           <CardActions style={styles.descriptionBlock}>
             <div style={styles.textBlock}>
-              <span style={styles.text}>Users liked: <strong>{likes}</strong></span>
+              <span style={styles.text}>Users liked: <strong>{this.state.likes}</strong></span>
               <span style={styles.text}>Author: <strong>{user}</strong></span>
             </div>
-            <IconButton tooltip={`${likes}`} tooltipPosition="top-center">
+            <IconButton
+              tooltip={`${this.state.likes}`}
+              tooltipPosition="top-center"
+              onClick={this.handleLike}
+              iconStyle={(this.state.isLiked) ? styles.liked : {}}
+            >
               <Favorite />
             </IconButton>
           </CardActions>

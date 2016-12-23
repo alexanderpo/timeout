@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 import CircularProgress from 'material-ui/CircularProgress';
-import { getAllPosts } from '../../actions/post';
+import { getAllPosts, likePost } from '../../actions/post';
 import SearchPostPreview from '../../components/Post/SearchPostPreview';
 import CreatePostButton from '../../components/CreatePostButton';
 
@@ -25,9 +25,11 @@ const styles = {
 
 const propTypes = {
   isLoading: PropTypes.bool,
+  userId: PropTypes.string,
   posts: PropTypes.array,
   actions: PropTypes.shape({
     getAllPosts: PropTypes.func,
+    likePost: PropTypes.func,
   }),
 };
 
@@ -67,6 +69,10 @@ class AllPosts extends Component {
                     likes={post.likes}
                     comments={post.comments}
                     createdDate={post.created_date}
+                    likePost={this.props.actions.likePost}
+                    userId={this.props.userId}
+                    postId={post.id}
+                    isLiked={post.isLiked}
                   />
                 ))
               }
@@ -84,6 +90,8 @@ class AllPosts extends Component {
 AllPosts.propTypes = propTypes;
 
 export default connect((state) => {
+  const userId = state.user.data.id;
+
   const posts = !_.isEmpty(state.posts.posts) ? state.posts.posts.map(post => ({
     id: post.id,
     title: post.title,
@@ -98,18 +106,20 @@ export default connect((state) => {
     },
     time: post.time,
     likes: post.likes.length,
-    comments: 0,
+    isLiked: _.includes(post.likes, userId) ? true : false, // eslint-disable-line
     created_date: moment(post.created_date).format('ll'),
   })) : [];
 
   const isLoading = state.posts.isLoading;
 
   return {
+    userId,
     posts,
     isLoading,
   };
 }, dispatch => ({
   actions: bindActionCreators({
     getAllPosts,
+    likePost,
   }, dispatch),
 }))(AllPosts);
