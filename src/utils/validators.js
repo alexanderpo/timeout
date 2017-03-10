@@ -1,3 +1,17 @@
+export function signInValidator(values) {
+  const errors = {};
+
+  if (values.name.length === 0) {
+    errors.name = 'Username is empty';
+  }
+
+  if (values.password.length === 0) {
+    errors.password = 'Password is empty';
+  }
+
+  return errors;
+}
+
 export function signUpValidator(values) {
   const errors = {};
 

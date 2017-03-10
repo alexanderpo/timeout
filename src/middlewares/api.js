@@ -24,7 +24,7 @@ export default function () {
 
     setTimeout(() => next({
       type: `${type}_${LOADING}`,
-      ...!!data ? { payload: data } : {}, // eslint-disable-line
+      ...!data ? { payload: data } : {},
     }));
 
     return fetch(`/api/${url}`, {

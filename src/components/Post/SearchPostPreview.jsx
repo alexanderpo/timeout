@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { Badge, Divider, IconButton } from 'material-ui';
-import Favorite from 'material-ui/svg-icons/action/favorite-border';
+import Favorite from 'material-ui/svg-icons/action/favorite';
+import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
 const styles = {
   box: {
@@ -38,7 +39,7 @@ const styles = {
     justifyContent: 'space-between',
   },
   liked: {
-    color: 'red',
+    color: '#ed4956',
   },
 };
 
@@ -117,7 +118,7 @@ class SearchPostPreview extends Component {
               onClick={this.handleLike}
               iconStyle={(this.state.isLiked) ? styles.liked : {}}
             >
-              <Favorite />
+              { this.state.isLiked ? <Favorite /> : <FavoriteBorder /> }
             </IconButton>
           </CardActions>
         </Card>

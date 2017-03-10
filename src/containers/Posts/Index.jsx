@@ -21,7 +21,15 @@ class AllPosts extends Component {
 
   componentWillMount() {
     this.props.actions.getAllPosts();
+    /* this.autoUpdate = setInterval(
+      () => this.props.actions.getAllPosts(),
+      30000
+    ); */
   }
+
+  /* componentWillUnmount() {
+    clearInterval(this.autoUpdate);
+  } */
 
   render() {
     const { isLoading, userId, posts, actions } = this.props;
