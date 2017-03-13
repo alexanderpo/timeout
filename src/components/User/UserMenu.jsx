@@ -41,6 +41,18 @@ class UserMenu extends Component {
             containerElement={<Link to="/profile" />}  // eslint-disable-line
           />
           <MenuItem
+            primaryText="My posts"
+            containerElement={<Link to="/my-posts" />}  // eslint-disable-line
+          />
+          <MenuItem
+            primaryText="Create post"
+            containerElement={<Link to="/create" />}  // eslint-disable-line
+          />
+          <MenuItem
+            primaryText="Search"
+            containerElement={<Link to="/search" />}  // eslint-disable-line
+          />
+          <MenuItem
             primaryText="Sign out"
             containerElement={<Link to="/signin" />}  // eslint-disable-line
             onTouchTap={() => { this.props.logout(); }}

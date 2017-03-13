@@ -1,49 +1,53 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import _ from 'lodash';
-import { getTimeSearchResult, likePost } from '../../actions/post';
+import moment from 'moment';
+import { getPostsByAuthor, likePost } from '../../actions/post';
 import DisplayPosts from '../../components/Post/DisplayPosts';
-import SearchTimeSlider from '../../components/Search/SearchTimeSlider';
+import CreatePostButton from '../../components/CreatePostButton';
 
 const propTypes = {
   isLoading: PropTypes.bool,
   userId: PropTypes.string,
   posts: PropTypes.array,
   actions: PropTypes.shape({
-    getTimeSearchResult: PropTypes.func,
-    likePost: PropTypes.func,
+    getPostsByAuthor: PropTypes.func,
+    likePost: PropTypes.func, // eslint-disable-line
   }),
 };
 
-class SearchPost extends Component { // eslint-disable-line
+class UserPosts extends Component {
+
+  componentWillMount() {
+    this.props.actions.getPostsByAuthor(this.props.userId);
+  }
+
   render() {
-    const { posts, isLoading, userId, actions } = this.props;
+    const { isLoading, userId, posts, actions } = this.props;
     return (
       <div>
-        <div>
-          <SearchTimeSlider
-            getTimeSearchResult={this.props.actions.getTimeSearchResult}
-          />
-        </div>
         <DisplayPosts
           isLoading={isLoading}
           userId={userId}
           posts={posts}
           likePost={actions.likePost}
         />
+        <div>
+          <CreatePostButton />
+        </div>
       </div>
     );
   }
 }
 
-SearchPost.propTypes = propTypes;
+UserPosts.propTypes = propTypes;
 
 export default connect((state) => {
   const userId = state.user.data.id;
+  const isLoading = state.user.posts.isLoading;
 
-  const posts = state.search.success ? state.search.posts.map(post => ({
+  const posts = !_.isEmpty(state.user.posts.posts) ? state.user.posts.posts.map(post => ({
     id: post.id,
     title: post.title,
     description: post.description,
@@ -62,8 +66,6 @@ export default connect((state) => {
     created_date: moment(post.created_date).format('ll'),
   })) : [];
 
-  const isLoading = state.search.isLoading;
-
   return {
     isLoading,
     userId,
@@ -71,7 +73,7 @@ export default connect((state) => {
   };
 }, dispatch => ({
   actions: bindActionCreators({
-    getTimeSearchResult,
+    getPostsByAuthor,
     likePost,
   }, dispatch),
-}))(SearchPost);
+}))(UserPosts);

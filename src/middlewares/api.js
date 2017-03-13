@@ -20,11 +20,11 @@ export default function () {
       },
     } = action;
 
-    const authToken = getState().user.token;
+    const authToken = getState().user.data.token;
 
     setTimeout(() => next({
       type: `${type}_${LOADING}`,
-      ...!!data ? { payload: data } : {}, // eslint-disable-line
+      ...!data ? { payload: data } : {},
     }));
 
     return fetch(`/api/${url}`, {
