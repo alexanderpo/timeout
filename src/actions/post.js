@@ -1,5 +1,28 @@
 export const CREATE_POST_FIRST_STEP = 'CREATE_POST_FIRST_STEP';
 export const GET_TIME_SEARCH_RESULT = 'GET_TIME_SEARCH_RESULT';
+export const GET_ALL_POSTS = 'GET_ALL_POSTS';
+export const GET_POSTS_BY_AUTHOR = 'GET_POSTS_BY_AUTHOR';
+export const LIKE_POST = 'LIKE_POST';
+
+export function getAllPosts() {
+  return {
+    type: GET_ALL_POSTS,
+    payload: {
+      url: 'posts',
+      method: 'get',
+    },
+  };
+}
+
+export function getPostsByAuthor(id) {
+  return {
+    type: GET_POSTS_BY_AUTHOR,
+    payload: {
+      url: `posts-by-author/${id}`,
+      method: 'get',
+    },
+  };
+}
 
 export function getTimeSearchResult(time) {
   return {
@@ -12,18 +35,31 @@ export function getTimeSearchResult(time) {
   };
 }
 
-export function createPostFirstStep(title, description, category, time, user) {
+export function createPost(title, description, time, userId) {
   return {
     type: CREATE_POST_FIRST_STEP,
     payload: {
-      url: 'post/create/first-step',
+      url: 'post/create',
       method: 'post',
       body: {
         title,
         description,
-        category,
         time,
-        user,
+        userId,
+      },
+    },
+  };
+}
+
+export function likePost(postId, userId) {
+  return {
+    type: LIKE_POST,
+    payload: {
+      url: `posts/${postId}/like`,
+      method: 'post',
+      body: {
+        postId,
+        userId,
       },
     },
   };

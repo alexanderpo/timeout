@@ -1,20 +1,22 @@
-import { GET_TIME_SEARCH_RESULT } from '../../actions/post';
+import { GET_ALL_POSTS } from '../../actions/post';
 
-export default function (state = {}, action) {
+const initialState = {};
+
+export default function (state = initialState, action) {
   switch (action.type) {
-    case `${GET_TIME_SEARCH_RESULT}_LOADING`:
+    case `${GET_ALL_POSTS}_LOADING`:
       return {
         ...state,
         isLoading: true,
         posts: [],
       };
-    case `${GET_TIME_SEARCH_RESULT}_SUCCESS`:
+    case `${GET_ALL_POSTS}_SUCCESS`:
       return {
         isLoading: false,
         success: action.payload.success,
         posts: action.payload.posts,
       };
-    case `${GET_TIME_SEARCH_RESULT}_FAILURE`:
+    case `${GET_ALL_POSTS}_FAILURE`:
       return {
         isLoading: false,
         success: action.payload.success,

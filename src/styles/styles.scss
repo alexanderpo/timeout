@@ -51,6 +51,17 @@ body::-webkit-scrollbar-thumb {
   margin: 5px;
 }
 
+.spinner {
+  @include center-form;
+}
+
+.no-posts-text {
+  @include center-form;
+  font-weight: 100;
+  font-size: 50px;
+  color: rgba(219, 219, 219, 0.9);
+}
+
 /* HSL */
 $color1: hsla(0%, 0%, 82%, 1);
 $color2: hsla(0%, 0%, 86%, 1);

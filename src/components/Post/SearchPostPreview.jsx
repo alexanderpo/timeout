@@ -1,14 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { Badge, Divider, IconButton } from 'material-ui';
-import Comment from 'material-ui/svg-icons/communication/chat-bubble-outline';
-import Favorite from 'material-ui/svg-icons/action/favorite-border';
-
-import ProfileImage from '../../styles/images/user.png';
+import Favorite from 'material-ui/svg-icons/action/favorite';
+import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
 const styles = {
   box: {
-    width: 400,
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    width: 500,
     margin: 20,
   },
   badgeBox: {
@@ -25,6 +26,20 @@ const styles = {
   text: {
     fontSize: 14,
     fontWeight: 300,
+    margin: 2,
+  },
+  textBlock: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+  },
+  descriptionBlock: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  liked: {
+    color: '#ed4956',
   },
 };
 
@@ -34,11 +49,37 @@ const propTypes = {
   description: PropTypes.string,
   time: PropTypes.number,
   likes: PropTypes.number,
-  comments: PropTypes.number,
+  likePost: PropTypes.func,
+  avatar: PropTypes.string,
   createdDate: PropTypes.string,
+  userId: PropTypes.string,
+  postId: PropTypes.string,
+  isLiked: PropTypes.bool,
 };
 
 class SearchPostPreview extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLiked: this.props.isLiked,
+      likes: this.props.likes,
+    };
+
+    this.handleLike = this.handleLike.bind(this);
+  }
+
+  handleLike() {
+    const { likes, isLiked } = this.state;
+    this.props.likePost(this.props.postId, this.props.userId)
+    .then(() => {
+      this.setState({
+        isLiked: !isLiked,
+        likes: isLiked ? (likes - 1) : (likes + 1),
+      });
+    });
+  }
+
   render() {
     const {
       title,
@@ -46,8 +87,8 @@ class SearchPostPreview extends Component {
       description,
       time,
       likes,
-      comments,
       createdDate,
+      avatar,
     } = this.props;
     return (
       <Badge
@@ -59,23 +100,26 @@ class SearchPostPreview extends Component {
         <Card style={styles.box}>
           <CardHeader
             title={title}
-            avatar={ProfileImage}
+            avatar={avatar}
             subtitle={createdDate}
             actAsExpander={true}
           />
           <Divider />
           <CardText>{description}</CardText>
           <Divider />
-          <CardActions>
-            <span style={styles.text}>{user}</span>
-            <IconButton tooltip="Comment" tooltipPosition="top-center">
-              <Comment />
+          <CardActions style={styles.descriptionBlock}>
+            <div style={styles.textBlock}>
+              <span style={styles.text}>Users liked: <strong>{this.state.likes}</strong></span>
+              <span style={styles.text}>Author: <strong>{user}</strong></span>
+            </div>
+            <IconButton
+              tooltip={`${this.state.likes}`}
+              tooltipPosition="top-center"
+              onClick={this.handleLike}
+              iconStyle={(this.state.isLiked) ? styles.liked : {}}
+            >
+              { this.state.isLiked ? <Favorite /> : <FavoriteBorder /> }
             </IconButton>
-            <span style={styles.text}>Comments: {comments}</span>
-            <IconButton tooltip="Like" tooltipPosition="top-center">
-              <Favorite />
-            </IconButton>
-            <span style={styles.text}>Likes: {likes}</span>
           </CardActions>
         </Card>
       </Badge>

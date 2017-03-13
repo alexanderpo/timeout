@@ -1,13 +1,19 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import user from './user';
+import userData from './user';
 import searchResult from './Posts/searchResult';
+import allPosts from './Posts/allPosts';
+import userPosts from './Posts/userPosts';
 
 const appReducer = combineReducers({
 
   search: searchResult,
+  posts: allPosts,
 
-  user,
+  user: combineReducers({
+    data: userData,
+    posts: userPosts,
+  }),
   routing: routerReducer,
 });
 

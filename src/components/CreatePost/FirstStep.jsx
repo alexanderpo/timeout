@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Chip, Avatar, Slider, TextField, SelectField, MenuItem } from 'material-ui';
-import ProfileImage from '../../styles/images/user.png';
+import { Chip, Avatar, Slider, TextField } from 'material-ui';
 
 const styles = {
   container: {
@@ -31,9 +30,9 @@ const propTypes = {
   titleErrorText: PropTypes.string,
   description: PropTypes.string,
   descriptionErrorText: PropTypes.string,
-  category: PropTypes.string,
   time: PropTypes.number,
   date: PropTypes.string,
+  avatar: PropTypes.string,
   username: PropTypes.string,
   callbackParent: PropTypes.func,
 };
@@ -46,35 +45,20 @@ class FirstStep extends Component {
       time: this.props.time,
       title: this.props.title,
       description: this.props.description,
-      category: this.props.category,
       date: this.props.date,
     };
 
     this.handleTimeSlider = this.handleTimeSlider.bind(this);
-    this.handleTitle = this.handleTitle.bind(this);
-    this.handleDescription = this.handleDescription.bind(this);
-    this.handleCategory = this.handleCategory.bind(this);
   }
 
-  handleTitle(event) {
-    this.setState({
-      title: event.target.value,
-    });
-    this.props.callbackParent(this.state);
-  }
-
-  handleDescription(event) {
-    this.setState({
-      description: event.target.value,
-    });
-    this.props.callbackParent(this.state);
-  }
-
-  handleCategory(event, index, value) {
-    this.setState({
-      category: value,
-    });
-    this.props.callbackParent(this.state);
+  handleTextValue(key) {
+    return (event) => {
+      const value = event.target.value;
+      this.setState({
+        [key]: value,
+      });
+      this.props.callbackParent(this.state);
+    };
   }
 
   handleTimeSlider(event, value) {
@@ -89,7 +73,7 @@ class FirstStep extends Component {
       <div style={styles.wrapper}>
         <div style={styles.chipBlock}>
           <Chip style={styles.chip}>
-            <Avatar src={ProfileImage} />
+            <Avatar src={this.props.avatar} />
             {this.props.username}
           </Chip>
           <Chip style={styles.chip}>{ this.state.date }</Chip>
@@ -101,7 +85,8 @@ class FirstStep extends Component {
               hintText="Title"
               floatingLabelText="Title"
               fullWidth={true}
-              onChange={this.handleTitle}
+              onChange={this.handleTextValue('title')}
+              defaultValue={this.state.title}
               errorText={this.props.titleErrorText}
             />
             <TextField
@@ -112,26 +97,15 @@ class FirstStep extends Component {
               multiLine={true}
               rows={1}
               rowsMax={10}
-              onChange={this.handleDescription}
+              defaultValue={this.state.description}
+              onChange={this.handleTextValue('description')}
               errorText={this.props.descriptionErrorText}
             />
-            <SelectField
-              floatingLabelText="Category"
-              fullWidth={true}
-              value={this.state.category}
-              onChange={this.handleCategory}
-            >
-              <MenuItem value={'Tehnology'} primaryText="Tehnology" />
-              <MenuItem value={'Food'} primaryText="Food" />
-              <MenuItem value={'Sport'} primaryText="Sport" />
-              <MenuItem value={'Rest'} primaryText="Rest" />
-              <MenuItem value={'Drawing'} primaryText="Drawing" />
-            </SelectField>
             <div>
-              <h4>Time for task {this.state.time}  minutes.</h4>
+              <h4>Time of post {this.state.time}  minutes.</h4>
               <Slider
                 name="time"
-                defaultValue={5}
+                defaultValue={this.state.time}
                 min={5}
                 max={120}
                 step={5}

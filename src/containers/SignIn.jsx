@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { signIn } from '../actions/user';
+import { signInValidator } from '../utils/validators';
 
 const propTypes = {
   actions: PropTypes.shape({
@@ -11,7 +12,7 @@ const propTypes = {
     push: PropTypes.func, // eslint-disable-line
   }),
 };
-
+// TODO: implement sign in by email address and password
 const styles = {
   logoText: {
     display: 'flex',
@@ -59,6 +60,7 @@ class SignIn extends Component {
   }
 
   handleSignIn() {
+    // TODO: Implement client side validation on empty fields
     const { name, password } = this.state;
     this.props.actions.signIn(name, password)
     .then((action) => {

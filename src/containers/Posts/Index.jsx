@@ -1,49 +1,60 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import _ from 'lodash';
-import { getTimeSearchResult, likePost } from '../../actions/post';
+import moment from 'moment';
+import { getAllPosts, likePost } from '../../actions/post';
 import DisplayPosts from '../../components/Post/DisplayPosts';
-import SearchTimeSlider from '../../components/Search/SearchTimeSlider';
+import CreatePostButton from '../../components/CreatePostButton';
 
 const propTypes = {
   isLoading: PropTypes.bool,
   userId: PropTypes.string,
   posts: PropTypes.array,
   actions: PropTypes.shape({
-    getTimeSearchResult: PropTypes.func,
+    getAllPosts: PropTypes.func,
     likePost: PropTypes.func,
   }),
 };
 
-class SearchPost extends Component { // eslint-disable-line
+class AllPosts extends Component {
+
+  componentWillMount() {
+    this.props.actions.getAllPosts();
+    /* this.autoUpdate = setInterval(
+      () => this.props.actions.getAllPosts(),
+      30000
+    ); */
+  }
+
+  /* componentWillUnmount() {
+    clearInterval(this.autoUpdate);
+  } */
+
   render() {
-    const { posts, isLoading, userId, actions } = this.props;
+    const { isLoading, userId, posts, actions } = this.props;
     return (
       <div>
-        <div>
-          <SearchTimeSlider
-            getTimeSearchResult={this.props.actions.getTimeSearchResult}
-          />
-        </div>
         <DisplayPosts
           isLoading={isLoading}
           userId={userId}
           posts={posts}
           likePost={actions.likePost}
         />
+        <div>
+          <CreatePostButton />
+        </div>
       </div>
     );
   }
 }
 
-SearchPost.propTypes = propTypes;
+AllPosts.propTypes = propTypes;
 
 export default connect((state) => {
   const userId = state.user.data.id;
 
-  const posts = state.search.success ? state.search.posts.map(post => ({
+  const posts = !_.isEmpty(state.posts.posts) ? state.posts.posts.map(post => ({
     id: post.id,
     title: post.title,
     description: post.description,
@@ -58,20 +69,19 @@ export default connect((state) => {
     time: post.time,
     likes: post.likes.length,
     isLiked: _.includes(post.likes, userId) ? true : false, // eslint-disable-line
-    comments: 0,
     created_date: moment(post.created_date).format('ll'),
   })) : [];
 
-  const isLoading = state.search.isLoading;
+  const isLoading = state.posts.isLoading;
 
   return {
-    isLoading,
     userId,
     posts,
+    isLoading,
   };
 }, dispatch => ({
   actions: bindActionCreators({
-    getTimeSearchResult,
+    getAllPosts,
     likePost,
   }, dispatch),
-}))(SearchPost);
+}))(AllPosts);
