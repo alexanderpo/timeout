@@ -18,6 +18,7 @@ import api from './middlewares/api'; // middleware for fetch api requests
 import reducers from './reducers'; // redux reducers
 import routes from './routes'; // client side routes
 import './styles/styles.scss'; // project styles
+// import '../public/favicon.ico';
 
 injectTapEventPlugin();
 /* Main color theme of material ui */
@@ -28,9 +29,9 @@ const muiTheme = getMuiTheme({
   },
 });
 
-const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
+// const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
 
-const store = createStore(reducers, { user }, compose( // create redux store
+const store = createStore(reducers, compose( // create redux store
   applyMiddleware(
     thunk,
     api(),
@@ -40,9 +41,9 @@ const store = createStore(reducers, { user }, compose( // create redux store
 ));
 const history = syncHistoryWithStore(browserHistory, store);
 
-store.subscribe(() => {
-  localStorage.setItem('user', JSON.stringify(store.getState().user));
-});
+// store.subscribe(() => {
+//   localStorage.setItem('user', JSON.stringify(store.getState().user));
+// });
 
 // function ensureAuthenticated(nextState, replace) {
 //   const user = store.getState().user; // eslint-disable-line

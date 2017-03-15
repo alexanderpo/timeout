@@ -1,36 +1,13 @@
 import React, { Component } from 'react';
 import { TextField, RaisedButton } from 'material-ui';
-
-const styles = {
-  logoText: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    fontWeight: 200,
-    fontSize: 20,
-    textTransform: 'uppercase',
-  },
-  sloganText: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    fontWeight: 200,
-    fontSize: 14,
-    textTransform: 'lowercase',
-  },
-};
+import Logo from '../components/Logo';
 
 class SignIn extends Component {
   render() {
     return (
       <div>
-        <div className="pre-enter-wrapper">
-          <div>
-            <div style={styles.logoText}>timeout application</div>
-            <div style={styles.sloganText}>потратьте время с пользой</div>
-          </div>
+        <div className="sign-wrapper">
+          <Logo />
           <TextField
             hintText="Имя пользователя"
             floatingLabelText="Имя пользователя"
@@ -41,15 +18,15 @@ class SignIn extends Component {
             type="password"
           />
           <RaisedButton
-            className="pre-enter-button"
+            className="sign-button"
             label="Войти"
             primary={true}
           />
           <RaisedButton
-            className="pre-enter-button"
+            className="sign-button"
             label="Зарегистрироваться"
             primary={true}
-            onClick={() => { console.log('clicked'); }}
+            onClick={() => { }}
           />
         </div>
       </div>
