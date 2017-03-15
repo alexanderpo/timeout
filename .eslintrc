@@ -17,5 +17,6 @@
   "rules": {
     "react/jsx-boolean-value": 0,
     "react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-no-bind": 0,
   }
 }

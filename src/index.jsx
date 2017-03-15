@@ -13,7 +13,7 @@ import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import api from './middlewares/api'; // middleware for fetch api requests
 
-import { setNextPathname } from './actions/user';
+// import { setNextPathname } from './actions/user';
 
 import reducers from './reducers'; // redux reducers
 import routes from './routes'; // client side routes
@@ -44,17 +44,17 @@ store.subscribe(() => {
   localStorage.setItem('user', JSON.stringify(store.getState().user));
 });
 
-function ensureAuthenticated(nextState, replace) {
-  const user = store.getState().user; // eslint-disable-line
-  if (!user.data.success) {
-    store.dispatch(setNextPathname(nextState.location.pathname));
-    replace('/signin');
-  }
-}
+// function ensureAuthenticated(nextState, replace) {
+//   const user = store.getState().user; // eslint-disable-line
+//   if (!user.data.success) {
+//     store.dispatch(setNextPathname(nextState.location.pathname));
+//     replace('/signin');
+//   }
+// }
 
 const Entry = () => (
   <Provider store={store}>
-    <Router history={history} routes={routes(ensureAuthenticated)} />
+    <Router history={history} routes={routes()} />
   </Provider>
 );
 
