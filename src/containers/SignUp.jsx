@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { TextField, RaisedButton } from 'material-ui';
+import { TextField, RaisedButton, Snackbar } from 'material-ui';
+import _ from 'lodash';
 import Logo from '../components/Logo';
+import { signUpValidate } from '../utils/inputValidation';
 
 class SignUp extends Component {
   constructor(props) {
@@ -10,12 +12,16 @@ class SignUp extends Component {
       name: '',
       email: '',
       password: '',
+      errorName: '',
+      errorEmail: '',
+      errorPassword: '',
+      dialogBoxIsOpen: false,
     };
 
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handleKeyPressEnter = this.handleKeyPressEnter.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
-    this.returnInitialState = this.returnInitialState.bind(this);
+    this.clearInputFields = this.clearInputFields.bind(this);
   }
 
   handleInputValue(key) {
@@ -33,21 +39,46 @@ class SignUp extends Component {
     }
   }
 
-  returnInitialState() {
+  clearInputFields() {
     this.setState({
       name: '',
       email: '',
       password: '',
+      errorName: '',
+      errorEmail: '',
+      errorPassword: '',
     });
   }
 
   handleSignUp() {
-    this.returnInitialState();
-    console.log('Clicked');
+    const { name, email, password } = this.state;
+    const values = { name, email, password };
+    const errors = signUpValidate(values);
+
+    if (!_.isEmpty(errors)) {
+      this.setState({
+        errorName: errors.name,
+        errorEmail: errors.email,
+        errorPassword: errors.password,
+      });
+    } else {
+      // TODO: implement sign up action
+      this.setState({ dialogBoxIsOpen: true });
+      this.clearInputFields();
+    }
   }
 
   render() {
-    const { name, email, password } = this.state;
+    const {
+      name,
+      email,
+      password,
+      errorName,
+      errorEmail,
+      errorPassword,
+      dialogBoxIsOpen,
+    } = this.state;
+
     return (
       <div>
         <div className="sign-wrapper">
@@ -56,6 +87,7 @@ class SignUp extends Component {
             hintText="Имя пользователя"
             floatingLabelText="Имя пользователя"
             value={name}
+            errorText={errorName}
             onChange={this.handleInputValue('name')}
             onKeyPress={this.handleKeyPressEnter}
           />
@@ -63,6 +95,7 @@ class SignUp extends Component {
             hintText="Email адрес"
             floatingLabelText="Email адрес"
             value={email}
+            errorText={errorEmail}
             onChange={this.handleInputValue('email')}
             onKeyPress={this.handleKeyPressEnter}
           />
@@ -71,6 +104,7 @@ class SignUp extends Component {
             floatingLabelText="Пароль"
             type="password"
             value={password}
+            errorText={errorPassword}
             onChange={this.handleInputValue('password')}
             onKeyPress={this.handleKeyPressEnter}
           />
@@ -83,9 +117,21 @@ class SignUp extends Component {
           <RaisedButton
             className="back-sign-up-button"
             label="Назад"
-            onClick={() => { }}
+            onClick={() => {
+              // TODO: implement redirect to sign in
+            }}
           />
         </div>
+        <Snackbar
+          open={dialogBoxIsOpen}
+          message="Сейчас вы можете войти"
+          autoHideDuration={4000}
+          action="Войти"
+          onActionTouchTap={() => {
+            // TODO: implement redirect to sign in
+          }}
+          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
+        />
       </div>
     );
   }
