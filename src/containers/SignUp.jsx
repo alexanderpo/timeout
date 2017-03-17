@@ -1,8 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { TextField, RaisedButton, Snackbar } from 'material-ui';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import _ from 'lodash';
 import Logo from '../components/Logo';
 import { signUpValidate } from '../utils/inputValidation';
+
+const propTypes = {
+  actions: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+};
 
 class SignUp extends Component {
   constructor(props) {
@@ -16,6 +25,7 @@ class SignUp extends Component {
       errorEmail: '',
       errorPassword: '',
       dialogBoxIsOpen: false,
+      dialogBoxText: '',
     };
 
     this.handleInputValue = this.handleInputValue.bind(this);
@@ -63,7 +73,10 @@ class SignUp extends Component {
       });
     } else {
       // TODO: implement sign up action
-      this.setState({ dialogBoxIsOpen: true });
+      this.setState({
+        dialogBoxIsOpen: true,
+        dialogBoxText: 'Сейчас вы можете войти',
+      });
       this.clearInputFields();
     }
   }
@@ -77,7 +90,10 @@ class SignUp extends Component {
       errorEmail,
       errorPassword,
       dialogBoxIsOpen,
+      dialogBoxText,
     } = this.state;
+
+    const { actions } = this.props;
 
     return (
       <div>
@@ -117,19 +133,15 @@ class SignUp extends Component {
           <RaisedButton
             className="back-sign-up-button"
             label="Назад"
-            onClick={() => {
-              // TODO: implement redirect to sign in
-            }}
+            onClick={() => { actions.push('/signin'); }}
           />
         </div>
         <Snackbar
           open={dialogBoxIsOpen}
-          message="Сейчас вы можете войти"
+          message={dialogBoxText}
           autoHideDuration={4000}
           action="Войти"
-          onActionTouchTap={() => {
-            // TODO: implement redirect to sign in
-          }}
+          onActionTouchTap={() => { actions.push('/signin'); }}
           onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
         />
       </div>
@@ -137,4 +149,10 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+SignUp.propTypes = propTypes;
+
+export default connect(null, dispatch => ({
+  actions: bindActionCreators({
+    push,
+  }, dispatch),
+}))(SignUp);
