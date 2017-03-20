@@ -37,18 +37,3 @@ export function signUpValidate(values) {
 
   return errors;
 }
-
-export function updateUserValidator(values) {
-  const errors = {};
-
-  if (values.name.length < 5 || values.name.length === 0) {
-    errors.name = 'Username must contains minimum 5 characters';
-  }
-
-  if (values.email.length === 0 ||
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-
-  return errors;
-}
