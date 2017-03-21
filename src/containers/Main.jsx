@@ -1,32 +1,42 @@
-import React, { Component } from 'react';
-import { Tabs, Tab, Avatar } from 'material-ui';
-import UserProfile from '../components/Profile/UserProfile';
-import HomeIcon from 'material-ui/svg-icons/action/home';
-import FavoriteIcon from 'material-ui/svg-icons/action/favorite';
-import SearchIcon from 'material-ui/svg-icons/action/search';
+import React, { Component, PropTypes } from 'react';
+import { AppBar, FlatButton } from 'material-ui';
 import CreateIcon from 'material-ui/svg-icons/content/create';
-import UserProfilePhoto from '../styles/images/user.png';
+import UserMenu from '../components/Menu/UserMenu';
+
+const propTypes = {
+  children: PropTypes.object,
+};
 
 class Main extends Component {
   render() {
     return (
       <div>
-        <Tabs >
-          <Tab icon={<HomeIcon />} label="Главная">
-            <div></div>
-          </Tab>
-          <Tab icon={<FavoriteIcon />} label="Понравившееся">
-            <div></div>
-          </Tab>
-          <Tab icon={<SearchIcon />} label="Поиск" />
-          <Tab icon={<Avatar src={UserProfilePhoto} size={30} /> } label="Профиль">
-            <UserProfile />
-          </Tab>
-          <Tab icon={<CreateIcon />} label="Создать запись" />
-        </Tabs>
+        <div>
+          <AppBar
+            title={<span>Title</span>}
+            showMenuIconButton={false}
+            iconElementLeft={
+              <div></div>
+            }
+            iconElementRight={
+              <div className="user-right-menu-wrapper">
+                <UserMenu />
+                <FlatButton
+                  style={{ color: 'white' }}
+                  icon={<CreateIcon />}
+                  label="Создать"
+                />
+              </div>
+            }
+          />
+        </div>
+        <div>
+          { this.props.children }
+        </div>
       </div>
     );
   }
 }
 
+Main.propTypes = propTypes;
 export default Main;

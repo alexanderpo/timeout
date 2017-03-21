@@ -106,6 +106,19 @@ body::-webkit-scrollbar-thumb {
   margin: 20px;
 }
 
+.user-right-menu-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin: 10px;
+}
+
+.user-right-menu-avatar {
+  cursor: pointer;
+}
+
 /* HSL */
 $color1: hsla(0%, 0%, 82%, 1);
 $color2: hsla(0%, 0%, 86%, 1);

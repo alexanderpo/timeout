@@ -4,13 +4,16 @@ import { Route } from 'react-router';
 import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 import Main from './containers/Main';
+import UserProfile from './containers/Profile/Index';
 
 export default function () {
   return (
     <Route>
       <Route path="signin" component={SignIn} />
       <Route path="signup" component={SignUp} />
-      <Route path="/" component={Main} />
+      <Route path="/" component={Main}>
+        <Route path="profile" component={UserProfile} />
+      </Route>
     </Route>
   );
 }
