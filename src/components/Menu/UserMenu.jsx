@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { Avatar, Popover, Menu, MenuItem, FlatButton } from 'material-ui';
+import CreateIcon from 'material-ui/svg-icons/content/create';
 import UserProfilePhoto from '../../styles/images/user.png';
-import { Avatar, Popover, Menu, MenuItem } from 'material-ui';
 
 class UserMenu extends Component {
   constructor(props) {
@@ -33,10 +34,9 @@ class UserMenu extends Component {
     const { menuOpen, anchorEl } = this.state;
 
     return (
-      <div>
+      <div className="user-right-menu-wrapper">
         <Avatar
           onTouchTap={this.handleUserMenuOpen}
-          style={{ marginRight: '20px' }}
           className="user-right-menu-avatar"
           src={UserProfilePhoto}
           size={35}
@@ -57,6 +57,11 @@ class UserMenu extends Component {
             <MenuItem primaryText="Выйти" />
           </Menu>
         </Popover>
+        <FlatButton
+          style={{ color: 'white', marginBottom: 3 }}
+          icon={<CreateIcon />}
+          label="Создать"
+        />
       </div>
     );
   }

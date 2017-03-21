@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { AppBar, FlatButton } from 'material-ui';
-import CreateIcon from 'material-ui/svg-icons/content/create';
+import { AppBar } from 'material-ui';
+import MainNavMenu from '../components/Menu/MainNavMenu';
 import UserMenu from '../components/Menu/UserMenu';
+import LatestPosts from '../components/Posts/LatestPosts';
 
 const propTypes = {
   children: PropTypes.object,
@@ -10,28 +11,13 @@ const propTypes = {
 class Main extends Component {
   render() {
     return (
-      <div>
+      <div className="user-left-menu-wrapper">
+        <AppBar
+          iconElementLeft={<MainNavMenu />}
+          iconElementRight={<UserMenu />}
+        />
         <div>
-          <AppBar
-            title={<span>Title</span>}
-            showMenuIconButton={false}
-            iconElementLeft={
-              <div></div>
-            }
-            iconElementRight={
-              <div className="user-right-menu-wrapper">
-                <UserMenu />
-                <FlatButton
-                  style={{ color: 'white' }}
-                  icon={<CreateIcon />}
-                  label="Создать"
-                />
-              </div>
-            }
-          />
-        </div>
-        <div>
-          { this.props.children }
+          { this.props.children ? this.props.children : <LatestPosts /> }
         </div>
       </div>
     );

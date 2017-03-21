@@ -53,8 +53,9 @@ class UserProfile extends Component {
         profileImage: upload.target.result,
       });
     };
-
-    reader.readAsDataURL(file);
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   }
 
   handleSaveChanges() {
