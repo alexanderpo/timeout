@@ -117,7 +117,41 @@ body::-webkit-scrollbar-thumb {
 
 .user-right-menu-avatar {
   cursor: pointer;
-  margin-right: 20px; 
+  margin-right: 20px;
+}
+
+/* Posts  */
+
+.post-container {
+  margin: 50px;
+}
+
+.post-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.post-header-title-wrapper {
+  margin-left: auto;
+}
+
+.post-header-title {
+  margin: 0;
+  font-weight: 300;
+}
+
+.post-action-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+.post-likes-counter {
+  display: flex;
+  align-items: center;
+  font-weight: 300;
+  margin-right: 20px;
 }
 
 /* HSL */
