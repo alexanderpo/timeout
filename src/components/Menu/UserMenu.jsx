@@ -61,6 +61,7 @@ class UserMenu extends Component {
           style={{ color: 'white', marginBottom: 3 }}
           icon={<CreateIcon />}
           label="Создать"
+          containerElement={<Link to="/posts/create" />}
         />
       </div>
     );

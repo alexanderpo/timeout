@@ -122,6 +122,13 @@ body::-webkit-scrollbar-thumb {
 
 /* Posts  */
 
+@mixin post-header-right-text {
+  margin: 0;
+  font-weight: 300;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .post-container {
   margin: 50px;
 }
@@ -136,9 +143,8 @@ body::-webkit-scrollbar-thumb {
   margin-left: auto;
 }
 
-.post-header-title {
-  margin: 0;
-  font-weight: 300;
+.post-header-title, .post-header-category {
+  @include post-header-right-text;
 }
 
 .post-action-wrapper {
@@ -153,6 +159,42 @@ body::-webkit-scrollbar-thumb {
   font-weight: 300;
   margin-right: 20px;
 }
+
+/* Create post component */
+
+.create-post-wrapper {
+  margin: 15px;
+  padding: 15px;
+  width: 450px;
+  font-weight: 300;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-direction: column;
+}
+
+.create-post-title hr {
+  margin: 0px;
+}
+
+.create-post-title {
+  display: flex;
+  justify-content: center;
+  margin: 0px 10px 10px 10px;
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.create-post-buttons-block {
+  margin: 5px;
+  padding: 5px;
+}
+
+.create-post-button {
+  margin: 5px 15px;
+}
+
 
 /* HSL */
 $color1: hsla(0%, 0%, 82%, 1);

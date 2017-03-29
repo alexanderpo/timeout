@@ -17,6 +17,7 @@ class Post extends Component {
           >
             <div className="post-header-title-wrapper">
               <h2 className="post-header-title">Тут будет заголовок записи</h2>
+              <h5 className="post-header-category">Категория</h5>
             </div>
           </CardHeader>
           <Divider />
