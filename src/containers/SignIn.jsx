@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { TextField, RaisedButton } from 'material-ui';
 import _ from 'lodash';
+import { signIn } from '../actions/user';
 import Logo from '../components/Logo';
 import { signInValidate } from '../utils/inputValidation';
 
 const propTypes = {
   actions: PropTypes.shape({
+    signIn: PropTypes.func,
     push: PropTypes.func,
   }),
 };
@@ -67,8 +69,16 @@ class SignIn extends Component {
         errorPassword: errors.password,
       });
     } else {
-      // TODO: implement sign in action
-      this.clearInputFields();
+      this.props.actions.signIn(name, password)
+      .then((action) => {
+        if (action.payload.error) {
+          // TODO: implement snackbar error message
+          console.log(action.payload.error);
+        } else {
+          this.clearInputFields();
+          this.props.actions.push('/');
+        }
+      });
     }
   }
 
@@ -125,6 +135,7 @@ SignIn.propTypes = propTypes;
 
 export default connect(null, dispatch => ({
   actions: bindActionCreators({
+    signIn,
     push,
   }, dispatch),
 }))(SignIn);

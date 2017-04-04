@@ -8,12 +8,12 @@ import UserProfile from './containers/Profile/Index';
 import AllPosts from './containers/Posts/AllPosts';
 import CreatePost from './containers/Posts/Create';
 
-export default function () {
+export default function (ensureAuthenticated) {
   return (
     <Route>
       <Route path="signin" component={SignIn} />
       <Route path="signup" component={SignUp} />
-      <Route path="/" component={Main}>
+      <Route path="/" component={Main} onEnter={ensureAuthenticated}>
         <Route path="profile" component={UserProfile} />
 
         <Route path="posts">

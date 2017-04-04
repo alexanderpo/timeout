@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Avatar, Popover, Menu, MenuItem, FlatButton } from 'material-ui';
 import CreateIcon from 'material-ui/svg-icons/content/create';
 import UserProfilePhoto from '../../styles/images/user.png';
+
+const propTypes = {
+  logout: PropTypes.func,
+};
 
 class UserMenu extends Component {
   constructor(props) {
@@ -32,6 +36,7 @@ class UserMenu extends Component {
 
   render() {
     const { menuOpen, anchorEl } = this.state;
+    const { logout } = this.props;
 
     return (
       <div className="user-right-menu-wrapper">
@@ -54,7 +59,11 @@ class UserMenu extends Component {
               containerElement={<Link to="/profile" />}
               onTouchTap={this.handleUserMenuClose}
             />
-            <MenuItem primaryText="Выйти" />
+            <MenuItem
+              primaryText="Выйти"
+              containerElement={<Link to="/signin" />}
+              onTouchTap={logout}
+            />
           </Menu>
         </Popover>
         <FlatButton
@@ -68,4 +77,5 @@ class UserMenu extends Component {
   }
 }
 
+UserMenu.propTypes = propTypes;
 export default UserMenu;
