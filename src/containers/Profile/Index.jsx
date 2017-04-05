@@ -1,12 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import UserProfile from '../../components/Profile/UserProfile';
+
+const propTypes = {
+  userData: PropTypes.object,
+};
 
 class UserProfileWrapper extends Component {
   render() {
     return (
-      <UserProfile />
+      <UserProfile data={this.props.userData} />
     );
   }
 }
 
-export default UserProfileWrapper;
+UserProfileWrapper.propTypes = propTypes;
+
+export default connect(state => {
+  const userData = state.user ? state.user : '';
+
+  return { userData };
+})(UserProfileWrapper);

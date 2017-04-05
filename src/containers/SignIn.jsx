@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { TextField, RaisedButton } from 'material-ui';
+import { TextField, RaisedButton, Snackbar } from 'material-ui';
 import _ from 'lodash';
 import { signIn } from '../actions/user';
 import Logo from '../components/Logo';
@@ -72,8 +72,10 @@ class SignIn extends Component {
       this.props.actions.signIn(name, password)
       .then((action) => {
         if (action.payload.error) {
-          // TODO: implement snackbar error message
-          console.log(action.payload.error);
+          this.setState({
+            dialogBoxIsOpen: true,
+            dialogBoxText: action.payload.error,
+          });
         } else {
           this.clearInputFields();
           this.props.actions.push('/');
@@ -88,6 +90,8 @@ class SignIn extends Component {
       password,
       errorName,
       errorPassword,
+      dialogBoxIsOpen,
+      dialogBoxText,
     } = this.state;
 
     const { actions } = this.props;
@@ -126,6 +130,13 @@ class SignIn extends Component {
             onClick={() => { actions.push('/signup'); }}
           />
         </div>
+        <Snackbar
+          className="dialog-box"
+          open={dialogBoxIsOpen}
+          message={dialogBoxText}
+          autoHideDuration={4000}
+          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
+        />
       </div>
     );
   }

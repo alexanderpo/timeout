@@ -29,7 +29,9 @@ export function signUpValidate(values) {
     errors.email = 'Введите email адрес';
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Неправильный email адрес';
-  } else if (values.password.length === 0) {
+  } else if (values.password === undefined) {
+    errors.password = 'Введите пароль';
+  } else if (values.password.length === 0 && values.password === undefined) {
     errors.password = 'Введите пароль';
   } else if (values.password.length < 6) {
     errors.password = 'Пароль должен содержать не менее 6 символов';

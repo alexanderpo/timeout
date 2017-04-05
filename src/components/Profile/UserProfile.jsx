@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { TextField, RaisedButton, Avatar } from 'material-ui';
 import _ from 'lodash';
 import { signUpValidate } from '../../utils/inputValidation';
 import UserProfilePhoto from '../../styles/images/user.png';
+
+const propTypes = {
+  data: PropTypes.object,
+};
 
 class UserProfile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: '', // TODO: implement default state from user reducer
-      email: '',
-      password: '',
+      name: this.props.data.name,
+      email: this.props.data.email,
+      password: this.props.data.password,
       errorName: '',
       errorEmail: '',
       errorPassword: '',
@@ -84,7 +88,7 @@ class UserProfile extends Component {
       errorPassword: '',
     });
   }
-
+// TODO: implement decode hash to password via bcrypt
   render() {
     const {
       name,
@@ -147,4 +151,6 @@ class UserProfile extends Component {
     );
   }
 }
+
+UserProfile.propTypes = propTypes;
 export default UserProfile;

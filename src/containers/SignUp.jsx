@@ -6,9 +6,11 @@ import { push } from 'react-router-redux';
 import _ from 'lodash';
 import Logo from '../components/Logo';
 import { signUpValidate } from '../utils/inputValidation';
+import { signUp } from '../actions/user';
 
 const propTypes = {
   actions: PropTypes.shape({
+    signUp: PropTypes.func,
     push: PropTypes.func,
   }),
 };
@@ -72,12 +74,24 @@ class SignUp extends Component {
         errorPassword: errors.password,
       });
     } else {
-      // TODO: implement sign up action
-      this.setState({
-        dialogBoxIsOpen: true,
-        dialogBoxText: 'Сейчас вы можете войти',
+      this.props.actions.signUp(name, email, password)
+      .then((action) => {
+        if (action.payload.error) {
+          this.setState({
+            dialogBoxIsOpen: true,
+            dialogBoxText: action.payload.error,
+          });
+        } else {
+          this.setState({
+            dialogBoxIsOpen: true,
+            dialogBoxText: 'Вы успешно зарегистрированы, можете войти',
+          });
+          this.clearInputFields();
+          setTimeout(() => {
+            this.props.actions.push('/signin');
+          }, 4000);
+        }
       });
-      this.clearInputFields();
     }
   }
 
@@ -137,11 +151,10 @@ class SignUp extends Component {
           />
         </div>
         <Snackbar
+          className="dialog-box"
           open={dialogBoxIsOpen}
           message={dialogBoxText}
           autoHideDuration={4000}
-          action="Войти"
-          onActionTouchTap={() => { actions.push('/signin'); }}
           onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
         />
       </div>
@@ -153,6 +166,7 @@ SignUp.propTypes = propTypes;
 
 export default connect(null, dispatch => ({
   actions: bindActionCreators({
+    signUp,
     push,
   }, dispatch),
 }))(SignUp);
