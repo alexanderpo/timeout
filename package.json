@@ -34,6 +34,7 @@
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.16.4",
     "material-ui": "^0.17.1",
+    "material-ui-password-field": "^1.1.2",
     "moment": "^2.15.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",

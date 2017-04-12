@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { TextField, RaisedButton, Snackbar } from 'material-ui';
+import PasswordField from 'material-ui-password-field';
 import _ from 'lodash';
 import { signIn } from '../actions/user';
 import Logo from '../components/Logo';
@@ -108,9 +109,9 @@ class SignIn extends Component {
             onChange={this.handleInputValue('name')}
             onKeyPress={this.handleKeyPressEnter}
           />
-          <TextField
-            hintText="Пароль"
-            floatingLabelText="Пароль"
+          <PasswordField
+            style={{ width: '256px' }}
+            floatingLabelText="Введите пароль"
             type="password"
             value={password}
             errorText={errorPassword}

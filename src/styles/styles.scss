@@ -43,15 +43,16 @@ body::-webkit-scrollbar-thumb {
   font-weight: 300;
 }
 
-.sign-in-button {
-  margin: 5px;
-  margin-top: 30px;
+.sign-password-field {
+  width: 256px;
 }
 
+.sign-in-button {
+  margin: 5px;
+}
 
 .sign-up-button {
   margin: 5px;
-  margin-top: 30px;
 }
 
 .back-sign-up-button {

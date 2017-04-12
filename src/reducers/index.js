@@ -10,9 +10,6 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   if (action.type === 'LOGOUT') {
     return undefined;
-    // BUG: window.webkitStorageInfo' is deprecated.
-    // Please use 'navigator.webkitTemporaryStorage'
-    // or 'navigator.webkitPersistentStorage' instead.
   }
   return appReducer(state, action);
 };

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { TextField, RaisedButton, Avatar } from 'material-ui';
+import PasswordField from 'material-ui-password-field';
 import _ from 'lodash';
 import { signUpValidate } from '../../utils/inputValidation';
 import UserProfilePhoto from '../../styles/images/user.png';
@@ -131,8 +132,8 @@ class UserProfile extends Component {
             onKeyPress={this.handleKeyPressEnter}
             onChange={this.handleInputValue('email')}
           />
-          <TextField
-            hintText="Введите новый пароль"
+          <PasswordField
+            style={{ width: '256px' }}
             floatingLabelText="Введите новый пароль"
             type="password"
             value={password}

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { TextField, RaisedButton, Snackbar } from 'material-ui';
+import PasswordField from 'material-ui-password-field';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
@@ -129,9 +130,9 @@ class SignUp extends Component {
             onChange={this.handleInputValue('email')}
             onKeyPress={this.handleKeyPressEnter}
           />
-          <TextField
-            hintText="Пароль"
-            floatingLabelText="Пароль"
+          <PasswordField
+            style={{ width: '256px' }}
+            floatingLabelText="Введите пароль"
             type="password"
             value={password}
             errorText={errorPassword}
