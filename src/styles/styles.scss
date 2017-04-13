@@ -89,6 +89,7 @@ body::-webkit-scrollbar-thumb {
   font-weight: 400;
 }
 
+
 /* User profile */
 
 .user-profile-wrapper {
@@ -111,7 +112,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .save-button {
-  margin: 20px;
+  margin: 10px;
 }
 
 .user-right-menu-wrapper {
@@ -120,7 +121,7 @@ body::-webkit-scrollbar-thumb {
   justify-content: space-around;
   flex-wrap: wrap;
   align-items: flex-end;
-  margin: 10px;
+  margin: 10px 50px 10px 10px;
 }
 
 .user-right-menu-avatar {

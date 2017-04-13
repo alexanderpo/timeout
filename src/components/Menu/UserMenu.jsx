@@ -1,10 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { Avatar, Popover, Menu, MenuItem, FlatButton } from 'material-ui';
+import { Avatar, Popover, Menu, MenuItem, FlatButton, Divider } from 'material-ui';
 import CreateIcon from 'material-ui/svg-icons/content/create';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import ExitIcon from 'material-ui/svg-icons/action/exit-to-app';
+import EmailIcon from 'material-ui/svg-icons/communication/email';
 import UserProfilePhoto from '../../styles/images/user.png';
 
 const propTypes = {
+  email: PropTypes.string,
   logout: PropTypes.func,
 };
 
@@ -36,7 +40,7 @@ class UserMenu extends Component {
 
   render() {
     const { menuOpen, anchorEl } = this.state;
-    const { logout } = this.props;
+    const { email, logout } = this.props;
 
     return (
       <div className="user-right-menu-wrapper">
@@ -53,14 +57,22 @@ class UserMenu extends Component {
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.handleUserMenuClose}
         >
-          <Menu>
+          <Menu listStyle={{ width: '220px' }}>
+            <MenuItem
+              primaryText={email}
+              disabled={true}
+              leftIcon={<EmailIcon />}
+            />
             <MenuItem
               primaryText="Настройки"
+              leftIcon={<SettingsIcon />}
               containerElement={<Link to="/profile" />}
               onTouchTap={this.handleUserMenuClose}
             />
+            <Divider />
             <MenuItem
               primaryText="Выйти"
+              leftIcon={<ExitIcon />}
               containerElement={<Link to="/signin" />}
               onTouchTap={logout}
             />

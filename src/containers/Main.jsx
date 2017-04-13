@@ -9,6 +9,7 @@ import LatestPosts from '../components/Posts/LatestPosts';
 import { logout } from '../actions/user';
 
 const propTypes = {
+  email: PropTypes.string,
   children: PropTypes.object,
   actions: PropTypes.shape({
     logout: PropTypes.func,
@@ -18,13 +19,13 @@ const propTypes = {
 
 class Main extends Component {
   render() {
-    const { actions } = this.props;
+    const { email, actions } = this.props;
 
     return (
       <div className="user-left-menu-wrapper">
         <AppBar
           iconElementLeft={<MainNavMenu />}
-          iconElementRight={<UserMenu logout={actions.logout} />}
+          iconElementRight={<UserMenu email={email} logout={actions.logout} />}
         />
         <div>
           { this.props.children ? this.props.children : <LatestPosts /> }
@@ -35,7 +36,11 @@ class Main extends Component {
 }
 
 Main.propTypes = propTypes;
-export default connect(null, dispatch => ({
+export default connect(state => {
+  const email = state.user ? state.user.email : '';
+
+  return { email };
+}, dispatch => ({
   actions: bindActionCreators({
     logout,
     push,

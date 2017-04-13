@@ -16,7 +16,7 @@ class UserProfile extends Component {
     this.state = {
       name: this.props.data.name,
       email: this.props.data.email,
-      password: this.props.data.password,
+      password: '',
       errorName: '',
       errorEmail: '',
       errorPassword: '',
