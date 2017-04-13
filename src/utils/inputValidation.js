@@ -1,4 +1,4 @@
-export function signInValidate(values) {
+export const signInValidate = (values) => {
   const errors = {};
 
   if (values.name.length === 0) {
@@ -14,9 +14,9 @@ export function signInValidate(values) {
   }
 
   return errors;
-}
+};
 
-export function signUpValidate(values) {
+export const signUpValidate = (values) => {
   const errors = {};
 
   if (values.name.length === 0) {
@@ -38,4 +38,4 @@ export function signUpValidate(values) {
   }
 
   return errors;
-}
+};

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { TextField, RaisedButton, Avatar } from 'material-ui';
+import { TextField, RaisedButton, Avatar, Toggle } from 'material-ui';
 import PasswordField from 'material-ui-password-field';
 import _ from 'lodash';
 import { signUpValidate } from '../../utils/inputValidation';
@@ -21,6 +21,7 @@ class UserProfile extends Component {
       errorEmail: '',
       errorPassword: '',
       profileImage: '',
+      changePassToggled: false,
     };
 
     this.handleProfileImage = this.handleProfileImage.bind(this);
@@ -89,7 +90,7 @@ class UserProfile extends Component {
       errorPassword: '',
     });
   }
-// TODO: implement decode hash to password via bcrypt
+
   render() {
     const {
       name,
@@ -99,6 +100,7 @@ class UserProfile extends Component {
       errorEmail,
       errorPassword,
       profileImage,
+      changePassToggled,
     } = this.state;
 
     return (
@@ -132,15 +134,22 @@ class UserProfile extends Component {
             onKeyPress={this.handleKeyPressEnter}
             onChange={this.handleInputValue('email')}
           />
-          <PasswordField
-            style={{ width: '256px' }}
-            floatingLabelText="Введите новый пароль"
-            type="password"
-            value={password}
-            errorText={errorPassword}
-            onKeyPress={this.handleKeyPressEnter}
-            onChange={this.handleInputValue('password')}
+          <Toggle
+            label="Изменить пароль"
+            toggled={changePassToggled}
+            onToggle={() => { this.setState({ changePassToggled: !changePassToggled }); }}
           />
+          { changePassToggled ?
+            <PasswordField
+              style={{ width: '256px' }}
+              floatingLabelText="Введите новый пароль"
+              type="password"
+              value={password}
+              errorText={errorPassword}
+              onKeyPress={this.handleKeyPressEnter}
+              onChange={this.handleInputValue('password')}
+            /> : null
+          }
           <RaisedButton
             className="save-button"
             label="Сохранить"

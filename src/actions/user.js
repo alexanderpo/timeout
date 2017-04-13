@@ -6,7 +6,7 @@ export const LOGOUT = 'LOGOUT';
 
 export const logout = createAction(LOGOUT);
 
-export function signIn(name, password) {
+export const signIn = (name, password) => {
   const data = { name, password };
   return {
     type: SIGN_IN,
@@ -16,9 +16,9 @@ export function signIn(name, password) {
       body: data,
     },
   };
-}
+};
 
-export function signUp(name, email, password) {
+export const signUp = (name, email, password) => {
   const data = { name, email, password };
   return {
     type: SIGN_UP,
@@ -28,4 +28,4 @@ export function signUp(name, email, password) {
       body: data,
     },
   };
-}
+};

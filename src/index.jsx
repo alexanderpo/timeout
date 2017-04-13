@@ -42,10 +42,10 @@ store.subscribe(() => {
   localStorage.setItem('user', JSON.stringify(store.getState().user));
 });
 
-function ensureAuthenticated(nextState, replace) {
+const ensureAuthenticated = (nextState, replace) => {
   const catchedUser = store.getState().user;
   if (!catchedUser.loggedIn) { replace('/signin'); }
-}
+};
 
 const Entry = () => (
   <Provider store={store}>
