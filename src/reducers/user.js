@@ -12,6 +12,7 @@ export default function (state = initialState, action) {
         hash: action.payload.hash,
         token: action.payload.token,
         liked_posts: action.payload.liked_posts,
+        created_at: action.payload.created_at,
         loggedIn: !action.payload.error,
       };
     default:

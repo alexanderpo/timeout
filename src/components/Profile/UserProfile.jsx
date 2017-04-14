@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { TextField, RaisedButton, Avatar, Toggle } from 'material-ui';
 import PasswordField from 'material-ui-password-field';
 import _ from 'lodash';
-import { signUpValidate } from '../../utils/inputValidation';
+import { updateUserValidate } from '../../utils/inputValidation';
 import UserProfilePhoto from '../../styles/images/user.png';
 
 const propTypes = {
@@ -21,7 +21,7 @@ class UserProfile extends Component {
       errorEmail: '',
       errorPassword: '',
       profileImage: '',
-      changePassToggled: false,
+      passwordToggleIsOpen: false,
     };
 
     this.handleProfileImage = this.handleProfileImage.bind(this);
@@ -29,6 +29,7 @@ class UserProfile extends Component {
     this.clearInputFields = this.clearInputFields.bind(this);
     this.handleSaveChanges = this.handleSaveChanges.bind(this);
     this.handleKeyPressEnter = this.handleKeyPressEnter.bind(this);
+    this.handlePasswordToggle = this.handlePasswordToggle.bind(this);
   }
 
   componentWillUnmount() {
@@ -50,6 +51,15 @@ class UserProfile extends Component {
     }
   }
 
+  handlePasswordToggle() {
+    const { passwordToggleIsOpen } = this.state;
+    this.setState({
+      password: '',
+      errorPassword: '',
+      passwordToggleIsOpen: !passwordToggleIsOpen,
+    });
+  }
+
   handleProfileImage(event) {
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -65,9 +75,9 @@ class UserProfile extends Component {
   }
 
   handleSaveChanges() {
-    const { name, email, password } = this.state;
-    const values = { name, email, password };
-    const errors = signUpValidate(values);
+    const { name, email, password, passwordToggleIsOpen } = this.state;
+    const values = { name, email, password, passwordToggleIsOpen };
+    const errors = updateUserValidate(values);
 
     if (!_.isEmpty(errors)) {
       this.setState({
@@ -88,6 +98,7 @@ class UserProfile extends Component {
       errorName: '',
       errorEmail: '',
       errorPassword: '',
+      passwordToggleIsOpen: false,
     });
   }
 
@@ -100,11 +111,11 @@ class UserProfile extends Component {
       errorEmail,
       errorPassword,
       profileImage,
-      changePassToggled,
+      passwordToggleIsOpen,
     } = this.state;
 
     return (
-      <div>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div className="user-profile-wrapper">
           <Avatar
             size={250}
@@ -135,11 +146,12 @@ class UserProfile extends Component {
             onChange={this.handleInputValue('email')}
           />
           <Toggle
+            className="change-password-toggle"
             label="Изменить пароль"
-            toggled={changePassToggled}
-            onToggle={() => { this.setState({ changePassToggled: !changePassToggled }); }}
+            toggled={passwordToggleIsOpen}
+            onToggle={this.handlePasswordToggle}
           />
-          { changePassToggled ?
+          { passwordToggleIsOpen ?
             <PasswordField
               style={{ width: '256px' }}
               floatingLabelText="Введите новый пароль"
