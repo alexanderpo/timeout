@@ -90,7 +90,7 @@ class SignUp extends Component {
           this.clearInputFields();
           setTimeout(() => {
             this.props.actions.push('/signin');
-          }, 4000);
+          }, 2500);
         }
       });
     }
@@ -155,7 +155,7 @@ class SignUp extends Component {
           className="dialog-box"
           open={dialogBoxIsOpen}
           message={dialogBoxText}
-          autoHideDuration={4000}
+          autoHideDuration={2500}
           onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
         />
       </div>

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { TextField, RaisedButton, Avatar, Toggle } from 'material-ui';
+import { TextField, RaisedButton, Avatar, Toggle, Snackbar } from 'material-ui';
 import PasswordField from 'material-ui-password-field';
 import _ from 'lodash';
 import { updateUserValidate } from '../../utils/inputValidation';
@@ -7,6 +7,7 @@ import UserProfilePhoto from '../../styles/images/user.png';
 
 const propTypes = {
   data: PropTypes.object,
+  updateProfile: PropTypes.func,
 };
 
 class UserProfile extends Component {
@@ -21,6 +22,8 @@ class UserProfile extends Component {
       errorEmail: '',
       errorPassword: '',
       profileImage: '',
+      dialogBoxText: '',
+      dialogBoxIsOpen: false,
       passwordToggleIsOpen: false,
     };
 
@@ -76,6 +79,7 @@ class UserProfile extends Component {
 
   handleSaveChanges() {
     const { name, email, password, passwordToggleIsOpen } = this.state;
+    const { data, updateProfile } = this.props;
     const values = { name, email, password, passwordToggleIsOpen };
     const errors = updateUserValidate(values);
 
@@ -86,7 +90,23 @@ class UserProfile extends Component {
         errorPassword: errors.password,
       });
     } else {
-      this.clearInputFields();
+      updateProfile(data.id, name, email, password, passwordToggleIsOpen)
+      .then((action) => {
+        if (action.payload.error) {
+          this.setState({
+            dialogBoxIsOpen: true,
+            dialogBoxText: action.payload.error,
+          });
+        } else {
+          this.setState({
+            password: '',
+            errorPassword: '',
+            passwordToggleIsOpen: false,
+            dialogBoxIsOpen: true,
+            dialogBoxText: 'Ваш профиль успешно обновлён',
+          });
+        }
+      });
     }
   }
 
@@ -111,6 +131,8 @@ class UserProfile extends Component {
       errorEmail,
       errorPassword,
       profileImage,
+      dialogBoxText,
+      dialogBoxIsOpen,
       passwordToggleIsOpen,
     } = this.state;
 
@@ -169,6 +191,13 @@ class UserProfile extends Component {
             onTouchTap={this.handleSaveChanges}
           />
         </div>
+        <Snackbar
+          className="dialog-box"
+          open={dialogBoxIsOpen}
+          message={dialogBoxText}
+          autoHideDuration={2500}
+          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
+        />
       </div>
     );
   }
