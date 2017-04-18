@@ -10,6 +10,7 @@ export default function (state = initialState, action) {
         name: action.payload.name,
         email: action.payload.email,
         hash: action.payload.hash,
+        image: action.payload.image,
         token: action.payload.token,
         liked_posts: action.payload.liked_posts,
         created_at: action.payload.created_at,

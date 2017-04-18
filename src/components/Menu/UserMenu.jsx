@@ -8,7 +8,7 @@ import EmailIcon from 'material-ui/svg-icons/communication/email';
 import UserProfilePhoto from '../../styles/images/user.png';
 
 const propTypes = {
-  email: PropTypes.string,
+  data: PropTypes.object,
   logout: PropTypes.func,
 };
 
@@ -40,14 +40,14 @@ class UserMenu extends Component {
 
   render() {
     const { menuOpen, anchorEl } = this.state;
-    const { email, logout } = this.props;
+    const { data, logout } = this.props;
 
     return (
       <div className="user-right-menu-wrapper">
         <Avatar
           onTouchTap={this.handleUserMenuOpen}
           className="user-right-menu-avatar"
-          src={UserProfilePhoto}
+          src={!data.image ? UserProfilePhoto : data.image}
           size={35}
         />
         <Popover
@@ -59,7 +59,7 @@ class UserMenu extends Component {
         >
           <Menu listStyle={{ width: '220px' }}>
             <MenuItem
-              primaryText={email}
+              primaryText={data.email}
               disabled={true}
               leftIcon={<EmailIcon />}
             />

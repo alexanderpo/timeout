@@ -21,7 +21,7 @@ class UserProfile extends Component {
       errorName: '',
       errorEmail: '',
       errorPassword: '',
-      profileImage: '',
+      image: this.props.data.image,
       dialogBoxText: '',
       dialogBoxIsOpen: false,
       passwordToggleIsOpen: false,
@@ -69,7 +69,7 @@ class UserProfile extends Component {
 
     reader.onload = (upload) => {
       this.setState({
-        profileImage: upload.target.result,
+        image: upload.target.result,
       });
     };
     if (file) {
@@ -130,7 +130,7 @@ class UserProfile extends Component {
       errorName,
       errorEmail,
       errorPassword,
-      profileImage,
+      image,
       dialogBoxText,
       dialogBoxIsOpen,
       passwordToggleIsOpen,
@@ -142,7 +142,7 @@ class UserProfile extends Component {
           <Avatar
             size={250}
             className="user-profile-image"
-            src={!profileImage ? UserProfilePhoto : profileImage}
+            src={!image ? UserProfilePhoto : image}
             onClick={() => { document.getElementById('image-loader').click(); }}
           />
           <input
