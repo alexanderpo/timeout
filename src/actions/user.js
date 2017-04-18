@@ -31,8 +31,8 @@ export const signUp = (name, email, password) => {
   };
 };
 
-export const updateUserData = (id, name, email, password, isChange) => {
-  const data = { name, email, password, isChange };
+export const updateUserData = (id, name, email, image, password, isChange) => {
+  const data = { name, email, image, password, isChange };
   return {
     type: UPDATE_USER_DATA,
     payload: {

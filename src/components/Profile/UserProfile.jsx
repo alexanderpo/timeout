@@ -78,7 +78,7 @@ class UserProfile extends Component {
   }
 
   handleSaveChanges() {
-    const { name, email, password, passwordToggleIsOpen } = this.state;
+    const { name, email, image, password, passwordToggleIsOpen } = this.state;
     const { data, updateProfile } = this.props;
     const values = { name, email, password, passwordToggleIsOpen };
     const errors = updateUserValidate(values);
@@ -90,7 +90,7 @@ class UserProfile extends Component {
         errorPassword: errors.password,
       });
     } else {
-      updateProfile(data.id, name, email, password, passwordToggleIsOpen)
+      updateProfile(data.id, name, email, image, password, passwordToggleIsOpen)
       .then((action) => {
         if (action.payload.error) {
           this.setState({

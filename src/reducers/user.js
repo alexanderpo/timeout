@@ -19,9 +19,10 @@ export default function (state = initialState, action) {
     case `${UPDATE_USER_DATA}_SUCCESS`:
       return {
         ...state,
-        name: action.payload.name,
-        email: action.payload.email,
-        hash: action.payload.hash,
+        name: !action.payload.name ? state.name : action.payload.name,
+        email: !action.payload.email ? state.email : action.payload.email,
+        hash: !action.payload.hash ? state.hash : action.payload.hash,
+        image: !action.payload.image ? state.image : action.payload.image,
       };
     default:
       return state;
