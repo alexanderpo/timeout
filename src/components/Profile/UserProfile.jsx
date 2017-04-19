@@ -99,8 +99,10 @@ class UserProfile extends Component {
           });
         } else {
           this.setState({
-            password: '',
+            errorName: '',
+            errorEmail: '',
             errorPassword: '',
+            password: '',
             passwordToggleIsOpen: false,
             dialogBoxIsOpen: true,
             dialogBoxText: 'Ваш профиль успешно обновлён',
