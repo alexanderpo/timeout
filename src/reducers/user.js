@@ -1,4 +1,4 @@
-import { SIGN_IN, UPDATE_USER } from '../actions/user';
+import { SIGN_IN, UPDATE_USER_DATA } from '../actions/user';
 
 const initialState = {};
 
@@ -6,27 +6,23 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case `${SIGN_IN}_SUCCESS`:
       return {
-        ...action.payload.user,
-        success: action.payload.success,
         id: action.payload.id,
         name: action.payload.name,
         email: action.payload.email,
-        image: {
-          data: action.payload.image,
-          type: action.payload.img_type,
-        },
-        message: action.payload.message,
+        hash: action.payload.hash,
+        image: action.payload.image,
         token: action.payload.token,
+        liked_posts: action.payload.liked_posts,
+        created_at: action.payload.created_at,
+        loggedIn: !action.payload.error,
       };
-    case UPDATE_USER:
+    case `${UPDATE_USER_DATA}_SUCCESS`:
       return {
         ...state,
-        name: action.payload.data.name,
-        email: action.payload.data.email,
-        image: {
-          data: action.payload.data.image.data,
-          type: action.payload.data.image.type,
-        },
+        name: !action.payload.name ? state.name : action.payload.name,
+        email: !action.payload.email ? state.email : action.payload.email,
+        hash: !action.payload.hash ? state.hash : action.payload.hash,
+        image: !action.payload.image ? state.image : action.payload.image,
       };
     default:
       return state;

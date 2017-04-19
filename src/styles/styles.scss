@@ -1,23 +1,7 @@
 body {
   padding: 0;
   margin: 0;
-  /* box-sizing: border-box;
-  background: rgba(251, 250, 251, 1);
-  color: rgba(76, 76, 76, 1); */
   font-family: Roboto, sans-serif;
-}
-
-body::-webkit-scrollbar {
-    width: 1em;
-}
-
-body::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
 }
 
 @mixin center-form {
@@ -27,7 +11,15 @@ body::-webkit-scrollbar-thumb {
   transform: translate(-50%, -50%);
 }
 
-.pre-enter-wrapper {
+@mixin center-text {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-weight: 200;
+}
+
+.sign-wrapper {
   @include center-form;
   display: flex;
   justify-content: space-around;
@@ -38,13 +30,16 @@ body::-webkit-scrollbar-thumb {
   font-weight: 300;
 }
 
-.pre-enter-button {
+.sign-password-field {
+  width: 256px;
+}
+
+.sign-in-button {
   margin: 5px;
 }
 
 .sign-up-button {
   margin: 5px;
-  margin-top: 15px;
 }
 
 .back-sign-up-button {
@@ -61,6 +56,142 @@ body::-webkit-scrollbar-thumb {
   font-size: 50px;
   color: rgba(219, 219, 219, 0.9);
 }
+
+.logo-text {
+  @include center-text;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.slogan-text {
+  @include center-text;
+  font-size: 14;
+  text-transform: lowercase;
+}
+
+/* Dialog Box */
+
+.dialog-box {
+  text-align: center;
+  font-weight: 400;
+}
+
+
+/* User profile */
+
+.user-profile-wrapper {
+  margin: 10px 50px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 300;
+}
+
+.user-profile-image {
+  cursor: pointer;
+}
+
+#image-loader {
+  display: none;
+}
+
+.save-button {
+  margin: 10px;
+}
+
+.user-right-menu-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin: 10px 50px 10px 10px;
+}
+
+.user-right-menu-avatar {
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.change-password-toggle {
+  margin: 20px 0px 5px 0px;
+}
+
+/* Posts  */
+
+@mixin post-header-right-text {
+  margin: 0;
+  font-weight: 300;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.post-container {
+  margin: 50px;
+}
+
+.post-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.post-header-title-wrapper {
+  margin-left: auto;
+}
+
+.post-header-title, .post-header-category {
+  @include post-header-right-text;
+}
+
+.post-action-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+.post-likes-counter {
+  display: flex;
+  align-items: center;
+  font-weight: 300;
+  margin-right: 20px;
+}
+
+/* Create post component */
+
+.create-post-wrapper {
+  margin: 15px;
+  padding: 15px;
+  width: 450px;
+  font-weight: 300;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-direction: column;
+}
+
+.create-post-title hr {
+  margin: 0px;
+}
+
+.create-post-title {
+  display: flex;
+  justify-content: center;
+  margin: 0px 10px 10px 10px;
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.create-post-buttons-block {
+  margin: 5px;
+  padding: 5px;
+}
+
+.create-post-button {
+  margin: 5px 15px;
+}
+
 
 /* HSL */
 $color1: hsla(0%, 0%, 82%, 1);

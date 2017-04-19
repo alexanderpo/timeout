@@ -11,32 +11,30 @@ import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 
 import thunk from 'redux-thunk';
-import api from './middlewares/api'; // middleware for fetch api requests
+import api from './middlewares/api';
 
-import { setNextPathname } from './actions/user';
-
-import reducers from './reducers'; // redux reducers
-import routes from './routes'; // client side routes
-import './styles/styles.scss'; // project styles
+import reducers from './reducers';
+import routes from './routes';
+import './styles/styles.scss';
 
 injectTapEventPlugin();
 /* Main color theme of material ui */
 const muiTheme = getMuiTheme({
   palette: {
     primary1Color: '#507299',
-    accent1Color: '#DBE4EE',
+    accent1Color: '#DBE4FE',
   },
 });
 
 const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
 
-const store = createStore(reducers, { user }, compose( // create redux store
+const store = createStore(reducers, { user }, compose(
   applyMiddleware(
     thunk,
     api(),
     routerMiddleware(browserHistory),
   ),
-  window.devToolsExtension ? window.devToolsExtension() : f => f // apply redux dev tools extension
+  window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 const history = syncHistoryWithStore(browserHistory, store);
 
@@ -44,13 +42,10 @@ store.subscribe(() => {
   localStorage.setItem('user', JSON.stringify(store.getState().user));
 });
 
-function ensureAuthenticated(nextState, replace) {
-  const user = store.getState().user; // eslint-disable-line
-  if (!user.data.success) {
-    store.dispatch(setNextPathname(nextState.location.pathname));
-    replace('/signin');
-  }
-}
+const ensureAuthenticated = (nextState, replace) => {
+  const catchedUser = store.getState().user;
+  if (!catchedUser.loggedIn) { replace('/signin'); }
+};
 
 const Entry = () => (
   <Provider store={store}>

@@ -1,28 +1,27 @@
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 /* Containers */
-import App from './containers/App';
-import Search from './containers/Search/Index';
-import CreatePost from './containers/CreatePost/Index';
 import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
-import Profile from './containers/User/Index';
-import AllPosts from './containers/Posts/Index';
-import MyPosts from './containers/Posts/UserPosts';
+import Main from './containers/Main';
+import UserProfile from './containers/Profile/Index';
+import AllPosts from './containers/Posts/AllPosts';
+import CreatePost from './containers/Posts/Create';
 
 export default function (ensureAuthenticated) {
   return (
     <Route>
       <Route path="signin" component={SignIn} />
       <Route path="signup" component={SignUp} />
-      <Route path="/" component={App} onEnter={ensureAuthenticated}>
-        <IndexRedirect to="posts" />
+      <Route path="/" component={Main} onEnter={ensureAuthenticated}>
+        <Route path="profile" component={UserProfile} />
 
-        <Route path="my-posts" component={MyPosts} />
-        <Route path="posts" component={AllPosts} />
-        <Route path="profile" component={Profile} />
-        <Route path="search" component={Search} />
-        <Route path="create" component={CreatePost} />
+        <Route path="posts">
+          <IndexRoute component={AllPosts} />
+
+          <Route path="create" component={CreatePost} />
+        </Route>
+
       </Route>
     </Route>
   );

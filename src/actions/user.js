@@ -1,59 +1,44 @@
 import { createAction } from 'redux-actions';
 
-export const CREATE_USER = 'CREATE_USER';
 export const SIGN_IN = 'SIGN_IN';
-export const SET_NEXT_PATHNAME = 'SET_NEXT_PATHNAME';
-export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
-export const UPDATE_USER = 'UPDATE_USER';
+export const SIGN_UP = 'SIGN_UP';
 export const LOGOUT = 'LOGOUT';
+export const UPDATE_USER_DATA = 'UPDATE_USER_DATA';
 
 export const logout = createAction(LOGOUT);
-export const updateUser = createAction(UPDATE_USER);
-export const setNextPathname = createAction(SET_NEXT_PATHNAME);
 
-export function createUser(name, email, password) {
-  return {
-    type: CREATE_USER,
-    payload: {
-      url: 'registration',
-      method: 'post',
-      body: {
-        name,
-        email,
-        password,
-      },
-    },
-  };
-}
-
-export function signIn(name, password) {
+export const signIn = (name, password) => {
+  const data = { name, password };
   return {
     type: SIGN_IN,
     payload: {
-      url: 'authenticate',
+      url: 'signin',
       method: 'post',
-      body: {
-        name,
-        password,
-      },
+      body: data,
     },
   };
-}
+};
 
-export function updateUserProfile(id, oldName, name, email, dataImage, oldImageType, imageType) {
+export const signUp = (name, email, password) => {
+  const data = { name, email, password };
   return {
-    type: UPDATE_USER_PROFILE,
+    type: SIGN_UP,
+    payload: {
+      url: 'signup',
+      method: 'post',
+      body: data,
+    },
+  };
+};
+
+export const updateUserData = (id, name, email, image, password, isChange) => {
+  const data = { name, email, image, password, isChange };
+  return {
+    type: UPDATE_USER_DATA,
     payload: {
       url: `profile/${id}`,
       method: 'put',
-      body: {
-        oldName,
-        name,
-        email,
-        dataImage,
-        oldImageType,
-        imageType,
-      },
+      body: data,
     },
   };
-}
+};

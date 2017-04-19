@@ -1,56 +1,41 @@
 import React, { Component, PropTypes } from 'react';
-import { TextField, RaisedButton, Snackbar } from 'material-ui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { TextField, RaisedButton, Snackbar } from 'material-ui';
+import PasswordField from 'material-ui-password-field';
+import _ from 'lodash';
 import { signIn } from '../actions/user';
-import { signInValidator } from '../utils/validators';
+import Logo from '../components/Logo';
+import { signInValidate } from '../utils/inputValidation';
 
 const propTypes = {
   actions: PropTypes.shape({
-    signIn: PropTypes.func, // eslint-disable-line
-    push: PropTypes.func, // eslint-disable-line
+    signIn: PropTypes.func,
+    push: PropTypes.func,
   }),
-};
-// TODO: implement sign in by email address and password
-const styles = {
-  logoText: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    fontWeight: 200,
-    fontSize: 20,
-    textTransform: 'uppercase',
-  },
-  sloganText: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    fontWeight: 200,
-    fontSize: 14,
-    textTransform: 'lowercase',
-  },
 };
 
 class SignIn extends Component {
-
   constructor(props) {
     super(props);
+
     this.state = {
       name: '',
       password: '',
-      messageBoxText: '',
-      autoHideMessageBoxTime: 4000,
-      messageBoxIsOpen: false,
+      errorName: '',
+      errorPassword: '',
+      dialogBoxIsOpen: false,
+      dialogBoxText: '',
     };
 
+    this.handleInputValue = this.handleInputValue.bind(this);
+    this.clearInputFields = this.clearInputFields.bind(this);
+    this.handleKeyPressEnter = this.handleKeyPressEnter.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  changeValue(key) {
+  handleInputValue(key) {
     return (event) => {
       const value = event.target.value;
       this.setState({
@@ -59,74 +44,99 @@ class SignIn extends Component {
     };
   }
 
-  handleSignIn() {
-    // TODO: Implement client side validation on empty fields
-    const { name, password } = this.state;
-    this.props.actions.signIn(name, password)
-    .then((action) => {
-      action.payload.success ? // eslint-disable-line
-        this.setState({
-          name: '',
-          password: '',
-          messageBoxIsOpen: true,
-        }) : this.setState({
-          messageBoxIsOpen: true,
-          messageBoxText: action.payload.message,
-        });
-      this.props.actions.push('/');
-    });
-  }
-
-  handleKeyPress(event) {
+  handleKeyPressEnter(event) {
     if (event.key === 'Enter') {
       this.handleSignIn();
     }
   }
 
+  clearInputFields() {
+    this.setState({
+      name: '',
+      password: '',
+      errorName: '',
+      errorPassword: '',
+    });
+  }
+
+  handleSignIn() {
+    const { name, password } = this.state;
+    const values = { name, password };
+    const errors = signInValidate(values);
+
+    if (!_.isEmpty(errors)) {
+      this.setState({
+        errorName: errors.name,
+        errorPassword: errors.password,
+      });
+    } else {
+      this.props.actions.signIn(name, password)
+      .then((action) => {
+        if (action.payload.error) {
+          this.setState({
+            dialogBoxIsOpen: true,
+            dialogBoxText: action.payload.error,
+          });
+        } else {
+          this.clearInputFields();
+          this.props.actions.push('/');
+        }
+      });
+    }
+  }
+
   render() {
+    const {
+      name,
+      password,
+      errorName,
+      errorPassword,
+      dialogBoxIsOpen,
+      dialogBoxText,
+    } = this.state;
+
     const { actions } = this.props;
-    const { name, messageBoxText, password, messageBoxIsOpen, autoHideMessageBoxTime } = this.state;
 
     return (
       <div>
-        <div className="pre-enter-wrapper">
-          <div>
-            <div style={styles.logoText}>timeout application</div>
-            <div style={styles.sloganText}>Spend time with interest</div>
-          </div>
+        <div className="sign-wrapper">
+          <Logo />
           <TextField
-            hintText="Username"
-            floatingLabelText="Username"
+            hintText="Имя пользователя"
+            floatingLabelText="Имя пользователя"
             value={name}
-            onChange={this.changeValue('name')}
-            onKeyPress={this.handleKeyPress}
+            errorText={errorName}
+            onChange={this.handleInputValue('name')}
+            onKeyPress={this.handleKeyPressEnter}
           />
-          <TextField
-            hintText="Password"
-            floatingLabelText="Password"
-            value={password}
+          <PasswordField
+            style={{ width: '256px' }}
+            floatingLabelText="Введите пароль"
             type="password"
-            onChange={this.changeValue('password')}
-            onKeyPress={this.handleKeyPress}
+            value={password}
+            errorText={errorPassword}
+            onChange={this.handleInputValue('password')}
+            onKeyPress={this.handleKeyPressEnter}
           />
           <RaisedButton
-            className="pre-enter-button"
-            label="Sign In"
+            className="sign-in-button"
+            label="Войти"
             primary={true}
             onTouchTap={this.handleSignIn}
           />
           <RaisedButton
-            className="pre-enter-button"
-            label="Register"
+            className="back-sign-up-button"
+            label="Зарегистрироваться"
             primary={true}
             onClick={() => { actions.push('/signup'); }}
           />
         </div>
         <Snackbar
-          open={messageBoxIsOpen}
-          message={messageBoxText}
-          autoHideDuration={autoHideMessageBoxTime}
-          onRequestClose={() => { this.setState({ messageBoxIsOpen: false }); }}
+          className="dialog-box"
+          open={dialogBoxIsOpen}
+          message={dialogBoxText}
+          autoHideDuration={4000}
+          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
         />
       </div>
     );
