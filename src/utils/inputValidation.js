@@ -63,3 +63,19 @@ export const updateUserValidate = (values) => {
 
   return errors;
 };
+
+export const createPostValidate = (values) => {
+  const errors = {};
+
+  if (values.title.length === 0) {
+    errors.title = 'Введите заголовок';
+  } else if (values.title.length < 3) {
+    errors.title = 'Заголовок должен быть не менее 3 символов';
+  } else if (values.selectedCategories.length === 0) {
+    errors.selectedCategories = 'Выберите хотябы одну категорию';
+  } else if (values.description.length === 0) {
+    errors.description = 'Введите описание записи';
+  }
+
+  return errors;
+};
