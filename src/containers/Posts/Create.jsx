@@ -33,7 +33,7 @@ class CreatePost extends Component {
 }
 
 CreatePost.propTypes = propTypes;
-export default connect(state => {
+export default connect((state) => {
   const userID = state.user.id;
   return {
     userID,

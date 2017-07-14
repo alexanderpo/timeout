@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
+import CreateIcon from 'material-ui/svg-icons/content/create';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 import {
   Paper,
   TextField,
@@ -9,9 +12,7 @@ import {
   Snackbar,
 } from 'material-ui';
 import { createPostValidate } from '../../utils/inputValidation';
-import _ from 'lodash';
-import CreateIcon from 'material-ui/svg-icons/content/create';
-import ClearIcon from 'material-ui/svg-icons/content/clear';
+
 
 const propTypes = {
   author: PropTypes.string,
@@ -98,7 +99,7 @@ class CreatePost extends Component {
 
   renderCategoryItems(selectedCategories) {
     return (
-      this.props.categories.map((name) => (
+      this.props.categories.map(name => (
         <MenuItem
           key={name}
           insetChildren={true}

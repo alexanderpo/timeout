@@ -1,37 +1,45 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { Divider, IconButton } from 'material-ui';
-import UserProfilePhoto from '../../styles/images/user.png';
 import FavoriteIcon from 'material-ui/svg-icons/action/favorite';
+// import UserProfilePhoto from '../../styles/images/user.png';
+
+
+const propTypes = {
+  params: PropTypes.object,
+};
 
 class Post extends Component {
   render() {
+    const { params } = this.props;
+
     return (
       <div>
         <Card className="post-container">
           <CardHeader
-            title="Имя пользователя"
-            avatar={UserProfilePhoto}
-            subtitle="1 января 2017"
+            title={params.author.name}
+            avatar={params.author.image}
+            subtitle={params.createdAt}
             className="post-header"
           >
             <div className="post-header-title-wrapper">
-              <h2 className="post-header-title">Тут будет заголовок записи</h2>
-              <h5 className="post-header-category">Категория</h5>
+              <h2 className="post-header-title">{params.title}</h2>
+              <h5 className="post-header-category">
+                {
+                  params.categories.map(category => (category + ' | ')) // eslint-disable-line
+                }
+              </h5>
             </div>
           </CardHeader>
           <Divider />
           <CardText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+            {params.description}
           </CardText>
           <CardActions className="post-action-wrapper">
             <IconButton>
               <FavoriteIcon />
             </IconButton>
-            <span className="post-likes-counter">2</span>
+            <span className="post-likes-counter">{params.likes}</span>
           </CardActions>
         </Card>
       </div>
@@ -39,4 +47,5 @@ class Post extends Component {
   }
 }
 
+Post.propTypes = propTypes;
 export default Post;

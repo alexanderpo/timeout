@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import userData from './user';
+import postsData from './posts';
 
 const appReducer = combineReducers({
   user: userData,
+  posts: postsData,
   routing: routerReducer,
 });
 
