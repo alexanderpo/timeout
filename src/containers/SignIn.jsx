@@ -102,8 +102,8 @@ class SignIn extends Component {
         <div className="sign-wrapper">
           <Logo />
           <TextField
-            hintText="Имя пользователя"
-            floatingLabelText="Имя пользователя"
+            hintText="Username"
+            floatingLabelText="Username"
             value={name}
             errorText={errorName}
             onChange={this.handleInputValue('name')}
@@ -111,7 +111,7 @@ class SignIn extends Component {
           />
           <PasswordField
             style={{ width: '256px' }}
-            floatingLabelText="Введите пароль"
+            floatingLabelText="Enter password"
             type="password"
             value={password}
             errorText={errorPassword}
@@ -120,13 +120,13 @@ class SignIn extends Component {
           />
           <RaisedButton
             className="sign-in-button"
-            label="Войти"
+            label="Sign In"
             primary={true}
             onTouchTap={this.handleSignIn}
           />
           <RaisedButton
             className="back-sign-up-button"
-            label="Зарегистрироваться"
+            label="Sign Up"
             primary={true}
             onClick={() => { actions.push('/signup'); }}
           />

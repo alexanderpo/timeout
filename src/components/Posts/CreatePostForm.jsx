@@ -90,7 +90,7 @@ class CreatePost extends Component {
           this.handleClearButton();
           this.setState({
             dialogBoxIsOpen: true,
-            dialogBoxText: 'Запись успешно создана',
+            dialogBoxText: 'Article successfully created.',
           });
         }
       });
@@ -131,8 +131,8 @@ class CreatePost extends Component {
           </div>
           <div>
             <TextField
-              hintText="Введите заголовок"
-              floatingLabelText="Заголовок"
+              hintText="Enter title"
+              floatingLabelText="Title"
               fullWidth={true}
               value={title}
               errorText={errorTitle}
@@ -140,8 +140,8 @@ class CreatePost extends Component {
             />
             <SelectField
               multiple={true}
-              hintText="Выберите категорию"
-              floatingLabelText="Категория"
+              hintText="Choose category"
+              floatingLabelText="Category"
               value={selectedCategories}
               onChange={this.handleSelectCategory}
               fullWidth={true}
@@ -151,7 +151,7 @@ class CreatePost extends Component {
               {this.renderCategoryItems(selectedCategories)}
             </SelectField>
             <TextField
-              floatingLabelText="Описание"
+              floatingLabelText="Description"
               multiLine={true}
               fullWidth={true}
               rows={5}
@@ -165,14 +165,14 @@ class CreatePost extends Component {
           <div className="create-post-buttons-block">
             <RaisedButton
               icon={<ClearIcon />}
-              label="Очистить"
+              label="Clear"
               primary={true}
               className="create-post-button"
               onTouchTap={this.handleClearButton}
             />
             <RaisedButton
               icon={<CreateIcon />}
-              label="Создать"
+              label="Create"
               primary={true}
               className="create-post-button"
               onTouchTap={this.handleCreatePostButton}

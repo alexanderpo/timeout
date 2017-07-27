@@ -6,20 +6,24 @@ import _ from 'lodash';
 import moment from 'moment';
 import Pagination from '../../components/Pagination';
 import Post from '../../components/Posts/Post';
-import { getAllPosts } from '../../actions/post';
+import { getAllPosts, clearAllPosts } from '../../actions/post';
 
 const propTypes = {
   posts: PropTypes.array,
   actions: PropTypes.shape({
     getAllPosts: PropTypes.func,
     push: PropTypes.func,
+    clearAllPosts: PropTypes.func,
   }),
 };
 
 class AllPosts extends Component {
-
   componentWillMount() {
     this.props.actions.getAllPosts();
+  }
+
+  componentWillUnmount() {
+    this.props.actions.clearAllPosts();
   }
 
   render() {
@@ -30,6 +34,7 @@ class AllPosts extends Component {
         <Pagination
           content={posts}
           renderComponent={Post}
+          itemsPerPage={4}
         />
       </div>
     );
@@ -39,8 +44,8 @@ class AllPosts extends Component {
 AllPosts.propTypes = propTypes;
 
 export default connect((state) => {
-  const posts = !_.isEmpty(state.posts) ?
-  state.posts.map(post => ({
+  const posts = !_.isEmpty(state.posts.all) ?
+  state.posts.all.map(post => ({
     id: post.id,
     title: post.title,
     description: post.description,
@@ -58,5 +63,6 @@ export default connect((state) => {
   actions: bindActionCreators({
     getAllPosts,
     push,
+    clearAllPosts,
   }, dispatch),
 }))(AllPosts);

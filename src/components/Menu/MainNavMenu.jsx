@@ -12,19 +12,19 @@ class MainNavMenu extends Component {
         <ToolbarGroup>
           <FlatButton
             icon={<HomeIcon />}
-            label="Главная"
+            label="Main"
             style={{ color: 'white' }}
             containerElement={<Link to="/" />}
           />
           <FlatButton
             icon={<FavoriteIcon />}
-            label="Понравившиеся"
+            label="Liked"
             style={{ color: 'white' }}
             containerElement={<Link to="" />}
           />
           <FlatButton
             icon={<SearchIcon />}
-            label="Поиск"
+            label="Search"
             style={{ color: 'white' }}
             containerElement={<Link to="" />}
           />

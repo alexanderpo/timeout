@@ -1,63 +1,26 @@
-import React, { Component } from 'react';
-// import Post from './Post';
-import Pagination from 'material-ui-pagination';
+import React, { Component, PropTypes } from 'react';
+import Post from './Post';
+import Pagination from '../Pagination';
 
-class LatestPosts extends Component {
-  constructor(props) {
-    super(props);
+const propTypes = {
+  posts: PropTypes.array,
+};
 
-    this.state = {
-      list: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', '10', '11'],
-      totalPages: 10,
-      displayPages: 5,
-      currentPage: 1,
-      itemsPerPage: 4,
-    };
-  }
-
+class LatestPostsForm extends Component {
   render() {
-    const { list, currentPage, itemsPerPage } = this.state;
-    const indexOfLastTodo = currentPage * itemsPerPage;
-    const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
-    const currentItems = list.slice(indexOfFirstTodo, indexOfLastTodo);
+    const { posts } = this.props;
 
-    const renderTodos = currentItems.map((item, index) => {
-      return <li key={index}>{item}</li>;
-    });
-
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(list.length / itemsPerPage); i++) {
-      pageNumbers.push(i);
-    }
-    console.log(pageNumbers);
     return (
-      <div
-        style={{
-          width: 500,
-          margin: '0 auto',
-        }}
-      >
-        <h3 >
-          Now you are at
-          <em
-            style={{ color: 'red' }}
-          >
-            {` ${currentPage} ` }
-          </em>
-          page
-        </h3>
-        <ul>
-          { renderTodos }
-        </ul>
+      <div>
         <Pagination
-          total={pageNumbers.length}
-          current={this.state.currentPage}
-          display={this.state.displayPages}
-          onChange={currentPage => this.setState({ currentPage })}
+          content={posts}
+          renderComponent={Post}
+          itemsPerPage={5}
         />
       </div>
     );
   }
 }
 
-export default LatestPosts;
+LatestPostsForm.propTypes = propTypes;
+export default LatestPostsForm;

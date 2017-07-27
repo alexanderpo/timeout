@@ -3,6 +3,7 @@ import Pagination from 'material-ui-pagination';
 
 const propTypes = {
   content: PropTypes.array.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
   renderComponent: PropTypes.func.isRequired,
 };
 
@@ -13,8 +14,25 @@ class AllPosts extends Component {
     this.state = {
       displayPages: 5,
       currentPage: 1,
-      itemsPerPage: 4,
+      itemsPerPage: this.props.itemsPerPage,
+      scrollInterval: 0,
+      scrollSpeed: 10,
     };
+
+    this.scrollUp = this.scrollUp.bind(this);
+    this.scrollStep = this.scrollStep.bind(this);
+  }
+
+  scrollStep() {
+    if (window.pageYOffset === 0) {
+      clearInterval(this.state.scrollInterval);
+    }
+    window.scroll(0, window.pageYOffset - this.state.scrollSpeed);
+  }
+
+  scrollUp() {
+    const intervalId = setInterval(this.scrollStep, this.state.scrollSpeed);
+    this.setState({ scrollInterval: intervalId });
   }
 
   render() {
@@ -39,13 +57,18 @@ class AllPosts extends Component {
 
     return (
       <div>
-        { renderContent }
+        <div>
+          { renderContent }
+        </div>
         <div className="content-pagination">
           <Pagination
             total={pageCount.length}
             current={currentPage}
             display={displayPages}
-            onChange={currentPage => this.setState({ currentPage })} // eslint-disable-line
+            onChange={
+              // eslint-disable-next-line
+              currentPage => this.setState({ currentPage }, () => { this.scrollUp(); })
+            }
           />
         </div>
       </div>

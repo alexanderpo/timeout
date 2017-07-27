@@ -85,7 +85,7 @@ class SignUp extends Component {
         } else {
           this.setState({
             dialogBoxIsOpen: true,
-            dialogBoxText: 'Вы успешно зарегистрированы, можете войти',
+            dialogBoxText: 'Now you can Sign In',
           });
           this.clearInputFields();
           setTimeout(() => {
@@ -115,16 +115,16 @@ class SignUp extends Component {
         <div className="sign-wrapper">
           <Logo />
           <TextField
-            hintText="Имя пользователя"
-            floatingLabelText="Имя пользователя"
+            hintText="Username"
+            floatingLabelText="Username"
             value={name}
             errorText={errorName}
             onChange={this.handleInputValue('name')}
             onKeyPress={this.handleKeyPressEnter}
           />
           <TextField
-            hintText="Email адрес"
-            floatingLabelText="Email адрес"
+            hintText="Email address"
+            floatingLabelText="Email address"
             value={email}
             errorText={errorEmail}
             onChange={this.handleInputValue('email')}
@@ -132,7 +132,7 @@ class SignUp extends Component {
           />
           <PasswordField
             style={{ width: '256px' }}
-            floatingLabelText="Введите пароль"
+            floatingLabelText="Enter password"
             type="password"
             value={password}
             errorText={errorPassword}
@@ -141,13 +141,13 @@ class SignUp extends Component {
           />
           <RaisedButton
             className="sign-up-button"
-            label="Зарегистрироваться"
+            label="Sign Up"
             primary={true}
             onTouchTap={this.handleSignUp}
           />
           <RaisedButton
             className="back-sign-up-button"
-            label="Назад"
+            label="Back"
             onClick={() => { actions.push('/signin'); }}
           />
         </div>
