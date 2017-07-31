@@ -3,6 +3,7 @@ import Pagination from 'material-ui-pagination';
 
 const propTypes = {
   content: PropTypes.array.isRequired,
+  action: PropTypes.func,
   itemsPerPage: PropTypes.number.isRequired,
   renderComponent: PropTypes.func.isRequired,
 };
@@ -37,7 +38,7 @@ class AllPosts extends Component {
 
   render() {
     const { currentPage, itemsPerPage, displayPages } = this.state;
-    const { content } = this.props;
+    const { content, action } = this.props;
     const RenderComponent = this.props.renderComponent;
 
     const pageCount = [];
@@ -47,7 +48,7 @@ class AllPosts extends Component {
 
     const renderContent = currentItems.map((item) => { // eslint-disable-line
       return (
-        <RenderComponent params={item} key={item.id} />
+        <RenderComponent params={item} likePost={action} key={item.id} />
       );
     });
 

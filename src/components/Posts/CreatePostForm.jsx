@@ -5,7 +5,6 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 import {
   Paper,
   TextField,
-  Divider,
   SelectField,
   MenuItem,
   RaisedButton,
@@ -126,8 +125,7 @@ class CreatePost extends Component {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Paper zDepth={2} className="create-post-wrapper">
           <div>
-            <span className="create-post-title">Создать запись</span>
-            <Divider />
+            <span className="create-post-title">Create Post</span>
           </div>
           <div>
             <TextField

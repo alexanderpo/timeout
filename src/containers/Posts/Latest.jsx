@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import _ from 'lodash';
 import LatestPostsForm from '../../components/Posts/LatestPosts';
-import { getLatestsPosts, clearLatestPosts } from '../../actions/post';
+import { getLatestsPosts, clearLatestPosts, likePost } from '../../actions/post';
 
 const propTypes = {
   latestPosts: PropTypes.array,
   actions: PropTypes.shape({
     getLatestsPosts: PropTypes.func,
     clearLatestPosts: PropTypes.func,
+    likePost: PropTypes.func,
   }),
 };
 
@@ -24,11 +25,11 @@ class LatestPosts extends Component {
   }
 
   render() {
-    const { latestPosts } = this.props;
+    const { latestPosts, actions } = this.props;
 
     return (
       <div>
-        <LatestPostsForm posts={latestPosts} />
+        <LatestPostsForm posts={latestPosts} likePost={actions.likePost} />
       </div>
     );
   }
@@ -36,6 +37,7 @@ class LatestPosts extends Component {
 
 LatestPosts.propTypes = propTypes;
 export default connect((state) => {
+  const userId = state.user.id;
   const latestPosts = !_.isEmpty(state.posts.latest) ?
   state.posts.latest.map(post => ({
     id: post.id,
@@ -44,6 +46,7 @@ export default connect((state) => {
     categories: post.categories,
     author: post.author,
     likes: post.likes.length,
+    isLiked: _.includes(post.likes, userId) ? true : false, // eslint-disable-line
     createdAt: moment(post.created_at).format('ll'),
     updatedAt: moment(post.updated_at).format('ll'),
   })) : [];
@@ -53,5 +56,6 @@ export default connect((state) => {
   actions: bindActionCreators({
     getLatestsPosts,
     clearLatestPosts,
+    likePost,
   }, dispatch),
 }))(LatestPosts);

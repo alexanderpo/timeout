@@ -4,16 +4,18 @@ import Pagination from '../Pagination';
 
 const propTypes = {
   posts: PropTypes.array,
+  likePost: PropTypes.func,
 };
 
 class LatestPostsForm extends Component {
   render() {
-    const { posts } = this.props;
+    const { posts, likePost } = this.props;
 
     return (
       <div>
         <Pagination
           content={posts}
+          action={likePost}
           renderComponent={Post}
           itemsPerPage={5}
         />

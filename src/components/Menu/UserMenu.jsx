@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { Avatar, Popover, Menu, MenuItem, FlatButton, Divider } from 'material-ui';
 import CreateIcon from 'material-ui/svg-icons/content/create';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import MyPostsIcon from 'material-ui/svg-icons/action/description';
 import ExitIcon from 'material-ui/svg-icons/action/exit-to-app';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import UserProfilePhoto from '../../styles/images/user.png';
@@ -62,6 +63,12 @@ class UserMenu extends Component {
               primaryText={data.email}
               disabled={true}
               leftIcon={<EmailIcon />}
+            />
+            <MenuItem
+              primaryText="My posts"
+              leftIcon={<MyPostsIcon />}
+              containerElement={<Link to="/posts" />} // TODO: change to user posts page
+              onTouchTap={this.handleUserMenuClose}
             />
             <MenuItem
               primaryText="Settings"

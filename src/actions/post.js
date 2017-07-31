@@ -1,6 +1,7 @@
 import { createAction } from 'redux-actions';
 
 const CREATE_POST = 'CREATE_POST';
+const LIKE_POST = 'LIKE_POST';
 
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const GET_LATEST_POSTS = 'GET_LATEST_POSTS';
@@ -38,6 +39,18 @@ export const getLatestsPosts = () => { // eslint-disable-line
     payload: {
       url: 'posts/latest',
       method: 'get',
+    },
+  };
+};
+
+export const likePost = (postId, userId) => {
+  const data = { postId, userId };
+  return {
+    type: LIKE_POST,
+    payload: {
+      url: `posts/${postId}/like`,
+      method: 'post',
+      body: data,
     },
   };
 };
