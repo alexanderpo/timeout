@@ -3,12 +3,14 @@ import { routerReducer } from 'react-router-redux';
 import userData from './user';
 import allPosts from './Posts/all';
 import latestPosts from './Posts/latest';
+import userPosts from './Posts/userPosts';
 
 const appReducer = combineReducers({
   user: userData,
   posts: combineReducers({
     all: allPosts,
     latest: latestPosts,
+    author: userPosts,
   }),
   routing: routerReducer,
 });

@@ -5,12 +5,11 @@ import CreatePostForm from '../../components/Posts/CreatePostForm';
 import { createPost } from '../../actions/post';
 
 const categories = [
-  'Спорт',
-  'Кино',
-  'Музыка',
-  'Кулинария',
-  'Программирование',
-  'Фотография',
+  'Cooking',
+  'Sport',
+  'Gaming',
+  'Logic',
+  'Other',
 ];
 
 const propTypes = {

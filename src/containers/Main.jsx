@@ -22,8 +22,9 @@ class Main extends Component {
     const { data, actions } = this.props;
 
     return (
-      <div className="user-left-menu-wrapper">
+      <div>
         <AppBar
+          style={{ zIndex: 900 }}
           iconElementLeft={<MainNavMenu />}
           iconElementRight={<UserMenu data={data} logout={actions.logout} />}
         />

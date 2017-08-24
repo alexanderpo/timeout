@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import NProgress from 'nprogress';
 
 const LOADING = 'LOADING';
 const SUCCESS = 'SUCCESS';
@@ -27,6 +28,9 @@ export default function () {
       ...!data ? { payload: data } : {},
     }));
 
+    NProgress.configure({ showSpinner: false });
+    NProgress.start();
+
     return fetch(`/api/${url}`, {
       method,
       headers: {
@@ -37,6 +41,7 @@ export default function () {
       body: JSON.stringify(body),
     })
       .then((response) => {
+        NProgress.done();
         if (response.status >= 400) {
           return Promise.reject(response.status);
         }

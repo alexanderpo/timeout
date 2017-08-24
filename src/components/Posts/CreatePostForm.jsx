@@ -144,6 +144,7 @@ class CreatePost extends Component {
               onChange={this.handleSelectCategory}
               fullWidth={true}
               errorText={errorCategories}
+              className="category-selector"
               style={{ maxWidth: 420 }}
             >
               {this.renderCategoryItems(selectedCategories)}

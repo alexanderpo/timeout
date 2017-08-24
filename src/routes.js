@@ -8,6 +8,7 @@ import UserProfile from './containers/Profile/Index';
 import AllPosts from './containers/Posts/AllPosts';
 import LatestPosts from './containers/Posts/Latest';
 import CreatePost from './containers/Posts/Create';
+import UserPosts from './containers/Posts/UserPosts';
 
 export default function (ensureAuthenticated) {
   return (
@@ -22,6 +23,7 @@ export default function (ensureAuthenticated) {
           <IndexRoute component={AllPosts} />
           <Route path="latest" component={LatestPosts} />
           <Route path="create" component={CreatePost} />
+          <Route path="user" component={UserPosts} />
         </Route>
 
       </Route>

@@ -7,9 +7,12 @@ export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const GET_LATEST_POSTS = 'GET_LATEST_POSTS';
 export const CLEAR_ALL_POSTS = 'CLEAR_ALL_POSTS';
 export const CLEAR_LATEST_POSTS = 'CLEAR_LATEST_POSTS';
+export const CLEAR_AUTHOR_POSTS = 'CLEAR_AUTHOR_POSTS';
+export const GET_AUTHOR_POSTS = 'GET_AUTHOR_POSTS';
 
 export const clearAllPosts = createAction(CLEAR_ALL_POSTS);
 export const clearLatestPosts = createAction(CLEAR_LATEST_POSTS);
+export const clearAuthorPosts = createAction(CLEAR_AUTHOR_POSTS);
 
 export const createPost = (title, categories, description, author) => {
   const data = { title, categories, description, author };
@@ -28,6 +31,16 @@ export const getAllPosts = () => { // eslint-disable-line
     type: GET_ALL_POSTS,
     payload: {
       url: 'posts',
+      method: 'get',
+    },
+  };
+};
+
+export const getAuthorPosts = (id) => { // eslint-disable-line
+  return {
+    type: GET_AUTHOR_POSTS,
+    payload: {
+      url: `users/${id}/posts`,
       method: 'get',
     },
   };

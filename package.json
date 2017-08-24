@@ -38,6 +38,7 @@
     "material-ui-pagination": "^1.0.4",
     "material-ui-password-field": "^1.1.2",
     "moment": "^2.15.2",
+    "nprogress": "^0.2.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-redux": "^5.0.3",

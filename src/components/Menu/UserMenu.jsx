@@ -67,7 +67,7 @@ class UserMenu extends Component {
             <MenuItem
               primaryText="My posts"
               leftIcon={<MyPostsIcon />}
-              containerElement={<Link to="/posts" />} // TODO: change to user posts page
+              containerElement={<Link to="/posts/user" />}
               onTouchTap={this.handleUserMenuClose}
             />
             <MenuItem
