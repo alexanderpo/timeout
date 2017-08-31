@@ -1,15 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Post from './Post';
+import Pagination from '../Pagination';
 
-class LatestPosts extends Component {
+const propTypes = {
+  posts: PropTypes.array,
+  likePost: PropTypes.func,
+};
+
+class LatestPostsForm extends Component {
   render() {
-    // TODO: implement display latest of the post from all users
+    const { posts, likePost } = this.props;
+
     return (
       <div>
-        <Post />
+        <Pagination
+          content={posts}
+          action={likePost}
+          renderComponent={Post}
+          itemsPerPage={5}
+        />
       </div>
     );
   }
 }
 
-export default LatestPosts;
+LatestPostsForm.propTypes = propTypes;
+export default LatestPostsForm;

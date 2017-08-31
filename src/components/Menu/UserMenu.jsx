@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { Avatar, Popover, Menu, MenuItem, FlatButton, Divider } from 'material-ui';
 import CreateIcon from 'material-ui/svg-icons/content/create';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import MyPostsIcon from 'material-ui/svg-icons/action/description';
 import ExitIcon from 'material-ui/svg-icons/action/exit-to-app';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import UserProfilePhoto from '../../styles/images/user.png';
@@ -64,14 +65,20 @@ class UserMenu extends Component {
               leftIcon={<EmailIcon />}
             />
             <MenuItem
-              primaryText="Настройки"
+              primaryText="My posts"
+              leftIcon={<MyPostsIcon />}
+              containerElement={<Link to="/posts/user" />}
+              onTouchTap={this.handleUserMenuClose}
+            />
+            <MenuItem
+              primaryText="Settings"
               leftIcon={<SettingsIcon />}
               containerElement={<Link to="/profile" />}
               onTouchTap={this.handleUserMenuClose}
             />
             <Divider />
             <MenuItem
-              primaryText="Выйти"
+              primaryText="Logout"
               leftIcon={<ExitIcon />}
               containerElement={<Link to="/signin" />}
               onTouchTap={logout}
@@ -81,7 +88,7 @@ class UserMenu extends Component {
         <FlatButton
           style={{ color: 'white', marginBottom: 3 }}
           icon={<CreateIcon />}
-          label="Создать"
+          label="Create article"
           containerElement={<Link to="/posts/create" />}
         />
       </div>

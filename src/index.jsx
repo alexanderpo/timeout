@@ -34,7 +34,7 @@ const store = createStore(reducers, { user }, compose(
     api(),
     routerMiddleware(browserHistory),
   ),
-  window.devToolsExtension ? window.devToolsExtension() : f => f
+  window.devToolsExtension ? window.devToolsExtension() : f => f,
 ));
 const history = syncHistoryWithStore(browserHistory, store);
 
@@ -57,5 +57,5 @@ ReactDOM.render(
   <MuiThemeProvider muiTheme={muiTheme}>
     <Entry />
   </MuiThemeProvider>,
-  document.getElementById('app')
+  document.getElementById('app'),
 );

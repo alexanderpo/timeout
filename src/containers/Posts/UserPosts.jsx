@@ -6,25 +6,26 @@ import _ from 'lodash';
 import moment from 'moment';
 import Pagination from '../../components/Pagination';
 import Post from '../../components/Posts/Post';
-import { getAllPosts, clearAllPosts, likePost } from '../../actions/post';
+import { getAuthorPosts, clearAuthorPosts, likePost } from '../../actions/post';
 
 const propTypes = {
+  userId: PropTypes.string,
   posts: PropTypes.array,
   actions: PropTypes.shape({
-    getAllPosts: PropTypes.func,
+    getAuthorPosts: PropTypes.func,
     push: PropTypes.func,
-    clearAllPosts: PropTypes.func,
+    clearAuthorPosts: PropTypes.func,
     likePost: PropTypes.func,
   }),
 };
 
-class AllPosts extends Component {
+class UserPosts extends Component {
   componentWillMount() {
-    this.props.actions.getAllPosts();
+    this.props.actions.getAuthorPosts(this.props.userId);
   }
 
   componentWillUnmount() {
-    this.props.actions.clearAllPosts();
+    this.props.actions.clearAuthorPosts();
   }
 
   render() {
@@ -43,12 +44,12 @@ class AllPosts extends Component {
   }
 }
 
-AllPosts.propTypes = propTypes;
+UserPosts.propTypes = propTypes;
 
 export default connect((state) => {
   const userId = state.user.id;
-  const posts = !_.isEmpty(state.posts.all) ?
-  state.posts.all.map(post => ({
+  const posts = !_.isEmpty(state.posts.author) ?
+  state.posts.author.map(post => ({
     id: post.id,
     title: post.title,
     description: post.description,
@@ -61,13 +62,14 @@ export default connect((state) => {
   })) : [];
 
   return {
+    userId,
     posts,
   };
 }, dispatch => ({
   actions: bindActionCreators({
-    getAllPosts,
+    getAuthorPosts,
     push,
-    clearAllPosts,
+    clearAuthorPosts,
     likePost,
   }, dispatch),
-}))(AllPosts);
+}))(UserPosts);

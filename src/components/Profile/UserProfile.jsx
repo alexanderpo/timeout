@@ -105,7 +105,7 @@ class UserProfile extends Component {
             password: '',
             passwordToggleIsOpen: false,
             dialogBoxIsOpen: true,
-            dialogBoxText: 'Ваш профиль успешно обновлён',
+            dialogBoxText: 'Your profile successfully updated.',
           });
         }
       });
@@ -154,16 +154,16 @@ class UserProfile extends Component {
             onChange={this.handleProfileImage}
           />
           <TextField
-            hintText="Имя пользователя"
-            floatingLabelText="Имя пользователя"
+            hintText="Username"
+            floatingLabelText="Username"
             value={name}
             errorText={errorName}
             onKeyPress={this.handleKeyPressEnter}
             onChange={this.handleInputValue('name')}
           />
           <TextField
-            hintText="Email адрес"
-            floatingLabelText="Email адрес"
+            hintText="Email address"
+            floatingLabelText="Email address"
             value={email}
             errorText={errorEmail}
             onKeyPress={this.handleKeyPressEnter}
@@ -171,14 +171,14 @@ class UserProfile extends Component {
           />
           <Toggle
             className="change-password-toggle"
-            label="Изменить пароль"
+            label="Change password"
             toggled={passwordToggleIsOpen}
             onToggle={this.handlePasswordToggle}
           />
           { passwordToggleIsOpen ?
             <PasswordField
               style={{ width: '256px' }}
-              floatingLabelText="Введите новый пароль"
+              floatingLabelText="Enter new password"
               type="password"
               value={password}
               errorText={errorPassword}
@@ -188,7 +188,7 @@ class UserProfile extends Component {
           }
           <RaisedButton
             className="save-button"
-            label="Сохранить"
+            label="Save changes"
             primary={true}
             onTouchTap={this.handleSaveChanges}
           />

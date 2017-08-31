@@ -1,10 +1,22 @@
 import React, { Component, PropTypes } from 'react';
-import { Paper, TextField, Divider, SelectField, MenuItem, RaisedButton } from 'material-ui';
+import _ from 'lodash';
 import CreateIcon from 'material-ui/svg-icons/content/create';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
+import {
+  Paper,
+  TextField,
+  SelectField,
+  MenuItem,
+  RaisedButton,
+  Snackbar,
+} from 'material-ui';
+import { createPostValidate } from '../../utils/inputValidation';
+
 
 const propTypes = {
+  author: PropTypes.string,
   categories: PropTypes.array,
+  createPost: PropTypes.func,
 };
 
 class CreatePost extends Component {
@@ -15,11 +27,17 @@ class CreatePost extends Component {
       title: '',
       description: '',
       selectedCategories: [],
+      errorTitle: '',
+      errorDescription: '',
+      errorCategories: '',
+      dialogBoxIsOpen: false,
+      dialogBoxText: '',
     };
 
     this.handleSelectCategory = this.handleSelectCategory.bind(this);
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handleClearButton = this.handleClearButton.bind(this);
+    this.handleCreatePostButton = this.handleCreatePostButton.bind(this);
   }
 
   handleSelectCategory(event, index, values) {
@@ -42,12 +60,45 @@ class CreatePost extends Component {
       selectedCategories: [],
       title: '',
       description: '',
+      errorTitle: '',
+      errorCategories: '',
+      errorDescription: '',
     });
+  }
+
+  handleCreatePostButton() {
+    const { title, selectedCategories, description } = this.state;
+    const { author, createPost } = this.props;
+    const values = { title, selectedCategories, description };
+    const errors = createPostValidate(values);
+    if (!_.isEmpty(errors)) {
+      this.setState({
+        errorTitle: errors.title,
+        errorCategories: errors.selectedCategories,
+        errorDescription: errors.description,
+      });
+    } else {
+      createPost(title, selectedCategories, description, author)
+      .then((action) => {
+        if (action.payload.error) {
+          this.setState({
+            dialogBoxIsOpen: true,
+            dialogBoxText: action.payload.error,
+          });
+        } else {
+          this.handleClearButton();
+          this.setState({
+            dialogBoxIsOpen: true,
+            dialogBoxText: 'Article successfully created.',
+          });
+        }
+      });
+    }
   }
 
   renderCategoryItems(selectedCategories) {
     return (
-      this.props.categories.map((name) => (
+      this.props.categories.map(name => (
         <MenuItem
           key={name}
           insetChildren={true}
@@ -60,40 +111,52 @@ class CreatePost extends Component {
   }
 
   render() {
-    const { title, description, selectedCategories } = this.state;
+    const {
+      title,
+      description,
+      selectedCategories,
+      errorTitle,
+      errorCategories,
+      errorDescription,
+      dialogBoxIsOpen,
+      dialogBoxText,
+    } = this.state;
     return (
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Paper zDepth={2} className="create-post-wrapper">
           <div>
-            <span className="create-post-title">Создать запись</span>
-            <Divider />
+            <span className="create-post-title">Create Post</span>
           </div>
           <div>
             <TextField
-              hintText="Введите заголовок"
-              floatingLabelText="Заголовок"
+              hintText="Enter title"
+              floatingLabelText="Title"
               fullWidth={true}
               value={title}
+              errorText={errorTitle}
               onChange={this.handleInputValue('title')}
             />
             <SelectField
               multiple={true}
-              hintText="Выберите категорию"
-              floatingLabelText="Категория"
+              hintText="Choose category"
+              floatingLabelText="Category"
               value={selectedCategories}
               onChange={this.handleSelectCategory}
               fullWidth={true}
+              errorText={errorCategories}
+              className="category-selector"
               style={{ maxWidth: 420 }}
             >
               {this.renderCategoryItems(selectedCategories)}
             </SelectField>
             <TextField
-              floatingLabelText="Описание"
+              floatingLabelText="Description"
               multiLine={true}
               fullWidth={true}
               rows={5}
               rowsMax={10}
               value={description}
+              errorText={errorDescription}
               onChange={this.handleInputValue('description')}
               textareaStyle={{ padding: 2, backgroundColor: '#F5F6F7' }}
             />
@@ -101,19 +164,27 @@ class CreatePost extends Component {
           <div className="create-post-buttons-block">
             <RaisedButton
               icon={<ClearIcon />}
-              label="Очистить"
+              label="Clear"
               primary={true}
               className="create-post-button"
               onTouchTap={this.handleClearButton}
             />
             <RaisedButton
               icon={<CreateIcon />}
-              label="Создать"
+              label="Create"
               primary={true}
               className="create-post-button"
+              onTouchTap={this.handleCreatePostButton}
             />
           </div>
         </Paper>
+        <Snackbar
+          className="dialog-box"
+          open={dialogBoxIsOpen}
+          message={dialogBoxText}
+          autoHideDuration={2000}
+          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
+        />
       </div>
     );
   }

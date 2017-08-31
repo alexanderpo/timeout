@@ -24,7 +24,7 @@ class UserProfileWrapper extends Component {
 
 UserProfileWrapper.propTypes = propTypes;
 
-export default connect(state => {
+export default connect((state) => {
   const userData = state.user ? state.user : '';
 
   return { userData };

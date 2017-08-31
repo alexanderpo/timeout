@@ -1,54 +1,45 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import _ from 'lodash';
 import moment from 'moment';
-import Pagination from '../../components/Pagination';
-import Post from '../../components/Posts/Post';
-import { getAllPosts, clearAllPosts, likePost } from '../../actions/post';
+import _ from 'lodash';
+import LatestPostsForm from '../../components/Posts/LatestPosts';
+import { getLatestsPosts, clearLatestPosts, likePost } from '../../actions/post';
 
 const propTypes = {
-  posts: PropTypes.array,
+  latestPosts: PropTypes.array,
   actions: PropTypes.shape({
-    getAllPosts: PropTypes.func,
-    push: PropTypes.func,
-    clearAllPosts: PropTypes.func,
+    getLatestsPosts: PropTypes.func,
+    clearLatestPosts: PropTypes.func,
     likePost: PropTypes.func,
   }),
 };
 
-class AllPosts extends Component {
+class LatestPosts extends Component {
   componentWillMount() {
-    this.props.actions.getAllPosts();
+    this.props.actions.getLatestsPosts();
   }
 
   componentWillUnmount() {
-    this.props.actions.clearAllPosts();
+    this.props.actions.clearLatestPosts();
   }
 
   render() {
-    const { posts, actions } = this.props;
+    const { latestPosts, actions } = this.props;
 
     return (
       <div>
-        <Pagination
-          content={posts}
-          action={actions.likePost}
-          renderComponent={Post}
-          itemsPerPage={4}
-        />
+        <LatestPostsForm posts={latestPosts} likePost={actions.likePost} />
       </div>
     );
   }
 }
 
-AllPosts.propTypes = propTypes;
-
+LatestPosts.propTypes = propTypes;
 export default connect((state) => {
   const userId = state.user.id;
-  const posts = !_.isEmpty(state.posts.all) ?
-  state.posts.all.map(post => ({
+  const latestPosts = !_.isEmpty(state.posts.latest) ?
+  state.posts.latest.map(post => ({
     id: post.id,
     title: post.title,
     description: post.description,
@@ -60,14 +51,11 @@ export default connect((state) => {
     updatedAt: moment(post.updated_at).format('ll'),
   })) : [];
 
-  return {
-    posts,
-  };
+  return { latestPosts };
 }, dispatch => ({
   actions: bindActionCreators({
-    getAllPosts,
-    push,
-    clearAllPosts,
+    getLatestsPosts,
+    clearLatestPosts,
     likePost,
   }, dispatch),
-}))(AllPosts);
+}))(LatestPosts);

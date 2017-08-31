@@ -4,8 +4,8 @@ class Logo extends Component {
   render() {
     return (
       <div>
-        <div className="logo-text">timeout application</div>
-        <div className="slogan-text">какой-то там слоган ...</div>
+        <div className="logo-text">application name</div>
+        <div className="slogan-text">litle slogan text...</div>
       </div>
     );
   }
